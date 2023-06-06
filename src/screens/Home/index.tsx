@@ -34,17 +34,6 @@ const Home = () => {
 						text='Toast Error'
 						type='outline'
 						color={ Colors.alert.red } />
-					<Button
-						onPress={ () => NavigationHelper.push('Contact') }
-						text='Contact'
-						mt={ 10 }
-						color='white'
-						textStyle={ { marginRight: 4 } } >
-						<Icon
-							name='contacts'
-							color='white'
-							size={ 14 } />
-					</Button>
 				</View>
 			</View>
 		</Container>
