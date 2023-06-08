@@ -8,6 +8,8 @@ import ic_history from '../assets/images/ic_history.svg';
 import ic_start_counting from '../assets/images/ic_strart_counting.svg';
 import image_home from '../assets/images/image_1.png';
 import rectangle from '../assets/images/rectangle.svg';
+import ic_back from '../assets/images/ic_back.svg';
+import ic_time_machine from '../assets/images/ic_time_machine.svg';
 
 export default {
 	Google,
@@ -20,4 +22,6 @@ export default {
 	ic_start_counting,
 	image_home,
 	rectangle,
+	ic_back,
+	ic_time_machine,
 };

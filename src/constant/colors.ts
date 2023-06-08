@@ -8,6 +8,7 @@ const Colors = {
 	gray: {
 		default: '#B0B0B0',
 		light: '#FAFAFA',
+		veryDark: '#504E4E',
 	},
 	black: {
 		default: '#151515',

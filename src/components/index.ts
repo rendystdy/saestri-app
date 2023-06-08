@@ -4,6 +4,7 @@ import Input from './Input';
 import Container from './Container';
 import MyToast from './Toast';
 import ButtonLarge from './ButtonLarge';
+import Header from './Header';
 
 export {
 	Text,
@@ -12,4 +13,5 @@ export {
 	Container,
 	MyToast,
 	ButtonLarge,
+	Header,
 };

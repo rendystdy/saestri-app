@@ -6,6 +6,7 @@ import { Container, Text, ButtonLarge } from '@components';
 import { Colors } from '@constant';
 import styles from './style';
 import dayjs from 'dayjs';
+import { NavigationHelper } from '@helpers';
 
 const days = dayjs();
 
@@ -82,7 +83,7 @@ const Home = () => {
 							title='Baby Journey'
 							color={ Colors.blue.light }
 							icon='gellery'
-							onpress={ () => { } }
+							onpress={ () => NavigationHelper.push('ContractionTimer') }
 						/>
 						<ButtonLarge
 							title='Shop'
