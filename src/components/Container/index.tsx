@@ -19,6 +19,7 @@ const Container: React.FC<ComponentInterface.IContainer> = props => {
 		contentContainerStyle,
 		noScroll,
 		children,
+		bgStatusBar,
 		...restOfProps
 	} = props;
 
@@ -35,7 +36,9 @@ const Container: React.FC<ComponentInterface.IContainer> = props => {
 					noPaddingHorizontal
 				)
 			}>
-			<StatusBar barStyle={ barStyle } />
+			<StatusBar
+				backgroundColor={ bgStatusBar }
+				barStyle={ barStyle } />
 			<KeyboardAvoidingView
 				style={ { flex: 1 } }
 				behavior='padding'

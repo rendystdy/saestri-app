@@ -14,9 +14,16 @@ const Colors = {
 	},
 	blue: {
 		default: '#39AAB4',
+		light: '#AAD8EB',
 	},
 	yellow: {
 		default: '#FFDE17',
+	},
+	pink: {
+		default: '#DF9799',
+	},
+	white: {
+		default: '#fff',
 	},
 };
 
