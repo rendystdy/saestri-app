@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 
 import { NavigationHelper, Ratio, useAppDispatch } from '@helpers';
-import { Colors } from '@constant';
-import { Text } from '@components';
+import { Images } from '@constant';
 import styles from './style';
 import { Actions } from '@store';
 function Splash() {
@@ -28,7 +27,9 @@ function Splash() {
 
 	return (
 		<View style={ styles.container }>
-			<Text style={ { color: Colors.yellow.default, fontSize: 23, fontWeight: '700' } }>Saestri APP</Text>
+			<Images.LogoSaestri
+				width={ 95 }
+				height={ 106 } />
 		</View>
 	);
 }
