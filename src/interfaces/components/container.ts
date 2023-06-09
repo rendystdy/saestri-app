@@ -10,6 +10,7 @@ interface IContainer extends React.ComponentProps<typeof ScrollView> {
   noPaddingHorizontal?: boolean | undefined,
   barStyle?: StatusBarStyle,
   noScroll?: boolean | undefined,
+  bgStatusBar?: string | undefined,
 }
 
 export default  IContainer;
