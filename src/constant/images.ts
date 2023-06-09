@@ -10,6 +10,7 @@ import image_home from '../assets/images/image_1.png';
 import rectangle from '../assets/images/rectangle.svg';
 import ic_back from '../assets/images/ic_back.svg';
 import ic_time_machine from '../assets/images/ic_time_machine.svg';
+import dotted from '../assets/images/dotted.svg';
 
 export default {
 	Google,
@@ -24,4 +25,5 @@ export default {
 	rectangle,
 	ic_back,
 	ic_time_machine,
+	dotted,
 };

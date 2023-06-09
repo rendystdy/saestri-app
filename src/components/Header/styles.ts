@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 16,
 		color: Colors.gray.veryDark,
-		fontWeight: '600',
+		fontWeight: '700',
 		letterSpacing: 1,
 	},
 	wrapperRight: {
@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.pink.default,
 		alignItems: 'center',
 		justifyContent: 'center',
+		shadowColor: Colors.black.default,
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		},
+		shadowOpacity: 1,
+		elevation: 6,
 	},
 	textRight: {
 		fontSize: 8,

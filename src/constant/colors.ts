@@ -9,13 +9,18 @@ const Colors = {
 		default: '#B0B0B0',
 		light: '#FAFAFA',
 		veryDark: '#504E4E',
+		separator: '#E8E8E8',
+		darkGrayishPink: '#A8A6A7',
+		darkGray: '#979797',
 	},
 	black: {
 		default: '#151515',
+		veryBlack: '#363132',
 	},
 	blue: {
 		default: '#39AAB4',
 		light: '#AAD8EB',
+		blueTimer: '#7CBDCB',
 	},
 	yellow: {
 		default: '#FFDE17',
