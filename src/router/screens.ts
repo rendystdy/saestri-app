@@ -1,4 +1,4 @@
-import { Home, Splash } from '@screens';
+import { ContractionHistoryScreen, Home, Splash } from '@screens';
 
 export const screens = [
 	{
@@ -7,6 +7,6 @@ export const screens = [
 	},
 	{
 		name: 'Home',
-		component: Home,
+		component: ContractionHistoryScreen,
 	},
 ] as const;
