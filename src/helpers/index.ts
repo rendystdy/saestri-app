@@ -3,6 +3,7 @@ import API from './api';
 import * as NavigationHelper from './navigationHelper';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { useTimer } from './useTimer';
+import { padLeft } from './numbers';
 
 export {
 	NavigationHelper,
@@ -11,4 +12,5 @@ export {
 	useAppDispatch,
 	useAppSelector,
 	useTimer,
+	padLeft,
 };

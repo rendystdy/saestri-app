@@ -1,112 +1,142 @@
-import { ScrollView, TouchableOpacity, View } from 'react-native';
-import React, { useState } from 'react';
+import { ScrollView, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 
 import styles from './styles';
 import { Container, Header, Text } from '@components';
-import { NavigationHelper, useTimer } from '@helpers';
+import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 import TotalCounting from './components/TotalCounting';
 import { Colors, Images } from '@constant';
-import Timer from './components/Timer';
-import dayjs from 'dayjs';
+import TimerItem from './components/TimerItem';
+import dayjs, { Dayjs } from 'dayjs';
+import { Actions } from '@store';
 
 export interface IDataContraction {
-  contractionDuration: number,
-  intervalDuration: number,
+	uid?: number,
+  contractionTime: {
+		start: Dayjs | null| Date,
+		end: Dayjs | null | Date
+	},
+  intervalTime: {
+		start: Dayjs | null| Date,
+		end: Dayjs | null| Date
+	},
+	startAt: Dayjs,
   timestamp: number,
-  timerType: 'contraction' | 'interval',
+  status: ITimerStatus,
+	isActive:boolean
 }
 
+export type ITimerStatus = 'contraction' | 'interval' | 'finished'
+
+const availableTimerStatus:ITimerStatus[] = ['contraction', 'interval'];
+
+// ANOTHER APPROACH
+/*
+	we log each event into individual data then we can restructure in ui this is
+	should be easier since we avoid using unneccesary flag or statuses i guess ?
+	contractions [
+		{type: contraction, timestamp: 10231, duration: 2031024},
+		{type: interval, timestamp: 10231, duration: 2031024},
+		{type: contraction, timestamp: 10231, duration: 2031024},
+		{type: interval, timestamp: 10231, duration: 2031024},
+		{type: contraction, timestamp: 10231, duration: 2031024},
+		{type: interval, timestamp: 10231, duration: 2031024},
+	]
+*/
+
 const ContractionTimer = () => {
-  const [dataContractions, setDataContractions] = useState<IDataContraction[]>([
-    {
-      contractionDuration: 10000,
-      intervalDuration: 0,
-      timestamp: 0,
-      timerType: 'contraction',
-    },
-    {
-      contractionDuration: 10000,
-      intervalDuration: 0,
-      timestamp: 0,
-      timerType: 'contraction',
-    },
-  ]);
+	const [hasStarted, setStarted] = useState<boolean>(false);
+	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
+	const [counter, setCounter] = useState<number>(0);
 
-  const { getHours, getMinutes, getSeconds, toggleStart } = useTimer({
-    onToggle: index => {
-      // updateTimerData(index);
-    },
-  });
+	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
+	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
 
-  // const updateTimerData = (index: number) => {
-  //   const dataByIndex = dataContractions[index];
+	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
+	const { currentTimer } = useAppSelector(state => state.timerReducers);
 
-  //   if (dataByIndex.status) {
-  //     dataByIndex.intervalDuration = getSeconds();
-  //   } else {
-  //     dataByIndex.contractionDuration = getSeconds();
-  //     dataByIndex.timestamp = dayjs().unix();
-  //   }
+	useEffect(() => {
+		if (currentTimerStatus === 'contraction' && hasStarted && counter === 1) {
+			addTimerDispatch();
+		}
 
-  //   setDataContractions(dataContractions);
-  // };
+		if (currentTimerStatus === 'interval' && hasStarted) {
+			updateTimerDispatch();
+		}
 
-  // const [timer, setTimer] = useState(0);
-  return (
-    <Container
-      noPadding
-      noScroll>
-      <Header
-        title='Contraction Timer'
-        isBack
-        icon='history'
-        onPressLeft={ () => NavigationHelper.pop(1) }
-        onPressRight={ () => NavigationHelper.pop(1) }
-      />
-      <View style={ styles.container }>
-        <TotalCounting />
-        <View style={ [styles.row, { marginBottom: 29, justifyContent: 'space-around' }] }>
-          <Text style={ styles.textTitleTimer }>Contraction</Text>
-          <Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Interval</Text>
-        </View>
-        <View>
-          <Text>{ getSeconds() }</Text>
-        </View>
-        <View style={ { height: 343 } }>
-          <ScrollView style={ { flex: 1 } }>
-            <View style={ [styles.row, { paddingHorizontal: 10 }] }>
-              <View>
-                <Timer timerType={ dataContractions[1].timerType } />
-              </View>
-              <View style={ styles.dotted }>
-                <View style={ styles.wrapperCircle }>
-                  <View style={ styles.circle }>
-                    <Text style={ styles.textCircle }>1</Text>
-                  </View>
-                  <View style={ styles.circle }>
-                    <Text style={ styles.textCircle }>1</Text>
-                  </View>
-                  <View style={ styles.circle }>
-                    <Text style={ styles.textCircle }>1</Text>
-                  </View>
-                </View>
-                <Images.dotted />
-              </View>
-              <View>
-                <Timer
-                  isRight
-                  timerType={ dataContractions[1].timerType } />
-              </View>
-            </View>
-          </ScrollView>
-        </View>
+		if (currentTimerStatus === 'contraction' && hasStarted && counter % 2 > 0 && counter > 1) {
+			addTimerRowDispatch();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentTimerStatus, hasStarted, counter]);
 
-        <TouchableOpacity onPress={ () => toggleStart(1) }>
-          <Text>Start</Text>
-        </TouchableOpacity>
-      </View>
-    </Container>
-  );
+	const startBtnHandler = () => {
+		setStarted(true);
+		toggleTimerStatus();
+		setCounter(counter + 1);
+	};
+
+	const toggleTimerStatus = () => {
+		if (!currentTimerStatus) {
+			setTimerStatus('contraction');
+			return;
+		}
+		let pointer = availableTimerStatus.indexOf(currentTimerStatus ?? 'contraction');
+		// increment the counter but dont let exceed the max index
+		pointer = ++pointer % availableTimerStatus.length;
+		setTimerStatus(availableTimerStatus[pointer]);
+	};
+
+	return (
+		<Container
+			noPadding
+			noScroll>
+			<Header
+				title='Contraction Timer'
+				isBack
+				icon='history'
+				onPressLeft={ () => NavigationHelper.pop(1) }
+				onPressRight={ () => NavigationHelper.pop(1) }
+			/>
+			<View style={ styles.container }>
+				<TotalCounting />
+				<View style={ [styles.row, { marginBottom: 29, justifyContent: 'space-around' }] }>
+					<Text style={ styles.textTitleTimer }>Contraction</Text>
+					<Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Interval</Text>
+				</View>
+        
+				<View style={ styles.timerContainer }>
+					<ScrollView style={ { flex: 1 } } >
+						{
+							currentTimer.map((contraction, index) => <TimerItem
+								timerStatus={ currentTimerStatus }
+								item={ contraction }
+								count={ index + 1 }
+								key={ index }
+							/>)
+						}
+					</ScrollView>
+					<View style={ styles.dottedLine }>
+						<Images.dotted/>
+					</View>
+				</View>
+			</View>
+			<View style={ styles.footer }>
+				<TouchableOpacity
+					style={ styles.startStopBtn }
+					onPress={ startBtnHandler }>
+					<Text style={ { fontSize: 14 } }>
+						{
+							!hasStarted && 'Start'
+						}
+						{
+							hasStarted && 'Pause'
+						}
+					</Text>
+				</TouchableOpacity>
+			</View>
+		</Container>
+	);
 };
 
 export default ContractionTimer;

@@ -7,6 +7,30 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.gray.light,
 		flex: 1,
 	},
+	footer: {
+		height: 100,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	dottedLine: {
+		top: 0,
+		position: 'absolute',
+		zIndex: -1,
+	},
+	timerContainer: {
+		flex: 1,
+		position: 'relative',
+		flexDirection: 'row',
+		justifyContent: 'center',
+	},
+	startStopBtn: {
+		height: 64,
+		width: 64,
+		backgroundColor: '#B4DEEB',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 600,
+	},
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -19,23 +43,6 @@ const styles = StyleSheet.create({
 		fontWeight: '500',
 		color: Colors.pink.default,
 	},
-	dotted: { position: 'absolute', top: 0, left: 0, right: 0, alignItems: 'center', zIndex: -1 },
-	circle: {
-		width: 36,
-		height: 36,
-		borderRadius: 36 / 2,
-		backgroundColor: Colors.blue.light,
-		alignItems: 'center',
-		justifyContent: 'center',
-		marginBottom: 42,
-	},
-	textCircle: {
-		color: Colors.white.default,
-		fontSize: 24,
-		textAlign: 'center',
-		fontWeight: '700',
-	},
-	wrapperCircle: { position: 'absolute', zIndex: 1 },
 });
 
 export default styles;

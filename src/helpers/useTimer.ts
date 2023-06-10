@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { padLeft } from './numbers';
 
-interface UseTimerProps {
-  onToggle: (index: number) => void,
-}
-
-const useTimer = ({ onToggle }: UseTimerProps) => {
+const useTimer = () => {
 	const [time, setTime] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
@@ -14,7 +11,9 @@ const useTimer = ({ onToggle }: UseTimerProps) => {
 		if (isRunning) {
 			intervalId = setInterval(() => {
 				setTime(time + 1);
-			}, 100);
+			}, 1000);
+		} else {
+			clearInterval(intervalId);
 		}
   
 		return () => {
@@ -24,18 +23,20 @@ const useTimer = ({ onToggle }: UseTimerProps) => {
 	}, [time, isRunning]);
 
 	const getHours = () => {
-		return Math.floor(time / 36000);
+		return padLeft(Math.floor(time / 3600), 2);
 	};
 	const getMinutes = () => {
-		return Math.floor((time % 36000) / 600);
+		return padLeft(Math.floor((time % 3600) / 60), 2);
 	};
 	const getSeconds = () => {
-		return Math.floor((time % 600) / 10);
+		return padLeft(Math.floor(time % 60), 2);
 	};
 
-	const toggleStart = (index: number) => {
-		onToggle(index);
-		setIsRunning(!isRunning);
+	const startTimer = () => {
+		setIsRunning(true);
+	};
+	const stopTimer = () => {
+		setIsRunning(false);
 	};
 
 	const resetTime = () => {
@@ -43,7 +44,8 @@ const useTimer = ({ onToggle }: UseTimerProps) => {
 	};
 
 	return {
-		toggleStart,
+		startTimer,
+		stopTimer,
 		getHours,
 		getMinutes,
 		getSeconds,
