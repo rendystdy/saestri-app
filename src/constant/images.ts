@@ -11,6 +11,8 @@ import rectangle from '../assets/images/rectangle.svg';
 import ic_back from '../assets/images/ic_back.svg';
 import ic_time_machine from '../assets/images/ic_time_machine.svg';
 import dotted from '../assets/images/dotted.svg';
+import ic_delete from '../assets/images/ic_delete.svg';
+import iamge_history from '../assets/images/image_history.svg';
 
 export default {
 	Google,
@@ -26,4 +28,6 @@ export default {
 	ic_back,
 	ic_time_machine,
 	dotted,
+	ic_delete,
+	iamge_history,
 };
