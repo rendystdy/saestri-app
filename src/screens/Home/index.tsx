@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, View } from 'react-native';
 import React from 'react';
 import { Images } from '@constant';
 
@@ -80,7 +80,7 @@ const Home = () => {
 						resizeMode='cover' />
 					<View>
 						<ButtonLarge
-							title='Baby Journey'
+							title='Contraction Timer'
 							color={ Colors.blue.light }
 							icon='gellery'
 							onpress={ () => NavigationHelper.push('ContractionTimer') }
@@ -95,12 +95,8 @@ const Home = () => {
 							title='History'
 							color={ Colors.blue.light }
 							icon='history'
-							onpress={ () => { } }
+							onpress={ () => NavigationHelper.push('ContractionHistory') }
 						/>
-						<TouchableOpacity>
-							<Text style={ styles.textStartCounting }>Start Counting</Text>
-							<Images.ic_start_counting style={ styles.icStartCounting } />
-						</TouchableOpacity>
 					</View>
 				</View>
 				<Images.rectangle style={ styles.rectangle } />

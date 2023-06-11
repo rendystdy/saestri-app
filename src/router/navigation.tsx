@@ -12,7 +12,7 @@ const AppRouter = () => {
 	return (
 		<NavigationContainer ref={ NavigationHelper.navigationRef }>
 			<Stack.Navigator
-				initialRouteName='ContractionTimer'
+				initialRouteName='Home'
 				screenOptions={ { headerShown: false } }>
 				{
 					screens.map((screen, index) => {
@@ -21,9 +21,6 @@ const AppRouter = () => {
 								key={ index }
 								name={ screen.name }
 								component={ screen.component }
-								options={ {
-									title: 'Contraction History',
-								} }
 							/>
 						);
 					})
