@@ -1,9 +1,6 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { FlatList, View } from 'react-native';
 import HistoryItem from './HistoryItem';
-import { Header } from '@components';
-import { NavigationHelper } from '@helpers';
 import { styles } from './style';
 
 interface IContractionHistoryProps {

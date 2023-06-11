@@ -2,33 +2,33 @@ import { ScrollView, View, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import styles from './styles';
-import { Container, Header, Text } from '@components';
+import { Container, Text, Header } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 import TotalCounting from './components/TotalCounting';
 import { Colors, Images } from '@constant';
 import TimerItem from './components/TimerItem';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { Actions } from '@store';
 
 export interface IDataContraction {
 	uid?: number,
-  contractionTime: {
-		start: Dayjs | null| Date,
-		end: Dayjs | null | Date
+	contractionTime: {
+		start: Dayjs | null | Date,
+		end: Dayjs | null | Date;
 	},
-  intervalTime: {
-		start: Dayjs | null| Date,
-		end: Dayjs | null| Date
+	intervalTime: {
+		start: Dayjs | null | Date,
+		end: Dayjs | null | Date;
 	},
 	startAt: Dayjs,
-  timestamp: number,
-  status: ITimerStatus,
-	isActive:boolean
+	timestamp: number,
+	status: ITimerStatus,
+	isActive: boolean;
 }
 
-export type ITimerStatus = 'contraction' | 'interval' | 'finished'
+export type ITimerStatus = 'contraction' | 'interval' | 'finished';
 
-const availableTimerStatus:ITimerStatus[] = ['contraction', 'interval'];
+const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 
 // ANOTHER APPROACH
 /*
@@ -96,7 +96,7 @@ const ContractionTimer = () => {
 				isBack
 				icon='history'
 				onPressLeft={ () => NavigationHelper.pop(1) }
-				onPressRight={ () => NavigationHelper.pop(1) }
+				onPressRight={ () => NavigationHelper.push('ContractionHistory') }
 			/>
 			<View style={ styles.container }>
 				<TotalCounting />
@@ -104,7 +104,7 @@ const ContractionTimer = () => {
 					<Text style={ styles.textTitleTimer }>Contraction</Text>
 					<Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Interval</Text>
 				</View>
-        
+
 				<View style={ styles.timerContainer }>
 					<ScrollView style={ { flex: 1 } } >
 						{
@@ -117,7 +117,7 @@ const ContractionTimer = () => {
 						}
 					</ScrollView>
 					<View style={ styles.dottedLine }>
-						<Images.dotted/>
+						<Images.dotted />
 					</View>
 				</View>
 			</View>

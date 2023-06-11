@@ -1,12 +1,12 @@
 import { View } from 'react-native';
 import React, { useState } from 'react';
-import {
-	Button, Container, ContractionHistoryList, Header, Text,
-} from '@components';
+import { Button, Container } from '@components';
 import styles from './style';
 import { NavigationHelper } from '@helpers';
 import dayjs from 'dayjs';
 import { Colors, Images } from '@constant';
+import Header from '../../components/Header';
+import ContractionHistoryList from '../../components/ContractionHistory';
 
 const ContractionHistoryScreen = () => {
 	const [isDelete, setIsDelete] = useState<boolean>(false);
