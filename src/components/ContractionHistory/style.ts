@@ -1,34 +1,35 @@
+import { Colors } from '@constant';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	container: {
-		marginVertical: 8,
-		marginHorizontal: 16,
+		paddingVertical: 15,
+		paddingHorizontal: 12,
+		borderRadius: 20,
+		borderWidth: 2,
+		borderColor: Colors.gray.border,
+		backgroundColor: Colors.gray.light,
 	},
 	itemDetail: {
 		marginTop: 8,
 		borderWidth: 1,
 	},
 	item: {
-		padding: 8,
-		
-		borderRadius: 18,
-		borderWidth: 2,
-		borderColor: '#D6D6D6',
-		flex: 1,
 		flexDirection: 'row',
 		alignContent: 'center',
 	},
 	itemCheckbox: {
-		display: 'flex',
+		// display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginRight: 3,
+		marginRight: 15,
 	},
 	dateText: {
 		fontSize: 14,
+		color: Colors.gray.darkGray,
 	},
 	contractionCountText: {
 		fontSize: 18,
+		color: Colors.gray.darkGray,
 	},
 });

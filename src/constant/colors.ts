@@ -12,6 +12,7 @@ const Colors = {
 		separator: '#E8E8E8',
 		darkGrayishPink: '#A8A6A7',
 		darkGray: '#979797',
+		border: '#D6D6D6',
 	},
 	black: {
 		default: '#151515',
