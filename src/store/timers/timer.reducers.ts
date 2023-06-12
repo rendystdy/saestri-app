@@ -66,7 +66,6 @@ const timerReducers = (
 			};
 
 		case Dispatches.RESET_TIMER:
-			console.log(lastTimer);
 			if (lastTimer.status === 'contraction') {
 				lastTimer.contractionTime.end = dayjs();
 			}
