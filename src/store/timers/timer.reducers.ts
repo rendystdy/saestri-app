@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { TimerState } from 'src/interfaces/timers';
 
 const initialState: TimerState = {
+	timerHistories: [],
 	currentTimer: [],
 	loading: false,
 };
@@ -15,6 +16,9 @@ const timerReducers = (
 	action: Actions,
 ): TimerState => {
 	const { type, payload } = action;
+	const shallowTimer = [...state.currentTimer];
+	const lastTimer = shallowTimer[state.currentTimer.length - 1];
+
 	switch (type) {
 		case Dispatches.ADD_NEW_TIMER:
 			return {
@@ -25,11 +29,35 @@ const timerReducers = (
 				],
 			};
 		case Dispatches.UPDATE_TIMER:
-			const shallowTimer = [...state.currentTimer];
-			const lastTimer = shallowTimer[shallowTimer.length - 1];
-			lastTimer.contractionTime.end = new Date();
-			lastTimer.intervalTime.start = new Date();
-			lastTimer.status = 'interval';
+			const lt = shallowTimer[shallowTimer.length - 1];
+			lt.contractionTime.end = dayjs();
+			lt.intervalTime.start = dayjs();
+			lt.status = 'interval';
+			return {
+				...state,
+				currentTimer: [
+					...shallowTimer,
+				],
+			};
+		case Dispatches.ADD_ANOTHER_TIMER:
+			lastTimer.isActive = false;
+			lastTimer.intervalTime.end = dayjs();
+			return {
+				...state,
+				currentTimer: [
+					...shallowTimer,
+					payload,
+				],
+			};
+		
+		case Dispatches.STOP_TIMER:
+			if (lastTimer.status === 'contraction') {
+				lastTimer.contractionTime.end = dayjs();
+			}
+			if (lastTimer.status === 'interval') {
+				lastTimer.intervalTime.end = dayjs();
+			}
+			lastTimer.isActive = false;
 			return {
 				...state,
 				currentTimer: [
@@ -37,23 +65,33 @@ const timerReducers = (
 				],
 			};
 
-		case Dispatches.ADD_ANOTHER_TIMER:
-			const timers = state.currentTimer;
-			const lt = timers[timers.length - 1];
-			lt.isActive = false;
+		case Dispatches.RESET_TIMER:
+			console.log(lastTimer);
+			if (lastTimer.status === 'contraction') {
+				lastTimer.contractionTime.end = dayjs();
+			}
+			if (lastTimer.status === 'interval') {
+				lastTimer.intervalTime.end = dayjs();
+			}
+			lastTimer.isActive = false;
 			return {
 				...state,
-				currentTimer: [
-					...timers,
-					payload,
+				timerHistories: [...state.timerHistories,
+					{
+						date: dayjs(),
+						entries: [...shallowTimer],
+						sessions: dayjs().unix(),
+					},
 				],
+				currentTimer: [],
 			};
-		case Dispatches.CLEAR_CONTACT:
+		
+		case Dispatches.RESUME_TIMER:
+			lastTimer.isActive = true;
 			return {
 				...state,
+				currentTimer: [...shallowTimer],
 			};
-		case Dispatches.LOGOUT:
-			return initialState;
 		default:
 			return state;
 	}

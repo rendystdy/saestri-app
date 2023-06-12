@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {  Text, View } from 'react-native';
 
-import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
 
 const HistoryItemDetails: React.FC = () => {

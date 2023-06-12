@@ -15,45 +15,45 @@ interface IHeaders {
 }
 
 const Headers: React.FC<IHeaders> = ({ onPressLeft, onPressRight, title, isBack, icon, color }) => {
-  const SectionRight = () => {
-    switch (icon) {
-      case 'history':
-        return (
-          <TouchableOpacity
-            onPress={ onPressRight }
-            style={ styles.wrapperRight }>
-            <Images.ic_time_machine />
-            <Text style={ styles.textRight }>History</Text>
-          </TouchableOpacity>
-        );
-      case 'delete':
-        return (
-          <TouchableOpacity
-            onPress={ onPressRight }
-            style={ styles.wrapperRight }>
-            <Images.ic_delete />
-            <Text style={ styles.textRight }>Delete</Text>
-          </TouchableOpacity>
-        );
+	const SectionRight = () => {
+		switch (icon) {
+			case 'history':
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }
+						style={ styles.wrapperRight }>
+						<Images.ic_time_machine />
+						<Text style={ styles.textRight }>History</Text>
+					</TouchableOpacity>
+				);
+			case 'delete':
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }
+						style={ styles.wrapperRight }>
+						<Images.ic_delete />
+						<Text style={ styles.textRight }>Delete</Text>
+					</TouchableOpacity>
+				);
 
-      default:
-        return (
-          <TouchableOpacity
-            onPress={ onPressRight }
-            style={ styles.wrapperRight }>
-            <Images.ic_time_machine />
-            <Text style={ styles.textRight }>History</Text>
-          </TouchableOpacity>
-        );
-    }
-  };
-  return (
-    <View style={ [styles.container, { backgroundColor: color }] }>
-      { isBack && <TouchableWithoutFeedback onPress={ onPressLeft }><Images.ic_back /></TouchableWithoutFeedback> }
-      <Text style={ styles.title }>{ title }</Text>
-      <SectionRight />
-    </View>
-  );
+			default:
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }
+						style={ styles.wrapperRight }>
+						<Images.ic_time_machine />
+						<Text style={ styles.textRight }>History</Text>
+					</TouchableOpacity>
+				);
+		}
+	};
+	return (
+		<View style={ [styles.container, { backgroundColor: color }] }>
+			{ isBack && <TouchableWithoutFeedback onPress={ onPressLeft }><Images.ic_back /></TouchableWithoutFeedback> }
+			<Text style={ styles.title }>{ title }</Text>
+			<SectionRight />
+		</View>
+	);
 };
 
 export default Headers;

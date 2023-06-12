@@ -1,29 +1,31 @@
 import { ScrollView, View, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 
-import styles from './styles';
+import { Colors, Images } from '@constant';
+import { Actions } from '@store';
 import { Container, Text, Header } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
+
+import styles from './styles';
 import TotalCounting from './components/TotalCounting';
-import { Colors, Images } from '@constant';
 import TimerItem from './components/TimerItem';
-import { Dayjs } from 'dayjs';
-import { Actions } from '@store';
 
 export interface IDataContraction {
 	uid?: number,
 	contractionTime: {
-		start: Dayjs | null | Date,
-		end: Dayjs | null | Date;
+		start:null | Dayjs,
+		end: null | Dayjs;
 	},
 	intervalTime: {
-		start: Dayjs | null | Date,
-		end: Dayjs | null | Date;
+		start: null | Dayjs,
+		end: null | Dayjs;
 	},
 	startAt: Dayjs,
 	timestamp: number,
 	status: ITimerStatus,
 	isActive: boolean;
+	isSuspended: boolean;
 }
 
 export type ITimerStatus = 'contraction' | 'interval' | 'finished';
@@ -48,12 +50,21 @@ const ContractionTimer = () => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
 	const [counter, setCounter] = useState<number>(0);
+	const [isSuspended, setSuspended] = useState<boolean>(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
+	const suspendTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
+	const resetTimerDispatch = useAppDispatch(Actions.timerAction.resetTimer);
+	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
 	const { currentTimer } = useAppSelector(state => state.timerReducers);
+
+	useEffect(() => {
+		getLastTimerStatus();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		if (currentTimerStatus === 'contraction' && hasStarted && counter === 1) {
@@ -70,10 +81,21 @@ const ContractionTimer = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentTimerStatus, hasStarted, counter]);
 
+	const getLastTimerStatus = () => {
+		if (currentTimer.length > 0) {
+			const lastTimer = currentTimer[currentTimer.length - 1];
+			setTimerStatus(lastTimer.status);
+			setCounter(currentTimer.length);
+		}
+	};
+
 	const startBtnHandler = () => {
 		setStarted(true);
 		toggleTimerStatus();
 		setCounter(counter + 1);
+		if (isSuspended) {
+			resumeTimerDispatch();
+		}
 	};
 
 	const toggleTimerStatus = () => {
@@ -85,6 +107,20 @@ const ContractionTimer = () => {
 		// increment the counter but dont let exceed the max index
 		pointer = ++pointer % availableTimerStatus.length;
 		setTimerStatus(availableTimerStatus[pointer]);
+	};
+
+	const stopBtnHandler = () => {
+		setSuspended(true);
+		suspendTimerDispatch();
+	};
+
+	const resetBtnHandler = () => {
+		if (hasStarted) {
+			setStarted(false);
+			setTimerStatus(undefined);
+			setCounter(0);
+			resetTimerDispatch();
+		}
 	};
 
 	return (
@@ -132,6 +168,20 @@ const ContractionTimer = () => {
 						{
 							hasStarted && 'Pause'
 						}
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={ styles.startStopBtn }
+					onPress={ stopBtnHandler }>
+					<Text style={ { fontSize: 14 } }>
+						stop
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={ styles.startStopBtn }
+					onPress={ resetBtnHandler }>
+					<Text style={ { fontSize: 14 } }>
+						reset
 					</Text>
 				</TouchableOpacity>
 			</View>

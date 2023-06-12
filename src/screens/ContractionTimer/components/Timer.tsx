@@ -1,20 +1,33 @@
 import { StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 import { Text } from '@components';
 import { Colors } from '@constant';
-import { useAppSelector, useTimer } from '@helpers';
+import { Actions } from '@store';
+import { useAppDispatch, useAppSelector, useTimer } from '@helpers';
+
 import { IDataContraction, ITimerStatus } from '..';
 
 interface ITimer {
   item: IDataContraction,
-  timerStatus: ITimerStatus
+  timerStatus?: ITimerStatus
 }
 
 const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 
 	const { currentTimer } = useAppSelector(state => state.timerReducers);
+	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
+	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
+
+	useEffect(() => {
+		restoreSavedTimer();
+		resumeTimerDispatch();
+		return (() => {
+			stopTimerDispatch();
+		});
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		const timer = getTimer();
@@ -45,8 +58,21 @@ const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 		};
 	};
 
-	const { getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, resetTime, getHours, getMinutes } = useTimer();
-	const { getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval } = useTimer();
+	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes } = useTimer();
+	const { setTimer: setIntervalTime, getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval } = useTimer();
+
+	const restoreSavedTimer = () => {
+		const timer = getTimer();
+		if (timer) {
+			setContractionTime(parseDuration(timer.contractionTime.start, timer.contractionTime.end));
+			setIntervalTime(parseDuration(timer.intervalTime.start, timer.intervalTime.end));
+		}
+	};
+	
+	const parseDuration = (startTime?: Dayjs|null, endTime?:Dayjs|null) => {
+		if (!endTime) { return 0; }
+		return Math.abs(dayjs(endTime).diff(dayjs(startTime), 's'));
+	};
 
 	return (
 		<View style={ styles.container }>

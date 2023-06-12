@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Timer from './Timer';
+
 import { Text } from '@components';
-import { Colors, Images } from '@constant';
+import { Colors } from '@constant';
+
+import Timer from './Timer';
 import { IDataContraction, ITimerStatus } from '..';
 
 type Props = {
   item: IDataContraction,
   count: number,
-  timerStatus: ITimerStatus
+  timerStatus?: ITimerStatus
 }
 
 const TimerItem: React.FC<Props> = ({

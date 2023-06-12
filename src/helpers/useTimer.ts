@@ -25,9 +25,11 @@ const useTimer = () => {
 	const getHours = () => {
 		return padLeft(Math.floor(time / 3600), 2);
 	};
+
 	const getMinutes = () => {
 		return padLeft(Math.floor((time % 3600) / 60), 2);
 	};
+
 	const getSeconds = () => {
 		return padLeft(Math.floor(time % 60), 2);
 	};
@@ -35,12 +37,17 @@ const useTimer = () => {
 	const startTimer = () => {
 		setIsRunning(true);
 	};
+
 	const stopTimer = () => {
 		setIsRunning(false);
 	};
 
 	const resetTime = () => {
 		setTime(0);
+	};
+
+	const setTimer = (value: number) => {
+		setTime(value);
 	};
 
 	return {
@@ -50,6 +57,7 @@ const useTimer = () => {
 		getMinutes,
 		getSeconds,
 		resetTime,
+		setTimer,
 	};
   
 };

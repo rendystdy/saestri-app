@@ -18,6 +18,7 @@ const generateInitialData = ():IDataContraction => ({
 	timestamp: 0,
 	startAt: dayjs(),
 	isActive: true,
+	isSuspended: false,
 });
 
 export default {
@@ -39,4 +40,16 @@ export default {
 			payload: generateInitialData(),
 		});
 	},
+	suspendTimer: () => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.STOP_TIMER });
+	},
+	resetTimer: () => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.RESET_TIMER });
+	},
+	resumeTimer: () => (dispatch:Dispatch) => {
+		dispatch({
+			type: Dispatches.RESUME_TIMER,
+		});
+	},
+
 };

@@ -89,7 +89,7 @@ const Home = () => {
 							title='Shop'
 							color={ Colors.pink.default }
 							icon='shop'
-							onpress={ () => { } }
+							onpress={ () => console.log() }
 						/>
 						<ButtonLarge
 							title='History'
