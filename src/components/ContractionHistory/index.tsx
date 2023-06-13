@@ -2,10 +2,12 @@ import React from 'react';
 import { FlatList, View } from 'react-native';
 import HistoryItem from './HistoryItem';
 import { styles } from './style';
+import { IDataContraction } from 'src/screens/ContractionTimer';
+import { ITimerLog } from 'src/interfaces/timers';
 
 interface IContractionHistoryProps {
 	isDelete: boolean,
-	data: any;
+	data: ITimerLog[];
 	onPressChecked: (id: number, isChecked: boolean) => void;
 }
 

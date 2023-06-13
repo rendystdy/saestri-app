@@ -7,13 +7,14 @@ import { styles } from './style';
 import HistoryItemDetails from './HistoryItemDetails';
 import { Text } from '@components';
 import dayjs from 'dayjs';
+import { IDataContraction } from 'src/screens/ContractionTimer';
 
 type ItemProps = {
 	id: any,
 	date: string,
 	contractionCount: number,
 	isDelete: boolean,
-	details: any;
+	details: IDataContraction[];
 	onPressChecked: (id: number, isChecked: boolean) => void;
 	sessions: number;
 };
@@ -53,7 +54,7 @@ const HistoryItem: React.FC<ItemProps> = ({
 
 			</TouchableOpacity>
 			<Collapsible collapsed={ isCollapse }>
-				{ details.map((item: any, index: number) => (
+				{ details.map((item, index: number) => (
 					<HistoryItemDetails
 						key={ index }
 						index={ index }

@@ -5,9 +5,10 @@ import DashedLine from 'react-native-dashed-line';
 import { styles } from './style';
 import { Colors } from '@constant';
 import { parseDuration, parseTime } from '@helpers';
+import { IDataContraction } from 'src/screens/ContractionTimer';
 
 interface IHistoryProps {
-	detail: any;
+	detail: IDataContraction;
 	index: number;
 }
 
@@ -15,6 +16,13 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 
 	const totalInterval = () => {
 		return parseTime(parseDuration(detail.contractionTime.start, detail.contractionTime.end) + parseDuration(detail.intervalTime.start, detail.intervalTime.end));
+	};
+	
+	const getDurations = () => {
+		return {
+			contraction: parseTime(parseDuration(detail.contractionTime.start, detail.contractionTime.end)),
+			interval: parseTime(parseDuration(detail.intervalTime.start, detail.intervalTime.end) ?? 0),
+		};
 	};
 
 	return (
@@ -35,11 +43,11 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 				<View style={ styles.wrapperContent }>
 					<View style={ styles.row }>
 						<Text style={ styles.textTitle }>Kontraksi    :</Text>
-						<Text style={ styles.textTitle }>	{ parseTime(parseDuration(detail.contractionTime.start, detail.contractionTime.end)) }</Text>
+						<Text style={ styles.textTitle }>	{ getDurations().contraction }</Text>
 					</View>
 					<View style={ styles.row }>
 						<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>rest													:</Text>
-						<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>	{ detail.intervalTime.start ? parseTime(parseDuration(detail.intervalTime.start, detail.contractionTime.end)) : 0 }</Text>
+						<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>	{ getDurations().interval }</Text>
 					</View>
 					<View style={ styles.row }>
 						<Text style={ [styles.textTitle, { color: Colors.black.default }] }>interval							:</Text>
