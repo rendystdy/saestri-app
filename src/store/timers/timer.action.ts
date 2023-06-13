@@ -52,4 +52,11 @@ export default {
 		});
 	},
 
+	increaseCounter: () => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.INCREASE_COUNTER });
+	},
+	resetCounter: () => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.RESET_COUNTER });
+	},
+
 };

@@ -7,6 +7,8 @@ const initialState: TimerState = {
 	timerHistories: [],
 	currentTimer: [],
 	loading: false,
+	isSuspended: false,
+	counter: 0,
 };
 
 type Actions = { type: string; payload: any };
@@ -60,6 +62,7 @@ const timerReducers = (
 			lastTimer.isActive = false;
 			return {
 				...state,
+				isSuspended: true,
 				currentTimer: [
 					...shallowTimer,
 				],
@@ -89,7 +92,20 @@ const timerReducers = (
 			lastTimer.isActive = true;
 			return {
 				...state,
+				isSuspended: false,
 				currentTimer: [...shallowTimer],
+			};
+
+		case Dispatches.INCREASE_COUNTER:
+			return {
+				...state,
+				counter: state.counter + 1,
+			};
+
+		case Dispatches.RESET_COUNTER:
+			return {
+				...state,
+				counter: 0,
 			};
 		default:
 			return state;
