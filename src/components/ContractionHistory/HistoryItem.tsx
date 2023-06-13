@@ -1,45 +1,65 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
 import HistoryItemDetails from './HistoryItemDetails';
 import { Text } from '@components';
+import dayjs from 'dayjs';
 
 type ItemProps = {
 	id: any,
 	date: string,
 	contractionCount: number,
 	isDelete: boolean,
+	details: any;
+	onPressChecked: (id: number, isChecked: boolean) => void;
+	sessions: number;
 };
 
 const HistoryItem: React.FC<ItemProps> = ({
 	contractionCount,
 	date,
-	id,
 	isDelete,
+	details,
+	onPressChecked,
+	sessions,
 }) => {
 
 	const [isChecked, setChecked] = useState<boolean>(false);
+	const [isCollapse, setCollapse] = useState<boolean>(true);
 
 	return (
-		<View style={ styles.container }>
-			<View style={ styles.item }>
-				<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
-					<CheckBox
-						disabled={ !isDelete }
-						value={ isChecked }
-						onValueChange={ value => setChecked(value) } />
+		<View>
+			<TouchableOpacity
+				onPress={ () => setCollapse(!isCollapse) }
+				style={ styles.container }>
+				<View style={ styles.item }>
+					<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
+						<CheckBox
+							disabled={ !isDelete }
+							value={ isChecked }
+							onValueChange={ value => {
+								setChecked(value);
+								onPressChecked(sessions, value);
+							} } />
+					</View>
+					<View>
+						<Text style={ styles.dateText }>{ dayjs(date).format('DD MMM YYYY') }</Text>
+						<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
+					</View>
 				</View>
-				<View>
-					<Text style={ styles.dateText }>{ date }</Text>
-					<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
-				</View>
-			</View>
 
-			{ /* {
-				id === 0 && <HistoryItemDetails />
-			} */ }
+			</TouchableOpacity>
+			<Collapsible collapsed={ isCollapse }>
+				{ details.map((item: any, index: number) => (
+					<HistoryItemDetails
+						key={ index }
+						index={ index }
+						detail={ item } />
+				)) }
+			</Collapsible>
 		</View>
 	);
 };

@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { NavigationHelper } from '@helpers';
 import { screens } from './screens';
-import { Text } from '@components';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +11,7 @@ const AppRouter = () => {
 	return (
 		<NavigationContainer ref={ NavigationHelper.navigationRef }>
 			<Stack.Navigator
-				initialRouteName='Home'
+				initialRouteName='Splash'
 				screenOptions={ { headerShown: false } }>
 				{
 					screens.map((screen, index) => {

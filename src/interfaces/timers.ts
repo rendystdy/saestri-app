@@ -6,7 +6,7 @@ export interface TimerState {
   currentTimer: IDataContraction[]
   loading: boolean
   isSuspended: boolean
-  counter: number
+  counter: number,
 }
 
 export interface ITimerLog {

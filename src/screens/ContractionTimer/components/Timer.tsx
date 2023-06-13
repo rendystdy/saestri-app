@@ -5,16 +5,16 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Text } from '@components';
 import { Colors } from '@constant';
 import { Actions } from '@store';
-import { useAppDispatch, useAppSelector, useTimer } from '@helpers';
+import { parseDuration, useAppDispatch, useAppSelector, useTimer } from '@helpers';
 
 import { IDataContraction, ITimerStatus } from '..';
 
 interface ITimer {
-  item: IDataContraction,
-  timerStatus?: ITimerStatus
+	item: IDataContraction,
+	timerStatus?: ITimerStatus;
 }
 
-const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
+const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 
 	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
 	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
@@ -30,7 +30,7 @@ const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 				stopTimerDispatch();
 			}
 		});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -71,11 +71,6 @@ const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 			setContractionTime(parseDuration(timer.contractionTime.start, timer.contractionTime.end));
 			setIntervalTime(parseDuration(timer.intervalTime.start, timer.intervalTime.end));
 		}
-	};
-	
-	const parseDuration = (startTime?: Dayjs|null, endTime?:Dayjs|null) => {
-		if (!endTime) { return 0; }
-		return Math.abs(dayjs(endTime).diff(dayjs(startTime), 's'));
 	};
 
 	return (
