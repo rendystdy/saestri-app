@@ -12,7 +12,8 @@ export const styles = StyleSheet.create({
 	},
 	itemDetail: {
 		marginTop: 8,
-		borderWidth: 1,
+		flexDirection: 'row',
+		paddingLeft: 46,
 	},
 	item: {
 		flexDirection: 'row',
@@ -31,5 +32,43 @@ export const styles = StyleSheet.create({
 	contractionCountText: {
 		fontSize: 18,
 		color: Colors.gray.darkGray,
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	wrapperDashedLine: {},
+	wrapperContent: {
+		marginTop: 21,
+		width: 214,
+		borderWidth: 1,
+		marginLeft: 26,
+		borderRadius: 26,
+		borderColor: Colors.gray.border,
+		padding: 10,
+	},
+	wrpperCircleNumber: {
+		width: 36,
+		height: 36,
+		backgroundColor: Colors.blue.light,
+		borderRadius: 36 / 2,
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'absolute',
+		top: 40,
+		left: -20,
+		zIndex: 2,
+	},
+	texNumber: {
+		fontSize: 24,
+		textAlign: 'center',
+		fontWeight: '700',
+		color: Colors.white.default,
+	},
+	textTitle: {
+		fontSize: 11,
+		letterSpacing: 1,
+		fontWeight: '500',
+		color: Colors.blue.light,
 	},
 });

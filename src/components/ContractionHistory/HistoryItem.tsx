@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
@@ -21,25 +22,30 @@ const HistoryItem: React.FC<ItemProps> = ({
 }) => {
 
 	const [isChecked, setChecked] = useState<boolean>(false);
+	const [collapse, setCollapse] = useState(true);
 
 	return (
-		<View style={ styles.container }>
-			<View style={ styles.item }>
-				<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
-					<CheckBox
-						disabled={ !isDelete }
-						value={ isChecked }
-						onValueChange={ value => setChecked(value) } />
+		<View>
+			<TouchableOpacity
+				onPress={ () => setCollapse(!collapse) }
+				style={ styles.container }>
+				<View style={ styles.item }>
+					<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
+						<CheckBox
+							disabled={ !isDelete }
+							value={ isChecked }
+							onValueChange={ value => setChecked(value) } />
+					</View>
+					<View>
+						<Text style={ styles.dateText }>{ date }</Text>
+						<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
+					</View>
 				</View>
-				<View>
-					<Text style={ styles.dateText }>{ date }</Text>
-					<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
-				</View>
-			</View>
 
-			{ /* {
-				id === 0 && <HistoryItemDetails />
-			} */ }
+			</TouchableOpacity>
+			<Collapsible collapsed={ collapse }>
+				<HistoryItemDetails />
+			</Collapsible>
 		</View>
 	);
 };

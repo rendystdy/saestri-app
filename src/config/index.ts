@@ -1,7 +1,7 @@
-import reactotron from './reactotronConfig';
+// import reactotron from './reactotronConfig';
 import * as ReduxConfig from './reduxConfig';
 
 export {
-	reactotron as ReactotronConfig,
+	// reactotron as ReactotronConfig,
 	ReduxConfig,
 };

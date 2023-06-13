@@ -15,36 +15,25 @@ const ContractionHistoryScreen = () => {
 		{
 			date: dayjs().format('DD MMM YYYY'),
 			contractionCount: 2,
+			id: 0,
 		},
 		{
 			date: dayjs().subtract(1, 'D')
 				.format('DD MMM YYYY'),
 			contractionCount: 3,
+			id: 1,
 		},
 		{
 			date: dayjs().subtract(2, 'D')
 				.format('DD MMM YYYY'),
 			contractionCount: 1,
+			id: 2,
 		},
 		{
 			date: dayjs().subtract(3, 'D')
 				.format('DD MMM YYYY'),
 			contractionCount: 5,
-		},
-		{
-			date: dayjs().subtract(4, 'D')
-				.format('DD MMM YYYY'),
-			contractionCount: 6,
-		},
-		{
-			date: dayjs().subtract(5, 'D')
-				.format('DD MMM YYYY'),
-			contractionCount: 7,
-		},
-		{
-			date: dayjs().subtract(5, 'D')
-				.format('DD MMM YYYY'),
-			contractionCount: 7,
+			id: 3,
 		},
 	]);
 
