@@ -49,17 +49,18 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 const ContractionTimer = () => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
-	const [counter, setCounter] = useState<number>(0);
-	const [isSuspended, setSuspended] = useState<boolean>(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
 	const suspendTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
 	const resetTimerDispatch = useAppDispatch(Actions.timerAction.resetTimer);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
+	const resetCounterDispatch = useAppDispatch(Actions.timerAction.resetCounter);
+	const increseCounterDispatch = useAppDispatch(Actions.timerAction.increaseCounter);
 
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
-	const { currentTimer } = useAppSelector(state => state.timerReducers);
+
+	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 
 	useEffect(() => {
 		getLastTimerStatus();
@@ -85,14 +86,17 @@ const ContractionTimer = () => {
 		if (currentTimer.length > 0) {
 			const lastTimer = currentTimer[currentTimer.length - 1];
 			setTimerStatus(lastTimer.status);
-			setCounter(currentTimer.length);
+		} else {
+			resetCounterDispatch();
 		}
 	};
+
+	console.log(currentTimerStatus, counter);
 
 	const startBtnHandler = () => {
 		setStarted(true);
 		toggleTimerStatus();
-		setCounter(counter + 1);
+		increseCounterDispatch();
 		if (isSuspended) {
 			resumeTimerDispatch();
 		}
@@ -110,7 +114,6 @@ const ContractionTimer = () => {
 	};
 
 	const stopBtnHandler = () => {
-		setSuspended(true);
 		suspendTimerDispatch();
 	};
 
@@ -118,7 +121,7 @@ const ContractionTimer = () => {
 		if (hasStarted) {
 			setStarted(false);
 			setTimerStatus(undefined);
-			setCounter(0);
+			resetCounterDispatch();
 			resetTimerDispatch();
 		}
 	};

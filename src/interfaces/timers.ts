@@ -5,6 +5,8 @@ export interface TimerState {
   timerHistories: ITimerLog[]
   currentTimer: IDataContraction[]
   loading: boolean
+  isSuspended: boolean
+  counter: number
 }
 
 export interface ITimerLog {

@@ -16,13 +16,15 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 
-	const { currentTimer } = useAppSelector(state => state.timerReducers);
+	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
 	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 
 	useEffect(() => {
 		restoreSavedTimer();
-		resumeTimerDispatch();
+		if (!isSuspended) {
+			resumeTimerDispatch();
+		}
 		return (() => {
 			stopTimerDispatch();
 		});
