@@ -89,6 +89,12 @@ const timerReducers = (
 			};
 		
 		case Dispatches.RESUME_TIMER:
+			if (!lastTimer) {
+				return {
+					...state,
+				};
+			}
+
 			lastTimer.isActive = true;
 			return {
 				...state,
@@ -106,6 +112,11 @@ const timerReducers = (
 			return {
 				...state,
 				counter: 0,
+			};
+		case Dispatches.REMOVE_HISTORY_ITEM:
+			return {
+				...state,
+				timerHistories: payload,
 			};
 		default:
 			return state;

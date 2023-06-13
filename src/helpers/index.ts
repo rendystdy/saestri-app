@@ -4,6 +4,7 @@ import * as NavigationHelper from './navigationHelper';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { useTimer } from './useTimer';
 import { padLeft } from './numbers';
+import { parseDuration, parseTime } from './parseDuration';
 
 export {
 	NavigationHelper,
@@ -13,4 +14,6 @@ export {
 	useAppSelector,
 	useTimer,
 	padLeft,
+	parseDuration,
+	parseTime,
 };

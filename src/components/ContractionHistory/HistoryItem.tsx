@@ -6,45 +6,59 @@ import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
 import HistoryItemDetails from './HistoryItemDetails';
 import { Text } from '@components';
+import dayjs from 'dayjs';
 
 type ItemProps = {
 	id: any,
 	date: string,
 	contractionCount: number,
 	isDelete: boolean,
+	details: any;
+	onPressChecked: (id: number, isChecked: boolean) => void;
+	sessions: number;
 };
 
 const HistoryItem: React.FC<ItemProps> = ({
 	contractionCount,
 	date,
-	id,
 	isDelete,
+	details,
+	onPressChecked,
+	sessions,
 }) => {
 
 	const [isChecked, setChecked] = useState<boolean>(false);
-	const [collapse, setCollapse] = useState(true);
+	const [isCollapse, setCollapse] = useState<boolean>(true);
 
 	return (
 		<View>
 			<TouchableOpacity
-				onPress={ () => setCollapse(!collapse) }
+				onPress={ () => setCollapse(!isCollapse) }
 				style={ styles.container }>
 				<View style={ styles.item }>
 					<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
 						<CheckBox
 							disabled={ !isDelete }
 							value={ isChecked }
-							onValueChange={ value => setChecked(value) } />
+							onValueChange={ value => {
+								setChecked(value);
+								onPressChecked(sessions, value);
+							} } />
 					</View>
 					<View>
-						<Text style={ styles.dateText }>{ date }</Text>
+						<Text style={ styles.dateText }>{ dayjs(date).format('DD MMM YYYY') }</Text>
 						<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
 					</View>
 				</View>
 
 			</TouchableOpacity>
-			<Collapsible collapsed={ collapse }>
-				<HistoryItemDetails />
+			<Collapsible collapsed={ isCollapse }>
+				{ details.map((item: any, index: number) => (
+					<HistoryItemDetails
+						key={ index }
+						index={ index }
+						detail={ item } />
+				)) }
 			</Collapsible>
 		</View>
 	);

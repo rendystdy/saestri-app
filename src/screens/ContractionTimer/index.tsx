@@ -14,7 +14,7 @@ import TimerItem from './components/TimerItem';
 export interface IDataContraction {
 	uid?: number,
 	contractionTime: {
-		start:null | Dayjs,
+		start: null | Dayjs,
 		end: null | Dayjs;
 	},
 	intervalTime: {
@@ -64,7 +64,7 @@ const ContractionTimer = () => {
 
 	useEffect(() => {
 		getLastTimerStatus();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -91,8 +91,6 @@ const ContractionTimer = () => {
 		}
 	};
 
-	console.log(currentTimerStatus, counter);
-
 	const startBtnHandler = () => {
 		setStarted(true);
 		toggleTimerStatus();
@@ -114,11 +112,13 @@ const ContractionTimer = () => {
 	};
 
 	const stopBtnHandler = () => {
-		suspendTimerDispatch();
+		if (hasStarted) {
+			suspendTimerDispatch();
+		}
 	};
 
 	const resetBtnHandler = () => {
-		if (hasStarted) {
+		if (hasStarted || isSuspended) {
 			setStarted(false);
 			setTimerStatus(undefined);
 			resetCounterDispatch();

@@ -59,4 +59,8 @@ export default {
 		dispatch({ type: Dispatches.RESET_COUNTER });
 	},
 
+	removeHistoryItem: (payload: any) => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.REMOVE_HISTORY_ITEM, payload });
+	},
+
 };
