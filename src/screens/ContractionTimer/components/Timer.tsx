@@ -26,7 +26,9 @@ const Timer: React.FC<ITimer> = ({ item,  timerStatus }) => {
 			resumeTimerDispatch();
 		}
 		return (() => {
-			stopTimerDispatch();
+			if (!isSuspended) {
+				stopTimerDispatch();
+			}
 		});
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
