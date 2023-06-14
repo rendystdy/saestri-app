@@ -41,17 +41,17 @@ export default {
 		});
 	},
 	suspendTimer: () => (dispatch:Dispatch) => {
+		dispatch({ type: Dispatches.SUSPEND_TIMER });
+	},
+	stopTimer: () => (dispatch: Dispatch) => {
 		dispatch({ type: Dispatches.STOP_TIMER });
 	},
 	resetTimer: () => (dispatch:Dispatch) => {
 		dispatch({ type: Dispatches.RESET_TIMER });
 	},
 	resumeTimer: () => (dispatch:Dispatch) => {
-		dispatch({
-			type: Dispatches.RESUME_TIMER,
-		});
+		dispatch({ type: Dispatches.RESUME_TIMER });
 	},
-
 	increaseCounter: () => (dispatch:Dispatch) => {
 		dispatch({ type: Dispatches.INCREASE_COUNTER });
 	},

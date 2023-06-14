@@ -10,20 +10,17 @@ import { IDataContraction, ITimerStatus } from '..';
 type Props = {
   item: IDataContraction,
   count: number,
-  timerStatus?: ITimerStatus
 }
 
 const TimerItem: React.FC<Props> = ({
 	item,
 	count,
-	timerStatus,
 }) => {
   
 	return (
 		<View style={ [styles.row, { paddingHorizontal: 10 }] }>
 			<Timer
-				item={ item }
-				timerStatus={ timerStatus } />
+				item={ item }/>
 			<View style={ styles.dotted }>
 				<View style={ styles.wrapperCircle }>
 					<View style={ styles.circle }>

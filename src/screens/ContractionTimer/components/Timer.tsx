@@ -7,16 +7,15 @@ import { Colors } from '@constant';
 import { Actions } from '@store';
 import { parseDuration, useAppDispatch, useAppSelector, useTimer } from '@helpers';
 
-import { IDataContraction, ITimerStatus } from '..';
+import { IDataContraction } from '..';
 
 interface ITimer {
 	item: IDataContraction,
-	timerStatus?: ITimerStatus;
 }
 
-const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
+const Timer: React.FC<ITimer> = ({ item }) => {
 
-	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
+	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 
 	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes, duration: contractionDuration } = useTimer();
@@ -32,11 +31,11 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 
 	useEffect(() => {
 		const timer = getTimer();
-		if (timer && timer.status === 'contraction') {
+		if (timer && counter % 2 !== 0) {
 			stopIntervalTimer();
 			startContractionTimer();
 		}
-		if (timer && timer.status === 'interval') {
+		if (timer && counter % 2 === 0) {
 			stopContractionTimer();
 			startIntervalTimer();
 		}
@@ -45,7 +44,7 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 			stopIntervalTimer();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [item, timerStatus, currentTimer]);
+	}, [item, counter, currentTimer]);
 
 	const getTimer = () => {
 		return currentTimer.find(search => search.uid === item.uid);

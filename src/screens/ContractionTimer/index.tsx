@@ -1,5 +1,5 @@
 import {
-	ScrollView, View, TouchableOpacity, Image, DeviceEventEmitter,
+	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
@@ -49,10 +49,8 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 
 const ContractionTimer = () => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
-	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
-	const [isStop, setIsStop] = useState(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
@@ -61,7 +59,7 @@ const ContractionTimer = () => {
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 	const resetCounterDispatch = useAppDispatch(Actions.timerAction.resetCounter);
 	const increseCounterDispatch = useAppDispatch(Actions.timerAction.increaseCounter);
-	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
+	const stopTimerDispatch = useAppDispatch(Actions.timerAction.stopTimer);
 
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
 
@@ -71,83 +69,58 @@ const ContractionTimer = () => {
 		DeviceEventEmitter.addListener('show-warning', () => {
 			setVisible(true);
 		});
-		getLastTimerStatus();
 		return (() => {
-			stopTimerDispatch();
+			suspendTimerDispatch();
 		});
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
+	
 	useEffect(() => {
-		if (currentTimerStatus === 'contraction' && hasStarted && counter === 1) {
+		if (hasStarted && counter === 1) {
 			addTimerDispatch();
 		}
 
-		if (currentTimerStatus === 'interval' && hasStarted) {
+		if (counter % 2 === 0 && counter > 1) {
 			updateTimerDispatch();
 		}
 
-		if (currentTimerStatus === 'contraction' && hasStarted && counter % 2 > 0 && counter > 1) {
+		if (counter % 2 !== 0 && counter > 1 && !isSuspended) {
 			addTimerRowDispatch();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentTimerStatus, hasStarted, counter]);
-
-	const getLastTimerStatus = () => {
-		if (currentTimer.length > 0) {
-			const lastTimer = currentTimer[currentTimer.length - 1];
-			setTimerStatus(lastTimer.status);
-		} else {
-			resetCounterDispatch();
-		}
-	};
+	}, [hasStarted, counter]);
 
 	const startBtnHandler = () => {
 		setStarted(true);
-		toggleTimerStatus();
 		increseCounterDispatch();
 		if (isSuspended) {
 			resumeTimerDispatch();
 		}
 	};
 
-	const toggleTimerStatus = () => {
-		if (!currentTimerStatus) {
-			setTimerStatus('contraction');
-			return;
-		}
-		let pointer = availableTimerStatus.indexOf(currentTimerStatus ?? 'contraction');
-		// increment the counter but dont let exceed the max index
-		pointer = ++pointer % availableTimerStatus.length;
-		setTimerStatus(availableTimerStatus[pointer]);
-	};
-
 	const stopBtnHandler = () => {
 		if (counter > 0) {
-			setIsStop(true);
-			suspendTimerDispatch();
+			stopTimerDispatch();
 		}
 	};
 
 	const resetBtnHandler = () => {
 		if (counter > 0 || isSuspended) {
 			setStarted(false);
-			setIsStop(false);
-			setTimerStatus(undefined);
 			resetCounterDispatch();
 			resetTimerDispatch();
 			setVisibleReset(false);
 		}
 	};
-
+	
 	const renderStartStopBtn = () => {
 		const hasTimer = currentTimer.length > 0;
-		if (!hasTimer || currentTimerStatus === 'interval' || isStop) { return <Images.img_contractionStart />; }
-		if (currentTimerStatus === 'contraction') { return <Images.img_contractionPause />; }
+		if (!hasTimer) { return  <Images.img_contractionStart />; }
+		if (counter % 2 === 0) { return  <Images.img_contractionStart />; }
+		if (counter % 2 !== 0) { return <Images.img_contractionPause />; }
 		return null;
 	};
-
+	
 	return (
 		<Container
 			noPadding
@@ -170,7 +143,6 @@ const ContractionTimer = () => {
 					<ScrollView style={ { flex: 1 } } >
 						{
 							currentTimer.map((contraction, index) => <TimerItem
-								timerStatus={ currentTimerStatus }
 								item={ contraction }
 								count={ index + 1 }
 								key={ index }
