@@ -57,15 +57,15 @@ const timerReducers = (
 			};
 		
 		case Dispatches.STOP_TIMER:
-			if (lastTimer.status === 'contraction') {
+			if (lastTimer && lastTimer.status === 'contraction') {
 				lastTimer.contractionTime.end = dayjs();
 				lastTimer.intervalTime.start = dayjs();
 				lastTimer.intervalTime.end = dayjs();
 			}
-			if (lastTimer.status === 'interval') {
+			if (lastTimer && lastTimer.status === 'interval') {
 				lastTimer.intervalTime.end = dayjs();
 			}
-			lastTimer.isActive = false;
+			if (lastTimer) { lastTimer.isActive = false; }
 			return {
 				...state,
 				counter: lastTimer.status === 'contraction' ? state.counter + 1 : state.counter,
@@ -90,13 +90,13 @@ const timerReducers = (
 			};
 
 		case Dispatches.RESET_TIMER:
-			if (lastTimer.status === 'contraction') {
+			if (lastTimer && lastTimer.status === 'contraction') {
 				lastTimer.contractionTime.end = dayjs();
 			}
-			if (lastTimer.status === 'interval') {
+			if (lastTimer && lastTimer.status === 'interval') {
 				lastTimer.intervalTime.end = dayjs();
 			}
-			lastTimer.isActive = false;
+			if (lastTimer) { lastTimer.isActive = false; }
 			return {
 				...state,
 				timerHistories: [...state.timerHistories,
