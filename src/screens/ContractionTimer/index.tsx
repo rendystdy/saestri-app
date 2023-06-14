@@ -4,7 +4,7 @@ import { Dayjs } from 'dayjs';
 
 import { Colors, Images } from '@constant';
 import { Actions } from '@store';
-import { Container, Text, Header } from '@components';
+import { Container, Text, Header, Modal } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 
 import styles from './styles';
@@ -48,6 +48,8 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 const ContractionTimer = () => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
+	const [visible, setVisible] = useState<boolean>(false);
+	const [visibleReset, setVisibleReset] = useState<boolean>(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
@@ -192,7 +194,7 @@ const ContractionTimer = () => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={ [styles.startStopBtn, { marginRight: 16 }] }
-						onPress={ resetBtnHandler }>
+						onPress={ () => setVisibleReset(!visible) }>
 						<Images.ic_reset
 							height={ 22 }
 							width={ 22 } />
@@ -202,6 +204,24 @@ const ContractionTimer = () => {
 					</TouchableOpacity>
 				</View>
 			</View>
+			<Modal
+				visible={ visible }
+				onPressBack={ () => setVisible(!visible) }
+				onPressClose={ () => setVisible(!visible) }
+				onPressAgree={ () => setVisible(!visible) }
+				titleAgree='tutup'
+				textContent='Anda mengalami kontraksi
+lebih dari 5 menit.
+Segera menuju fasilitas kesehatan!' />
+			<Modal
+				visible={ visibleReset }
+				onPressBack={ () => setVisibleReset(!visibleReset) }
+				onPressClose={ () => setVisibleReset(!visibleReset) }
+				onPressAgree={ resetBtnHandler }
+				titleAgree='Yakin'
+				titleBack='Kembali'
+				textContent='Apakah anda yakin untuk melakukan
+				reset counter?' />
 		</Container>
 	);
 };
