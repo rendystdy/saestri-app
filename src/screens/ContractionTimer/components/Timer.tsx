@@ -50,11 +50,11 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 	}, [item, timerStatus, currentTimer]);
 
 	useEffect(() => {
-		if (!showWarning && contractionDuration >= 300) {
+		if (!showWarning && ((contractionDuration + intervalDuration) >= 300)) {
 			DeviceEventEmitter.emit('show-warning');
 			setShowWarning(true);
 		}
-	}, [contractionDuration, showWarning]);
+	}, [contractionDuration, showWarning, intervalDuration]);
 
 	const getTimer = () => {
 		return currentTimer.find(search => search.uid === item.uid);
