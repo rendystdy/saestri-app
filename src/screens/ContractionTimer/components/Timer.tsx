@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { AppState, StyleSheet, View } from 'react-native';
 import React, { useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -17,7 +17,6 @@ interface ITimer {
 const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 
 	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
-	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 
 	useEffect(() => {
@@ -25,11 +24,6 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 		if (!isSuspended) {
 			resumeTimerDispatch();
 		}
-		return (() => {
-			if (!isSuspended) {
-				stopTimerDispatch();
-			}
-		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { padLeft } from './numbers';
+import BackgroundTimer from 'react-native-background-timer';
 
 const useTimer = () => {
 	const [time, setTime] = useState(0);
@@ -9,15 +10,15 @@ const useTimer = () => {
 		let intervalId: any;
 
 		if (isRunning) {
-			intervalId = setInterval(() => {
+			intervalId = BackgroundTimer.setInterval(() => {
 				setTime(time + 1);
 			}, 1000);
 		} else {
-			clearInterval(intervalId);
+			BackgroundTimer.clearInterval(intervalId);
 		}
   
 		return () => {
-			clearInterval(intervalId);
+			BackgroundTimer.clearInterval(intervalId);
 		};
 
 	}, [time, isRunning]);

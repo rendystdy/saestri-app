@@ -60,6 +60,7 @@ const timerReducers = (
 				lastTimer.intervalTime.end = dayjs();
 			}
 			lastTimer.isActive = false;
+			console.log('timer saved');
 			return {
 				...state,
 				isSuspended: true,
@@ -113,11 +114,13 @@ const timerReducers = (
 				...state,
 				counter: 0,
 			};
+		
 		case Dispatches.REMOVE_HISTORY_ITEM:
 			return {
 				...state,
 				timerHistories: payload,
 			};
+		
 		default:
 			return state;
 	}

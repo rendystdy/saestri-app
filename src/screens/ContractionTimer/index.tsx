@@ -1,6 +1,6 @@
 import { ScrollView, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 import { Colors, Images } from '@constant';
 import { Actions } from '@store';
@@ -8,7 +8,6 @@ import { Container, Text, Header } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 
 import styles from './styles';
-import TotalCounting from './components/TotalCounting';
 import TimerItem from './components/TimerItem';
 
 export interface IDataContraction {
@@ -57,6 +56,7 @@ const ContractionTimer = () => {
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 	const resetCounterDispatch = useAppDispatch(Actions.timerAction.resetCounter);
 	const increseCounterDispatch = useAppDispatch(Actions.timerAction.increaseCounter);
+	const stopTimerDispatch = useAppDispatch(Actions.timerAction.suspendTimer);
 
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
 
@@ -64,6 +64,9 @@ const ContractionTimer = () => {
 
 	useEffect(() => {
 		getLastTimerStatus();
+		return (() => {
+			stopTimerDispatch();
+		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -112,20 +115,26 @@ const ContractionTimer = () => {
 	};
 
 	const stopBtnHandler = () => {
-		if (hasStarted) {
+		if (counter > 0) {
 			suspendTimerDispatch();
 		}
 	};
 
 	const resetBtnHandler = () => {
-		if (hasStarted || isSuspended) {
+		if (counter > 0 || isSuspended) {
 			setStarted(false);
 			setTimerStatus(undefined);
 			resetCounterDispatch();
 			resetTimerDispatch();
 		}
 	};
-
+	
+	const renderStartStopBtn = () => {
+		const hasTimer = currentTimer.length > 0;
+		if (isSuspended || !hasTimer) { return <Images.img_contractionStart />; }
+		if (!isSuspended || hasTimer) { return <Images.img_contractionPause />; }
+		return null;
+	};
 	return (
 		<Container
 			noPadding
@@ -138,7 +147,7 @@ const ContractionTimer = () => {
 				onPressRight={ () => NavigationHelper.push('ContractionHistory') }
 			/>
 			<View style={ styles.container }>
-				<TotalCounting />
+				{ /* <TotalCounting /> */ }
 				<View style={ [styles.row, { marginBottom: 29, justifyContent: 'space-around' }] }>
 					<Text style={ styles.textTitleTimer }>Contraction</Text>
 					<Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Rest</Text>
@@ -168,8 +177,7 @@ const ContractionTimer = () => {
 				<TouchableOpacity
 					style={ { alignItems: 'flex-end', width: '70%' } }
 					onPress={ startBtnHandler }>
-					{ !hasStarted && <Images.img_contractionStart /> }
-					{ hasStarted && <Images.img_contractionPause /> }
+					{ renderStartStopBtn() }
 				</TouchableOpacity>
 				<View style={ styles.row }>
 					<TouchableOpacity
