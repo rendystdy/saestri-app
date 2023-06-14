@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		// backgroundColor: 'red',
 	},
 	row: {
 		flexDirection: 'row',
