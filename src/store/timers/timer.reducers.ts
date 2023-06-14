@@ -60,10 +60,9 @@ const timerReducers = (
 				lastTimer.intervalTime.end = dayjs();
 			}
 			lastTimer.isActive = false;
-			console.log('timer saved');
 			return {
 				...state,
-				isSuspended: true,
+				isSuspended: shallowTimer.length > 0,
 				currentTimer: [
 					...shallowTimer,
 				],

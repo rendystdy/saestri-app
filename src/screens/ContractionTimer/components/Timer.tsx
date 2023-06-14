@@ -1,5 +1,5 @@
-import { AppState, StyleSheet, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { AppState, DeviceEventEmitter, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { Text } from '@components';
@@ -16,8 +16,13 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 
+	const [showWarning, setShowWarning] = useState<boolean>(false);
+
 	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
+
+	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes, duration: contractionDuration } = useTimer();
+	const { setTimer: setIntervalTime, getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval, duration: intervalDuration } = useTimer();
 
 	useEffect(() => {
 		restoreSavedTimer();
@@ -44,6 +49,13 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [item, timerStatus, currentTimer]);
 
+	useEffect(() => {
+		if (!showWarning && contractionDuration >= 300) {
+			DeviceEventEmitter.emit('show-warning');
+			setShowWarning(true);
+		}
+	}, [contractionDuration, showWarning]);
+
 	const getTimer = () => {
 		return currentTimer.find(search => search.uid === item.uid);
 	};
@@ -55,9 +67,6 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 			time: dayjs(timer?.startAt).format('hh:mm'),
 		};
 	};
-
-	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes } = useTimer();
-	const { setTimer: setIntervalTime, getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval } = useTimer();
 
 	const restoreSavedTimer = () => {
 		const timer = getTimer();

@@ -1,4 +1,6 @@
-import { ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import {
+	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
 
@@ -65,13 +67,17 @@ const ContractionTimer = () => {
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 
 	useEffect(() => {
+		DeviceEventEmitter.addListener('show-warning', () => {
+			setVisible(true);
+		});
 		getLastTimerStatus();
 		return (() => {
 			stopTimerDispatch();
 		});
+		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
+	
 	useEffect(() => {
 		if (currentTimerStatus === 'contraction' && hasStarted && counter === 1) {
 			addTimerDispatch();
@@ -128,6 +134,7 @@ const ContractionTimer = () => {
 			setTimerStatus(undefined);
 			resetCounterDispatch();
 			resetTimerDispatch();
+			setVisibleReset(false);
 		}
 	};
 	
@@ -137,6 +144,7 @@ const ContractionTimer = () => {
 		if (!isSuspended || hasTimer) { return <Images.img_contractionPause />; }
 		return null;
 	};
+	
 	return (
 		<Container
 			noPadding
@@ -194,7 +202,7 @@ const ContractionTimer = () => {
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={ [styles.startStopBtn, { marginRight: 16 }] }
-						onPress={ () => setVisibleReset(!visible) }>
+						onPress={ () => setVisibleReset(true) }>
 						<Images.ic_reset
 							height={ 22 }
 							width={ 22 } />
@@ -206,9 +214,9 @@ const ContractionTimer = () => {
 			</View>
 			<Modal
 				visible={ visible }
-				onPressBack={ () => setVisible(!visible) }
-				onPressClose={ () => setVisible(!visible) }
-				onPressAgree={ () => setVisible(!visible) }
+				onPressBack={ () => setVisible(false) }
+				onPressClose={ () => setVisible(false) }
+				onPressAgree={ () => setVisible(false) }
 				titleAgree='tutup'
 				textContent='Anda mengalami kontraksi
 lebih dari 5 menit.

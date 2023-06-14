@@ -59,6 +59,7 @@ const useTimer = () => {
 		getSeconds,
 		resetTime,
 		setTimer,
+		duration: time,
 	};
   
 };
