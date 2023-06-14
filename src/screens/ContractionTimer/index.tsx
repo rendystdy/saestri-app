@@ -52,6 +52,7 @@ const ContractionTimer = () => {
 	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
+	const [visibleStop, setVisibleStop] = useState<boolean>(false);
 	const [isStop, setIsStop] = useState(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
@@ -126,6 +127,7 @@ const ContractionTimer = () => {
 	const stopBtnHandler = () => {
 		if (counter > 0) {
 			setIsStop(true);
+			setVisibleStop(false);
 			suspendTimerDispatch();
 		}
 	};
@@ -195,7 +197,7 @@ const ContractionTimer = () => {
 				<View style={ styles.row }>
 					<TouchableOpacity
 						style={ [styles.startStopBtn, { marginRight: 19 }] }
-						onPress={ stopBtnHandler }>
+						onPress={ () => setVisibleStop(true) }>
 						<Images.ic_stop
 							height={ 22 }
 							width={ 22 } />
@@ -221,9 +223,8 @@ const ContractionTimer = () => {
 				onPressClose={ () => setVisible(false) }
 				onPressAgree={ () => setVisible(false) }
 				titleAgree='tutup'
-				textContent='Anda mengalami kontraksi
-lebih dari 5 menit.
-Segera menuju fasilitas kesehatan!' />
+				textContent='Anda mengalami kontraksi lebih dari 5 menit. Segera menuju fasilitas kesehatan!'
+			/>
 			<Modal
 				visible={ visibleReset }
 				onPressBack={ () => setVisibleReset(!visibleReset) }
@@ -232,7 +233,17 @@ Segera menuju fasilitas kesehatan!' />
 				titleAgree='Yakin'
 				titleBack='Kembali'
 				textContent='Apakah anda yakin untuk melakukan
-				reset counter?' />
+				reset counter?'
+			/>
+			<Modal
+				visible={ visibleStop }
+				onPressBack={ () => setVisibleStop(!visibleStop) }
+				onPressClose={ () => setVisibleStop(!visibleStop) }
+				onPressAgree={ stopBtnHandler }
+				titleAgree='Yakin'
+				titleBack='Kembali'
+				textContent='Apakah anda yakin untuk melakukan stop counter?'
+			/>
 		</Container>
 	);
 };
