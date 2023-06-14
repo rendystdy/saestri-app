@@ -13,6 +13,11 @@ import ic_time_machine from '../assets/images/ic_time_machine.svg';
 import dotted from '../assets/images/dotted.svg';
 import ic_delete from '../assets/images/ic_delete.svg';
 import iamge_history from '../assets/images/image_history.svg';
+import img_contractionTimer from '../assets/images/img_contractionTimer.png';
+import img_contractionPause from '../assets/images/img_contraction_pause.svg';
+import img_contractionStart from '../assets/images/img_contractionStart.svg';
+import ic_stop from '../assets/images/ic_stop.svg';
+import ic_reset from '../assets/images/ic_reset.svg';
 
 export default {
 	Google,
@@ -30,4 +35,9 @@ export default {
 	dotted,
 	ic_delete,
 	iamge_history,
+	img_contractionTimer,
+	img_contractionPause,
+	img_contractionStart,
+	ic_stop,
+	ic_reset,
 };

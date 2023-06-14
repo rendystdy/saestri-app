@@ -8,10 +8,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	footer: {
-		height: 100,
+		// height: 100,
+		backgroundColor: Colors.gray.light,
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		flexDirection: 'row',
+		// backgroundColor: 'red',
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	dottedLine: {
 		top: 0,
@@ -25,16 +31,13 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	startStopBtn: {
-		height: 64,
-		width: 64,
-		backgroundColor: '#B4DEEB',
+		height: 54,
+		width: 44,
+		backgroundColor: Colors.pink.default,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: 600,
-	},
-	row: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		borderRadius: 8,
+		padding: 4,
 	},
 	textTitleTimer: {
 		fontSize: 12,

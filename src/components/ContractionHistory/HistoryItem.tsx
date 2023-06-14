@@ -47,7 +47,7 @@ const HistoryItem: React.FC<ItemProps> = ({
 							} } />
 					</View>
 					<View>
-						<Text style={ styles.dateText }>{ dayjs(date).format('DD MMM YYYY') }</Text>
+						<Text style={ styles.dateText }>{ dayjs(date).format('DD MMM YYYY hh:mm:ss') }</Text>
 						<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
 					</View>
 				</View>
