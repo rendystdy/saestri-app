@@ -1,4 +1,4 @@
-import { ScrollView, View, TouchableOpacity } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -141,7 +141,7 @@ const ContractionTimer = () => {
 				<TotalCounting />
 				<View style={ [styles.row, { marginBottom: 29, justifyContent: 'space-around' }] }>
 					<Text style={ styles.textTitleTimer }>Contraction</Text>
-					<Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Interval</Text>
+					<Text style={ [styles.textTitleTimer, { color: Colors.gray.veryDark }] }>Rest</Text>
 				</View>
 
 				<View style={ styles.timerContainer }>
@@ -161,32 +161,38 @@ const ContractionTimer = () => {
 				</View>
 			</View>
 			<View style={ styles.footer }>
+				<Image
+					source={ Images.img_contractionTimer }
+					style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }
+					resizeMode='contain' />
 				<TouchableOpacity
-					style={ styles.startStopBtn }
+					style={ { alignItems: 'flex-end', width: '70%' } }
 					onPress={ startBtnHandler }>
-					<Text style={ { fontSize: 14 } }>
-						{
-							!hasStarted && 'Start'
-						}
-						{
-							hasStarted && 'Pause'
-						}
-					</Text>
+					{ !hasStarted && <Images.img_contractionStart /> }
+					{ hasStarted && <Images.img_contractionPause /> }
 				</TouchableOpacity>
-				<TouchableOpacity
-					style={ styles.startStopBtn }
-					onPress={ stopBtnHandler }>
-					<Text style={ { fontSize: 14 } }>
-						stop
-					</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={ styles.startStopBtn }
-					onPress={ resetBtnHandler }>
-					<Text style={ { fontSize: 14 } }>
-						reset
-					</Text>
-				</TouchableOpacity>
+				<View style={ styles.row }>
+					<TouchableOpacity
+						style={ [styles.startStopBtn, { marginRight: 19 }] }
+						onPress={ stopBtnHandler }>
+						<Images.ic_stop
+							height={ 22 }
+							width={ 22 } />
+						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
+							stop
+						</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={ [styles.startStopBtn, { marginRight: 16 }] }
+						onPress={ resetBtnHandler }>
+						<Images.ic_reset
+							height={ 22 }
+							width={ 22 } />
+						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
+							reset
+						</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		</Container>
 	);
