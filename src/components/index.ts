@@ -6,6 +6,7 @@ import MyToast from './Toast';
 import ContractionHistoryList from './ContractionHistory';
 import ButtonLarge from './ButtonLarge';
 import Header from './Header';
+import Modal from './Modal';
 
 export {
 	Text,
@@ -16,4 +17,5 @@ export {
 	ContractionHistoryList,
 	ButtonLarge,
 	Header,
+	Modal,
 };
