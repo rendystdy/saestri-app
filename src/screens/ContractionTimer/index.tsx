@@ -1,5 +1,5 @@
 import {
-	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter,
+	ScrollView, View, TouchableOpacity, Image, DeviceEventEmitter,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';

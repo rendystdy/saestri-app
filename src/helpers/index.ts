@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from './hooks';
 import { useTimer } from './useTimer';
 import { padLeft } from './numbers';
 import { parseDuration, parseTime } from './parseDuration';
+import { detectContractionWarning } from './modalHelper';
 
 export {
+	detectContractionWarning,
 	NavigationHelper,
 	Ratio,
 	API,

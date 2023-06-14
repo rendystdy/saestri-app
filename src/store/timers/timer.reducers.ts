@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatches } from '@constant';
+import { detectContractionWarning } from '@helpers';
 import dayjs from 'dayjs';
 import { TimerState } from 'src/interfaces/timers';
 
@@ -44,6 +45,9 @@ const timerReducers = (
 		case Dispatches.ADD_ANOTHER_TIMER:
 			lastTimer.isActive = false;
 			lastTimer.intervalTime.end = dayjs();
+			if (shallowTimer.length % 3 === 0) { // Entry adalah kelipatan ke 3
+				detectContractionWarning(shallowTimer);
+			}
 			return {
 				...state,
 				currentTimer: [

@@ -9,6 +9,7 @@
     "isolatedModules": true,
     "jsx": "react-native",
     "lib": [
+      "ES2019",
       "es2018",
       "DOM"
     ],

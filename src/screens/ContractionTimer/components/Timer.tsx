@@ -16,8 +16,6 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 
-	const [showWarning, setShowWarning] = useState<boolean>(false);
-
 	const { currentTimer, isSuspended } = useAppSelector(state => state.timerReducers);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 
@@ -48,13 +46,6 @@ const Timer: React.FC<ITimer> = ({ item, timerStatus }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [item, timerStatus, currentTimer]);
-
-	useEffect(() => {
-		if (!showWarning && contractionDuration >= 300) {
-			DeviceEventEmitter.emit('show-warning');
-			setShowWarning(true);
-		}
-	}, [contractionDuration, showWarning]);
 
 	const getTimer = () => {
 		return currentTimer.find(search => search.uid === item.uid);
