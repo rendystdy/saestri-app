@@ -52,6 +52,7 @@ const ContractionTimer = () => {
 	const [currentTimerStatus, setTimerStatus] = useState<ITimerStatus>();
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
+	const [isStop, setIsStop] = useState(false);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
@@ -74,10 +75,10 @@ const ContractionTimer = () => {
 		return (() => {
 			stopTimerDispatch();
 		});
-		
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	
+
 	useEffect(() => {
 		if (currentTimerStatus === 'contraction' && hasStarted && counter === 1) {
 			addTimerDispatch();
@@ -124,6 +125,7 @@ const ContractionTimer = () => {
 
 	const stopBtnHandler = () => {
 		if (counter > 0) {
+			setIsStop(true);
 			suspendTimerDispatch();
 		}
 	};
@@ -131,20 +133,21 @@ const ContractionTimer = () => {
 	const resetBtnHandler = () => {
 		if (counter > 0 || isSuspended) {
 			setStarted(false);
+			setIsStop(false);
 			setTimerStatus(undefined);
 			resetCounterDispatch();
 			resetTimerDispatch();
 			setVisibleReset(false);
 		}
 	};
-	
+
 	const renderStartStopBtn = () => {
 		const hasTimer = currentTimer.length > 0;
-		if (isSuspended || !hasTimer) { return <Images.img_contractionStart />; }
-		if (!isSuspended || hasTimer) { return <Images.img_contractionPause />; }
+		if (!hasTimer || currentTimerStatus === 'interval' || isStop) { return <Images.img_contractionStart />; }
+		if (currentTimerStatus === 'contraction') { return <Images.img_contractionPause />; }
 		return null;
 	};
-	
+
 	return (
 		<Container
 			noPadding
