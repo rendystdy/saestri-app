@@ -23,9 +23,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 
 	useEffect(() => {
 		restoreSavedTimer();
-		if (!isSuspended) {
-			resumeTimerDispatch();
-		}
+		resumeTimerDispatch();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -61,8 +59,8 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	const restoreSavedTimer = () => {
 		const timer = getTimer();
 		if (timer) {
-			setContractionTime(parseDuration(timer.contractionTime.start, timer.contractionTime.end));
-			setIntervalTime(parseDuration(timer.intervalTime.start, timer.intervalTime.end));
+			setContractionTime(parseDuration(timer.contractionTime.start, !timer.contractionTime.end && timer.status === 'contraction' ? dayjs() : timer.contractionTime.end));
+			setIntervalTime(parseDuration(timer.intervalTime.start,  !timer.intervalTime.end && timer.status === 'interval' ? dayjs() : timer.intervalTime.end));
 		}
 	};
 
