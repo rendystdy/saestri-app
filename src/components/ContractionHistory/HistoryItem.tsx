@@ -6,7 +6,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
 import HistoryItemDetails from './HistoryItemDetails';
 import { Text } from '@components';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { IDataContraction } from 'src/screens/ContractionTimer';
 
 type ItemProps = {
@@ -31,6 +31,12 @@ const HistoryItem: React.FC<ItemProps> = ({
 	const [isChecked, setChecked] = useState<boolean>(false);
 	const [isCollapse, setCollapse] = useState<boolean>(true);
 
+	const getTimeRange = () => {
+		const startDate = details[0].startAt.format('HH:mm:ss');
+		const endDate = details[details.length - 1].startAt.format('HH:mm:ss');
+		return `${dayjs(date).format('DD MMM YYYY')} ${startDate} - ${endDate}`;
+	};
+
 	return (
 		<View>
 			<TouchableOpacity
@@ -47,8 +53,8 @@ const HistoryItem: React.FC<ItemProps> = ({
 							} } />
 					</View>
 					<View>
-						<Text style={ styles.dateText }>{ dayjs(date).format('DD MMM YYYY hh:mm:ss') }</Text>
-						<Text style={ styles.contractionCountText }>Total : { contractionCount } Kontraksi</Text>
+						<Text style={ styles.dateText }>{ getTimeRange() }</Text>
+						<Text style={ styles.contractionCountText }>Total : { contractionCount } Cycles</Text>
 					</View>
 				</View>
 

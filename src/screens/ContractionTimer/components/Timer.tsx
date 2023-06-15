@@ -52,7 +52,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		const timer = getTimer();
 		return {
 			date: dayjs(timer?.startAt).format('DD MMM YYYY'),
-			time: dayjs(timer?.startAt).format('hh:mm'),
+			time: dayjs(timer?.startAt).format('HH:mm'),
 		};
 	};
 
