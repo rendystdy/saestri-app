@@ -74,13 +74,13 @@ const timerReducers = (
 				],
 			};
 		case Dispatches.SUSPEND_TIMER:
-			if (lastTimer.status === 'contraction' && lastTimer.isActive) {
+			if (lastTimer && lastTimer.status === 'contraction' && lastTimer.isActive) {
 				lastTimer.contractionTime.end = dayjs();
 			}
-			if (lastTimer.status === 'interval' && lastTimer.isActive) {
+			if (lastTimer && lastTimer.status === 'interval' && lastTimer.isActive) {
 				lastTimer.intervalTime.end = dayjs();
 			}
-			lastTimer.isActive = false;
+			if (lastTimer) { lastTimer.isActive = false; }
 			return {
 				...state,
 				isSuspended: shallowTimer.length > 0,

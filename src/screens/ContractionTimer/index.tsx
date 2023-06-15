@@ -76,7 +76,7 @@ const ContractionTimer = () => {
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	
+
 	useEffect(() => {
 		if (hasStarted && counter === 1) {
 			addTimerDispatch();
@@ -104,8 +104,8 @@ const ContractionTimer = () => {
 		if (counter > 0) {
 			stopTimerDispatch();
 			setIsStop(true);
-			setVisibleStop(false);
 		}
+		setVisibleStop(false);
 	};
 
 	const resetBtnHandler = () => {
@@ -113,18 +113,18 @@ const ContractionTimer = () => {
 			setStarted(false);
 			resetCounterDispatch();
 			resetTimerDispatch();
-			setVisibleReset(false);
 		}
+		setVisibleReset(false);
 	};
-	
+
 	const renderStartStopBtn = () => {
 		const hasTimer = currentTimer.length > 0;
-		if (!hasTimer) { return  <Images.img_contractionStart />; }
-		if (counter % 2 === 0) { return  <Images.img_contractionStart />; }
+		if (!hasTimer) { return <Images.img_contractionStart />; }
+		if (counter % 2 === 0) { return <Images.img_contractionStart />; }
 		if (counter % 2 !== 0) { return <Images.img_contractionPause />; }
 		return null;
 	};
-	
+
 	return (
 		<Container
 			noPadding
@@ -197,7 +197,7 @@ const ContractionTimer = () => {
 				onPressClose={ () => setVisible(false) }
 				onPressAgree={ () => setVisible(false) }
 				titleAgree='tutup'
-				textContent='Anda mengalami kontraksi lebih dari 5 menit. Segera menuju fasilitas kesehatan!'
+				textContent='Anda mengalami kontraksi. Segera menuju fasilitas kesehatan!'
 			/>
 			<Modal
 				visible={ visibleReset }
