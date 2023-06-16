@@ -6,12 +6,12 @@ import { Images } from '@constant';
 import { Text } from '@components';
 
 interface IHeaders {
-  onPressLeft: () => void,
-  onPressRight: () => void,
-  isBack?: boolean | undefined;
-  title: string | undefined;
-  icon: string | undefined;
-  color?: string | undefined;
+	onPressLeft: () => void,
+	onPressRight: () => void,
+	isBack?: boolean | undefined;
+	title: string | undefined;
+	icon: string | undefined;
+	color?: string | undefined;
 }
 
 const Headers: React.FC<IHeaders> = ({ onPressLeft, onPressRight, title, isBack, icon, color }) => {
@@ -33,6 +33,13 @@ const Headers: React.FC<IHeaders> = ({ onPressLeft, onPressRight, title, isBack,
 						style={ styles.wrapperRight }>
 						<Images.ic_delete />
 						<Text style={ styles.textRight }>Delete</Text>
+					</TouchableOpacity>
+				);
+			case 'gallery':
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }>
+						<Images.ic_delete_gallery />
 					</TouchableOpacity>
 				);
 

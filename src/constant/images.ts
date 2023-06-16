@@ -19,6 +19,7 @@ import img_contractionStart from '../assets/images/img_contractionStart.svg';
 import ic_stop from '../assets/images/ic_stop.svg';
 import ic_reset from '../assets/images/ic_reset.svg';
 import ic_warning from '../assets/images/ic_warning.svg';
+import ic_delete_gallery from '../assets/images/ic_delete_gallery.svg';
 
 export default {
 	Google,
@@ -42,4 +43,5 @@ export default {
 	ic_stop,
 	ic_reset,
 	ic_warning,
+	ic_delete_gallery,
 };

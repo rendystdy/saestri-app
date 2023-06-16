@@ -82,7 +82,7 @@ const Home = () => {
 						<ButtonLarge
 							title='Contraction Timer'
 							color={ Colors.blue.light }
-							icon='gellery'
+							icon='history'
 							onpress={ () => NavigationHelper.push('ContractionTimer') }
 						/>
 						<ButtonLarge
@@ -92,10 +92,10 @@ const Home = () => {
 							onpress={ () => console.log() }
 						/>
 						<ButtonLarge
-							title='History'
+							title='Baby Journey'
 							color={ Colors.blue.light }
-							icon='history'
-							onpress={ () => NavigationHelper.push('ContractionHistory') }
+							icon='gallery'
+							onpress={ () => NavigationHelper.push('MiniGallery') }
 						/>
 					</View>
 				</View>
