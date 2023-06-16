@@ -24,6 +24,7 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "formik": "^2.2.9",
     "jsc-android": "^250230.2.1",
+    "lodash": "^4.17.21",
     "react": "18.1.0",
     "react-native": "0.70.1",
     "react-native-background-timer": "^2.4.1",
