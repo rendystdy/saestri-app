@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 		elevation: 6,
 		alignSelf: 'center',
 	},
-	rectangle: { zIndex: -1, position: 'absolute', bottom: 30, right: -16 },
+	rectangle: { zIndex: -1, position: 'absolute', bottom: 0, right: 0 },
 });
 
 export default styles;

@@ -6,6 +6,8 @@ import { useTimer } from './useTimer';
 import { padLeft } from './numbers';
 import { parseDuration, parseTime } from './parseDuration';
 import { detectContractionWarning } from './modalHelper';
+import { hasStoragePermission } from './permissions';
+import { getImageFromDisk, getImageListFromDisk, hasPhotosDir, initStorage } from './storage';
 
 export {
 	detectContractionWarning,
@@ -18,4 +20,9 @@ export {
 	padLeft,
 	parseDuration,
 	parseTime,
+	hasStoragePermission,
+	getImageFromDisk,
+	getImageListFromDisk,
+	hasPhotosDir,
+	initStorage,
 };

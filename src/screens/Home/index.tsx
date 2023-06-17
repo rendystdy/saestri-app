@@ -53,7 +53,7 @@ const Home = () => {
 			noPadding
 			bgStatusBar={ Colors.gray.light }
 			barStyle='dark-content'
-			noScroll={ false }
+			noScroll
 		>
 			<View style={ styles.container }>
 				<View style={ { alignSelf: 'center', marginBottom: 25 } }>
