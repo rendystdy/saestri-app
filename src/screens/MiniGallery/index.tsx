@@ -12,6 +12,7 @@ import _ from 'lodash';
 import ItemGallery from './components/ItemGallery';
 import { Colors } from '@constant';
 import { Dirs, FileSystem } from 'react-native-file-access';
+import Icons from 'react-native-vector-icons/FontAwesome';
 
 const MiniGallery = () => {
 	const [data, setdata] = useState<GalleryInterface.IDataGallery[]>([]);
@@ -103,11 +104,14 @@ const MiniGallery = () => {
 			<View>
 				<Button
 					backgroundColor={ Colors.blue.light }
-					text='Camera'
 					onPress={ () => NavigationHelper.push('CameraGallery') }
-					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
-					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
-				/>
+					buttonStyle={ styles.button }
+				>
+					<Icons
+						name='camera'
+						color={ Colors.white.default }
+						size={ 24 } />
+				</Button>
 			</View>
 		</Container>
 	);

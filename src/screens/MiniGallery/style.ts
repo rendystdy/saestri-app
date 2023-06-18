@@ -39,6 +39,24 @@ const styles = StyleSheet.create({
 		right: 0,
 		backgroundColor: 'red',
 	},
+	button: {
+		width: 64,
+		alignSelf: 'center',
+		borderRadius: 64 / 2,
+		height: 64,
+		padding: 12,
+		position: 'absolute',
+		right: 16,
+		bottom: 84,
+		zIndex: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		shadowColor: Colors.black.default,
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		}, shadowOpacity: 1, elevation: 4,
+	},
 });
 
 export default styles;
