@@ -4,32 +4,7 @@ import { GalleryInterface } from '@interfaces';
 import dayjs from 'dayjs';
 
 const initialState: GalleryInterface.GalleryState = {
-	listGallery: [
-		{
-			uid: dayjs().unix(),
-			title: 'My first USG 1',
-			image: 'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2020/09/28/3129896145.jpg',
-			date: dayjs().format(),
-		},
-		{
-			uid: dayjs().unix(),
-			title: 'My first USG 2',
-			image: 'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2020/09/28/3129896145.jpg',
-			date: dayjs().format(),
-		},
-		{
-			uid: dayjs().unix(),
-			title: 'My first USG 3',
-			image: 'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2020/09/28/3129896145.jpg',
-			date: dayjs('2023-05-15').format(),
-		},
-		{
-			uid: dayjs().unix(),
-			title: 'My first USG 4',
-			image: 'https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2020/09/28/3129896145.jpg',
-			date: dayjs('2023-05-15').format(),
-		},
-	],
+	listGallery: [],
 	listGalleryGroupByMonth: [],
 	loading: false,
 };
@@ -42,17 +17,23 @@ const timerReducers = (
 ): GalleryInterface.GalleryState => {
 	const { type, payload } = action;
 
-	const addPhoto = [...state.listGallery, payload];
-
 	switch (type) {
 		case Dispatches.ADD_PHOTO:
 			return {
 				...state,
-				listGallery: addPhoto,
+				listGallery: [...state.listGallery, payload],
 			};
 		case Dispatches.SET_LOADING:
 			return {
 				...state,
+				loading: payload,
+			};
+		case Dispatches.DELETE_IMAGE:
+			const ids: number[] = payload.map((item:any) => item.uid);
+			
+			return {
+				...state,
+				listGallery: state.listGallery.filter(item => !ids.includes(item.uid ?? 0)),
 				loading: payload,
 			};
 		

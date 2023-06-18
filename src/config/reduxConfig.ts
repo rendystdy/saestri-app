@@ -18,7 +18,7 @@ const rootReducer = combineReducers({ ...Reducers });
 const persistConfig = {
 	key: 'root',
 	storage: AsyncStorage,
-	whitelist: ['timerReducers'],
+	whitelist: ['timerReducers', 'galleryReducers'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -4,30 +4,39 @@ import React, { useState, useEffect } from 'react';
 import styles from './style';
 import { Button, Container, Header, Text } from '@components';
 import {
-	NavigationHelper, getImageListFromDisk, hasPhotosDir, hasStoragePermission, initStorage, useAppSelector,
+	NavigationHelper, getImageListFromDisk, hasPhotosDir, hasStoragePermission, initStorage, useAppDispatch, useAppSelector,
 } from '@helpers';
 import { GalleryInterface } from '@interfaces';
 import dayjs from 'dayjs';
-import _ from 'lodash';
+import _, { filter } from 'lodash';
 import ItemGallery from './components/ItemGallery';
 import { Colors } from '@constant';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { EntriesEntity, IItemGallery } from 'src/interfaces/gallery';
+import { Actions } from '@store';
 
 const MiniGallery = () => {
 	const [data, setdata] = useState<GalleryInterface.IDataGallery[]>([]);
-	const [visibleButtonDelete, setVisibleButtonDelete] = useState(false);
+	
+	const [deleteMode, setDeleteMode] = useState(false);
+	
+	const [deletedEntry, setDeletedEntry] = useState<EntriesEntity[]>([]);
+	
+	const deleteDispatch = useAppDispatch(Actions.galleryAction.deletePhotos);
+
 	const { listGallery } = useAppSelector(state => state.galleryReducers);
+	
 	const [images, setImages] = useState<string[]>();
 
 	useEffect(() => {
-		handleGroupByDate();
 		hasStoragePermission();
 		getImages();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const handleGroupByDate = () => {
+	const groupedImages = () => {
 		const resultGroupByMonth = _.groupBy(listGallery, ({ date }) => {
-			return date;
+			const d = dayjs(date).format('MMMM YYYY');
+			return d;
 		});
 
 		const newDataGallery = _.map(resultGroupByMonth, (group, item) => {
@@ -38,10 +47,10 @@ const MiniGallery = () => {
 		});
 
 		// return newDataGalle1ry;
-		setdata(newDataGallery);
+		return newDataGallery;
 	};
 
-	const getImages = async () => {
+	const getImages = async() => {
 		const hasInit = await hasPhotosDir();
 		if (!hasInit) {
 			await initStorage();
@@ -53,13 +62,13 @@ const MiniGallery = () => {
 	const renderItemByDate = ({ item }: GalleryInterface.IItemList) => {
 		return (
 			<View>
-				<Text style={ styles.textDate }>{ dayjs(item.date).format('MMM YYYY') }</Text>
+				<Text style={ styles.textDate }>{ item.date }</Text>
 				<FlatList
 					data={ item.entries }
 					numColumns={ 2 }
 					style={ { margin: 8 } }
 					columnWrapperStyle={ { justifyContent: 'space-between' } }
-					keyExtractor={ (_, index) => index.toString() }
+					keyExtractor={ (entry, index) => index.toString() }
 					renderItem={ rendyItemGallery }
 				/>
 			</View>
@@ -67,9 +76,27 @@ const MiniGallery = () => {
 	};
 
 	const rendyItemGallery = ({ item }: GalleryInterface.IItemGallery) => {
+		const isChecked = deletedEntry.some(entry => item.uid === entry.uid);
 		return (
-			<ItemGallery item={ item } />
+			<ItemGallery
+				item={ item }
+				onChecked={ deleteCheckboxHandler }
+				isChecked={ isChecked }
+				isDeleteMode={ deleteMode }
+			/>
 		);
+	};
+
+	const deleteCheckboxHandler = (item: EntriesEntity, isChecked: boolean) => {
+		if (isChecked) {
+			setDeletedEntry([...deletedEntry.filter(entry => entry.uid !== item.uid)]);
+		} else {
+			setDeletedEntry([...deletedEntry, item]);
+		}
+	};
+
+	const deleteBtnHandler = () => {
+		deleteDispatch(deletedEntry);
 	};
 
 	return (
@@ -83,19 +110,19 @@ const MiniGallery = () => {
 				isBack
 				onPressLeft={ () => NavigationHelper.pop(1) }
 				icon='gallery'
-				onPressRight={ () => setVisibleButtonDelete(!visibleButtonDelete) }
+				onPressRight={ () => setDeleteMode(!deleteMode) }
 			/>
 			<FlatList
-				data={ data }
+				data={ groupedImages() }
 				nestedScrollEnabled
-				keyExtractor={ (_, i) => i.toString() }
+				keyExtractor={ (entry, i) => i.toString() }
 				renderItem={ renderItemByDate }
 			/>
 			<View style={ styles.footer }>
-				{ visibleButtonDelete && <Button
+				{ deleteMode && <Button
 					backgroundColor={ Colors.blue.light }
 					text='Hapus'
-					onPress={ () => setVisibleButtonDelete(true) }
+					onPress={ () => deleteBtnHandler() }
 					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
 					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
 				/> }

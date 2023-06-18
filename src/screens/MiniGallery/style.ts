@@ -8,11 +8,13 @@ const styles = StyleSheet.create({
 		paddingTop: 75,
 	},
 	titleImage: {
+		minHeight: 40,
 		fontSize: 10,
 		letterSpacing: 1,
 		color: Colors.gray.darkGray,
+		padding: 8,
 	},
-	wrapperItemGallery: { backgroundColor: Colors.gray.light, width: '48%' },
+	wrapperItemGallery: { backgroundColor: Colors.gray.light, width: '48%', elevation: 2, marginBottom: 12 },
 	image: { width: '100%', height: 176 },
 	textDate: {
 		marginHorizontal: 8,
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.white.default,
 		width: 20,
 		height: 20,
-		borderRadius: 6,
+		borderRadius: 3,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
