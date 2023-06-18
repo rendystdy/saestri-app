@@ -8,29 +8,29 @@ import {
 } from '@helpers';
 import { GalleryInterface } from '@interfaces';
 import dayjs from 'dayjs';
-import _, { filter } from 'lodash';
+import _ from 'lodash';
 import ItemGallery from './components/ItemGallery';
 import { Colors } from '@constant';
-import { EntriesEntity, IItemGallery } from 'src/interfaces/gallery';
+import Icons from 'react-native-vector-icons/FontAwesome';
+import { EntriesEntity } from 'src/interfaces/gallery';
 import { Actions } from '@store';
 
 const MiniGallery = () => {
-	const [data, setdata] = useState<GalleryInterface.IDataGallery[]>([]);
-	
+
 	const [deleteMode, setDeleteMode] = useState(false);
-	
+
 	const [deletedEntry, setDeletedEntry] = useState<EntriesEntity[]>([]);
-	
+
 	const deleteDispatch = useAppDispatch(Actions.galleryAction.deletePhotos);
 
 	const { listGallery } = useAppSelector(state => state.galleryReducers);
-	
+
 	const [images, setImages] = useState<string[]>();
 
 	useEffect(() => {
 		hasStoragePermission();
 		getImages();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const groupedImages = () => {
@@ -50,7 +50,7 @@ const MiniGallery = () => {
 		return newDataGallery;
 	};
 
-	const getImages = async() => {
+	const getImages = async () => {
 		const hasInit = await hasPhotosDir();
 		if (!hasInit) {
 			await initStorage();
@@ -130,11 +130,14 @@ const MiniGallery = () => {
 			<View>
 				<Button
 					backgroundColor={ Colors.blue.light }
-					text='Camera'
 					onPress={ () => NavigationHelper.push('CameraGallery') }
-					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
-					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
-				/>
+					buttonStyle={ styles.button }
+				>
+					<Icons
+						name='camera'
+						color={ Colors.white.default }
+						size={ 24 } />
+				</Button>
 			</View>
 		</Container>
 	);
