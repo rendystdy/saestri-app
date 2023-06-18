@@ -22,6 +22,7 @@ const Colors = {
 		default: '#39AAB4',
 		light: '#AAD8EB',
 		blueTimer: '#7CBDCB',
+		input: '#66C0DC',
 	},
 	yellow: {
 		default: '#FFDE17',

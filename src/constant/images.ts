@@ -20,6 +20,7 @@ import ic_stop from '../assets/images/ic_stop.svg';
 import ic_reset from '../assets/images/ic_reset.svg';
 import ic_warning from '../assets/images/ic_warning.svg';
 import ic_delete_gallery from '../assets/images/ic_delete_gallery.svg';
+import ic_camera from '../assets/images/ic_camera.svg';
 
 export default {
 	Google,
@@ -44,4 +45,5 @@ export default {
 	ic_reset,
 	ic_warning,
 	ic_delete_gallery,
+	ic_camera,
 };

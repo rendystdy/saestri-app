@@ -10,11 +10,15 @@ import contactReducers from './contact/contact.reducer';
 import timerAction from './timers/timer.action';
 import timerReducers from './timers/timer.reducers';
 
+import galleryAction from './gallery/gallery.action';
+import galleryReducers from './gallery/gallery.reducers';
+
 const Actions = {
 	authAction,
 	miscAction,
 	contactAction,
 	timerAction,
+	galleryAction,
 };
 
 const Reducers = {
@@ -22,6 +26,7 @@ const Reducers = {
 	miscReducers,
 	contactReducers,
 	timerReducers,
+	galleryReducers,
 };
 
 export {

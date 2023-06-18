@@ -7,10 +7,10 @@ import { Text } from '@components';
 
 interface IHeaders {
 	onPressLeft: () => void,
-	onPressRight: () => void,
+	onPressRight?: () => void,
 	isBack?: boolean | undefined;
 	title: string | undefined;
-	icon: string | undefined;
+	icon?: string | undefined;
 	color?: string | undefined;
 }
 
@@ -45,12 +45,7 @@ const Headers: React.FC<IHeaders> = ({ onPressLeft, onPressRight, title, isBack,
 
 			default:
 				return (
-					<TouchableOpacity
-						onPress={ onPressRight }
-						style={ styles.wrapperRight }>
-						<Images.ic_time_machine />
-						<Text style={ styles.textRight }>History</Text>
-					</TouchableOpacity>
+					<View style={ { width: 43 } } />
 				);
 		}
 	};
