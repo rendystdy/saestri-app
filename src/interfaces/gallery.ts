@@ -1,3 +1,5 @@
+import { Dayjs } from 'dayjs';
+
 export interface IItemList {
 	item: IDataGallery;
 }
@@ -14,7 +16,7 @@ export interface EntriesEntity {
 	uid?: number;
 	title: string;
 	image: string;
-	date?: string;
+	date: Dayjs;
 }
 
 export interface GalleryState {

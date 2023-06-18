@@ -26,4 +26,5 @@ export default {
 	ADD_PHOTO: 'ADD_PHOTO',
 	SET_LOADING: 'SET_LOADING',
 
+	DELETE_IMAGE: 'DELETE_IMAGE',
 };
