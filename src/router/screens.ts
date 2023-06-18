@@ -1,5 +1,11 @@
 import {
-	Home, ContractionTimer, ContractionHistoryScreen, Splash, MiniGallery,
+	Home,
+	ContractionTimer,
+	ContractionHistoryScreen,
+	Splash,
+	MiniGallery,
+	CameraGallery,
+	AddPhoto,
 } from '@screens';
 
 export const screens = [
@@ -22,5 +28,13 @@ export const screens = [
 	{
 		name: 'MiniGallery',
 		component: MiniGallery,
+	},
+	{
+		name: 'CameraGallery',
+		component: CameraGallery,
+	},
+	{
+		name: 'AddPhoto',
+		component: AddPhoto,
 	},
 ] as const;
