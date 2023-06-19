@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { AppState, AppStateStatus } from 'react-native';
 
 import { ReduxConfig } from '@config';
 
@@ -12,4 +13,18 @@ const useAppDispatch = (action: any) => {
 
 const useAppSelector: TypedUseSelectorHook<ReduxConfig.RootState> = useSelector;
 
-export { useAppDispatch, useAppSelector };
+const useIsForeground = (): boolean => {
+	const [isForeground, setIsForeground] = useState(true);
+
+	useEffect(() => {
+		const onChange = (state: AppStateStatus): void => {
+			setIsForeground(state === 'active');
+		};
+		const listener = AppState.addEventListener('change', onChange);
+		return () => listener.remove();
+	}, [setIsForeground]);
+
+	return isForeground;
+};
+
+export { useAppDispatch, useAppSelector, useIsForeground };

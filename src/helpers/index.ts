@@ -1,7 +1,7 @@
 import Ratio from './ratio';
 import API from './api';
 import * as NavigationHelper from './navigationHelper';
-import { useAppDispatch, useAppSelector } from './hooks';
+import { useAppDispatch, useAppSelector, useIsForeground } from './hooks';
 import { useTimer } from './useTimer';
 import { padLeft } from './numbers';
 import { parseDuration, parseTime } from './parseDuration';
@@ -25,4 +25,5 @@ export {
 	getImageListFromDisk,
 	hasPhotosDir,
 	initStorage,
+	useIsForeground,
 };

@@ -7,6 +7,7 @@ import ContractionHistoryList from './ContractionHistory';
 import ButtonLarge from './ButtonLarge';
 import Header from './Header';
 import Modal from './Modal';
+import CameraWidget from './CameraWidget';
 
 export {
 	Text,
@@ -18,4 +19,5 @@ export {
 	ButtonLarge,
 	Header,
 	Modal,
+	CameraWidget,
 };

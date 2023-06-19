@@ -1,37 +1,28 @@
-import {
-	ActivityIndicator, StyleSheet, Text, TouchableOpacity, View,
-} from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { Colors, Images } from '@constant';
 import { Header } from '@components';
 import { NavigationHelper } from '@helpers';
+import {  useIsFocused } from '@react-navigation/native';
 
 const CameraGallery = () => {
+	const [cameraPos, setCameraPos] = useState<'back'|'front'>('back');
+
 	const devices = useCameraDevices();
-	const cameraRef = useRef(null);
-	const device = devices.back;
+	const cameraRef = useRef<Camera>(null);
+	const	cameraDevice = devices[cameraPos];
+	const focused = useIsFocused();
 
-	useEffect(() => {
-		async function getPermission() {
-			const newCameraPermission = await Camera.requestCameraPermission();
-		}
-		getPermission();
-	}, []);
-
-	const takePhoto = async () => {
-		const result = await cameraRef?.current?.takePhoto({
-			flash: 'off',
-		});
-
-		console.log('result', result);
-
-		if (result && result.path) {
+	const takePhoto = async() => {
+		if (cameraRef.current) {
+			const result = await cameraRef.current.takePhoto({});
+			
 			NavigationHelper.push('AddPhoto', { path: result.path });
 		}
 	};
 
-	if (device == null) {
+	if (cameraDevice == null) {
 		return (
 			<View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
 				<ActivityIndicator
@@ -40,25 +31,45 @@ const CameraGallery = () => {
 			</View>
 		);
 	}
+
+	const cameraToggler = () => {
+		if (cameraPos === 'back') {
+			setCameraPos('front');
+		} else {
+			setCameraPos('back');
+		}
+	};
+
 	return (
 		<View style={ styles.container }>
 			<Header
 				color={ Colors.white.default }
 				title='Mini Gallery'
 				isBack
-				onPressLeft={ () => NavigationHelper.pop(1) }
+				onPressLeft={ () => NavigationHelper.replace('MiniGallery') }
 			/>
 			<Camera
 				ref={ cameraRef }
 				style={ styles.camera }
-				device={ device }
-				isActive={ true }
-				photo={ true }
+				device={ cameraDevice }
+				isActive={ focused }
+				photo
 			/>
 			<View style={ styles.footer } >
-				<TouchableOpacity onPress={ takePhoto }>
-					<Images.ic_camera />
-					<Text style={ styles.textCamera }>Camera</Text>
+				<TouchableOpacity
+					onPress={ () => NavigationHelper.pop(1) }
+					style={ styles.buttonContainer }>
+					<Images.ic_gallery_btn />
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={ takePhoto }
+					style={ styles.buttonContainer }>
+					<Images.ic_capture_btn />
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={ cameraToggler }
+					style={ styles.buttonContainer }>
+					<Images.ic_switch_camera />
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -89,6 +100,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingTop: 16,
+		display: 'flex',
+		flexDirection: 'row',
 	},
 	textCamera: {
 		fontSize: 16,
@@ -96,5 +109,13 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		letterSpacing: 1,
 		fontWeight: '500',
+	},
+	buttonContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		marginBottom: 20,
+	},
+	captureText: {
+		fontSize: 24,
 	},
 });

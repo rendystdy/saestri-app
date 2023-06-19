@@ -20,7 +20,10 @@ import ic_stop from '../assets/images/ic_stop.svg';
 import ic_reset from '../assets/images/ic_reset.svg';
 import ic_warning from '../assets/images/ic_warning.svg';
 import ic_delete_gallery from '../assets/images/ic_delete_gallery.svg';
-import ic_camera from '../assets/images/ic_camera.svg';
+import ic_camera from '../assets/images/camera.svg';
+import ic_switch_camera from '../assets/images/ic_switch_camera.svg';
+import ic_capture_btn from '../assets/images/capture_btn.svg';
+import ic_gallery_btn from '../assets/images/ic_gallery_btn.svg';
 
 export default {
 	Google,
@@ -46,4 +49,7 @@ export default {
 	ic_warning,
 	ic_delete_gallery,
 	ic_camera,
+	ic_switch_camera,
+	ic_capture_btn,
+	ic_gallery_btn,
 };

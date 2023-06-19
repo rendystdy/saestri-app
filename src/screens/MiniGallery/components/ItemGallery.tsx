@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import Checkbox from '@react-native-community/checkbox';
 import styles from '../style';
 import { EntriesEntity } from 'src/interfaces/gallery';
+import { NavigationHelper } from '@helpers';
 
 type Props = {
 	item: EntriesEntity,
@@ -13,6 +14,10 @@ type Props = {
 };
 
 const ItemGallery: React.FC<Props> = ({ item, onChecked, isChecked, isDeleteMode, onPressDetail }) => {
+
+	const onPressHandler = () => {
+		NavigationHelper.push('PhotoDetail', { path: item.image, item });
+	};
 
 	return (
 		<TouchableOpacity
@@ -28,10 +33,12 @@ const ItemGallery: React.FC<Props> = ({ item, onChecked, isChecked, isDeleteMode
 					/>
 				</View>
 			}
-			<Image
-				source={ { uri: item.image } }
-				resizeMode='cover'
-				style={ styles.image } />
+			<TouchableOpacity onPress={ onPressHandler }>
+				<Image
+					source={ { uri: item.image } }
+					resizeMode='cover'
+					style={ styles.image } />
+			</TouchableOpacity>
 			<Text style={ styles.titleImage }>{ item.title }</Text>
 		</TouchableOpacity>
 	);

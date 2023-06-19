@@ -6,6 +6,7 @@ import MiniGallery from './MiniGallery';
 import CameraGallery from './CameraGallery';
 import AddPhoto from './AddPhoto';
 import DetailGallery from './DetailGallery';
+import PhotoDetail from './PhotoDetail';
 
 export {
 	Splash,
@@ -16,4 +17,5 @@ export {
 	CameraGallery,
 	AddPhoto,
 	DetailGallery,
+	PhotoDetail,
 };

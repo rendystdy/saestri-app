@@ -7,6 +7,7 @@ import {
 	CameraGallery,
 	AddPhoto,
 	DetailGallery,
+	PhotoDetail,
 } from '@screens';
 
 export const screens = [
@@ -41,5 +42,9 @@ export const screens = [
 	{
 		name: 'DetailGallery',
 		component: DetailGallery,
+	},
+	{
+		name: 'PhotoDetail',
+		component: PhotoDetail,
 	},
 ] as const;

@@ -3,11 +3,9 @@ import React, { useState, useEffect } from 'react';
 
 import styles from './style';
 import {
-	Button, Container, Header, Text, Modal,
+	Button, Container, Header, Modal, Text,
 } from '@components';
-import {
-	NavigationHelper, getImageListFromDisk, hasPhotosDir, hasStoragePermission, initStorage, useAppDispatch, useAppSelector,
-} from '@helpers';
+import { NavigationHelper, hasStoragePermission, useAppDispatch, useAppSelector } from '@helpers';
 import { GalleryInterface } from '@interfaces';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -18,7 +16,7 @@ import { EntriesEntity } from 'src/interfaces/gallery';
 import { Actions } from '@store';
 
 const MiniGallery = () => {
-
+	
 	const [deleteMode, setDeleteMode] = useState(false);
 
 	const [deletedEntry, setDeletedEntry] = useState<EntriesEntity[]>([]);
@@ -27,14 +25,12 @@ const MiniGallery = () => {
 
 	const { listGallery } = useAppSelector(state => state.galleryReducers);
 
-	const [images, setImages] = useState<string[]>();
+	const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
 		hasStoragePermission();
-		getImages();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const groupedImages = () => {
@@ -52,15 +48,6 @@ const MiniGallery = () => {
 
 		// return newDataGalle1ry;
 		return newDataGallery;
-	};
-
-	const getImages = async () => {
-		const hasInit = await hasPhotosDir();
-		if (!hasInit) {
-			await initStorage();
-		}
-		const imagesFromStorage = await getImageListFromDisk();
-		setImages(imagesFromStorage);
 	};
 
 	const renderItemByDate = ({ item }: GalleryInterface.IItemList) => {
@@ -101,12 +88,12 @@ const MiniGallery = () => {
 	};
 
 	const deleteBtnHandler = () => {
-		deleteDispatch(deletedEntry);
-		setVisible(false);
+		setDeleteModal(true);
 	};
 
-	const handleBack = () => {
-		setVisible(false);
+	const deleteModalHandler = () => {
+		deleteDispatch(deletedEntry);
+		setDeleteModal(false);
 	};
 
 	return (
@@ -118,7 +105,7 @@ const MiniGallery = () => {
 			<Header
 				title='Mini Gallery'
 				isBack
-				onPressLeft={ () => NavigationHelper.pop(1) }
+				onPressLeft={ () => NavigationHelper.replace('Home') }
 				icon='gallery'
 				onPressRight={ () => setDeleteMode(!deleteMode) }
 			/>
@@ -150,13 +137,13 @@ const MiniGallery = () => {
 				</Button>
 			</View>
 			<Modal
-				visible={ visible }
-				onPressAgree={ deleteBtnHandler }
-				onPressBack={ handleBack }
-				onPressClose={ handleBack }
-				textContent='Apakah anda yakin untuk menghapus Photo?'
+				visible={ deleteModal }
+				onPressBack={ () => setDeleteModal(false) }
+				onPressClose={ () => setDeleteModal(false) }
+				onPressAgree={ () => deleteModalHandler() }
 				titleAgree='Yakin'
 				titleBack='Kembali'
+				textContent='Apakah anda yakin untuk menghapus gambar?'
 			/>
 		</Container>
 	);
