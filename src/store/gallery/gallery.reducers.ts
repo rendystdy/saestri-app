@@ -34,7 +34,7 @@ const timerReducers = (
 			return {
 				...state,
 				listGallery: state.listGallery.filter(item => !ids.includes(item.uid ?? 0)),
-				loading: payload,
+				loading: false,
 			};
 		
 		default:

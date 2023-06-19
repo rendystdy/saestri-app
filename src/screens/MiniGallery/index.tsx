@@ -2,7 +2,9 @@ import { FlatList, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 import styles from './style';
-import { Button, Container, Header, Text } from '@components';
+import {
+	Button, Container, Header, Text, Modal,
+} from '@components';
 import {
 	NavigationHelper, getImageListFromDisk, hasPhotosDir, hasStoragePermission, initStorage, useAppDispatch, useAppSelector,
 } from '@helpers';
@@ -26,6 +28,8 @@ const MiniGallery = () => {
 	const { listGallery } = useAppSelector(state => state.galleryReducers);
 
 	const [images, setImages] = useState<string[]>();
+
+	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
 		hasStoragePermission();
@@ -83,6 +87,7 @@ const MiniGallery = () => {
 				onChecked={ deleteCheckboxHandler }
 				isChecked={ isChecked }
 				isDeleteMode={ deleteMode }
+				onPressDetail={ () => NavigationHelper.push('DetailGallery', { ...item }) }
 			/>
 		);
 	};
@@ -97,6 +102,11 @@ const MiniGallery = () => {
 
 	const deleteBtnHandler = () => {
 		deleteDispatch(deletedEntry);
+		setVisible(false);
+	};
+
+	const handleBack = () => {
+		setVisible(false);
 	};
 
 	return (
@@ -122,7 +132,7 @@ const MiniGallery = () => {
 				{ deleteMode && <Button
 					backgroundColor={ Colors.blue.light }
 					text='Hapus'
-					onPress={ () => deleteBtnHandler() }
+					onPress={ () => setVisible(true) }
 					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
 					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
 				/> }
@@ -139,6 +149,15 @@ const MiniGallery = () => {
 						size={ 24 } />
 				</Button>
 			</View>
+			<Modal
+				visible={ visible }
+				onPressAgree={ deleteBtnHandler }
+				onPressBack={ handleBack }
+				onPressClose={ handleBack }
+				textContent='Apakah anda yakin untuk menghapus Photo?'
+				titleAgree='Yakin'
+				titleBack='Kembali'
+			/>
 		</Container>
 	);
 };

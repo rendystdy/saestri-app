@@ -8,7 +8,7 @@ import { Header } from '@components';
 import { NavigationHelper } from '@helpers';
 
 const CameraGallery = () => {
-	const devices = useCameraDevices('wide-angle-camera');
+	const devices = useCameraDevices();
 	const cameraRef = useRef(null);
 	const device = devices.back;
 
@@ -19,7 +19,7 @@ const CameraGallery = () => {
 		getPermission();
 	}, []);
 
-	const takePhoto = async() => {
+	const takePhoto = async () => {
 		const result = await cameraRef?.current?.takePhoto({
 			flash: 'off',
 		});

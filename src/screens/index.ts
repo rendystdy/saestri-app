@@ -5,6 +5,7 @@ import ContractionTimer from './ContractionTimer';
 import MiniGallery from './MiniGallery';
 import CameraGallery from './CameraGallery';
 import AddPhoto from './AddPhoto';
+import DetailGallery from './DetailGallery';
 
 export {
 	Splash,
@@ -14,4 +15,5 @@ export {
 	MiniGallery,
 	CameraGallery,
 	AddPhoto,
+	DetailGallery,
 };

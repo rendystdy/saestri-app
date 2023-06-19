@@ -13,7 +13,7 @@ import { GalleryInterface } from '@interfaces';
 import dayjs from 'dayjs';
 import { Actions } from '@store';
 
-const AddPhoto = ({ _, route }:any) => {
+const AddPhoto = ({ _, route }: any) => {
 	const pathUrl = `file://${ route?.params?.path }`;
 	const galleryActionDispatch = useAppDispatch(Actions.galleryAction.addPhoto);
 	const [value, setValue] = useState<string>('');

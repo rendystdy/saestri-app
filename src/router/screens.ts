@@ -6,6 +6,7 @@ import {
 	MiniGallery,
 	CameraGallery,
 	AddPhoto,
+	DetailGallery,
 } from '@screens';
 
 export const screens = [
@@ -36,5 +37,9 @@ export const screens = [
 	{
 		name: 'AddPhoto',
 		component: AddPhoto,
+	},
+	{
+		name: 'DetailGallery',
+		component: DetailGallery,
 	},
 ] as const;
