@@ -1,5 +1,5 @@
-import { View } from 'react-native';
-import React, { useState } from 'react';
+import { BackHandler, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Modal } from '@components';
 import styles from './style';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
@@ -8,12 +8,25 @@ import Header from '../../components/Header';
 import ContractionHistoryList from '../../components/ContractionHistory';
 import { Actions } from '@store';
 
-const ContractionHistoryScreen = () => {
+const ContractionHistoryScreen = ({ props, route }: any) => {
 	const [isDelete, setIsDelete] = useState<boolean>(false);
 	const [visible, setVisible] = useState(false);
 	const timerHistories = useAppSelector(state => state.timerReducers.timerHistories);
 	const removeHistoryItemDispatch = useAppDispatch(Actions.timerAction.removeHistoryItem);
 	const [removeArray, setRemoveArray] = useState<any>([]);
+
+	useEffect(() => {
+
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
+		return (() => {
+			backHandler.remove();
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const handleDelete = () => {
 		setIsDelete(!isDelete);
@@ -38,6 +51,15 @@ const ContractionHistoryScreen = () => {
 	};
 
 	const handleBack = () => setVisible(false);
+
+	const backAction = () => {
+		if (route.name === 'ContractionHistory') {
+
+			NavigationHelper.pop(1);
+			return true;
+		}
+		return true;
+	};
 
 	return (
 		<Container

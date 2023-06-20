@@ -1,5 +1,5 @@
 import {
-	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter,
+	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter, BackHandler,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
@@ -47,7 +47,7 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 	]
 */
 
-const ContractionTimer = () => {
+const ContractionTimer = ({ props, route }: any) => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
@@ -71,7 +71,14 @@ const ContractionTimer = () => {
 		DeviceEventEmitter.addListener('show-warning', () => {
 			setVisible(true);
 		});
+
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
 		return (() => {
+			backHandler.remove();
 			suspendTimerDispatch();
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,6 +98,15 @@ const ContractionTimer = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [hasStarted, counter]);
+
+	const backAction = () => {
+		if (route.name === 'ContractionTimer') {
+
+			NavigationHelper.replace('Home');
+			return true;
+		}
+		return true;
+	};
 
 	const startBtnHandler = () => {
 		setStarted(true);

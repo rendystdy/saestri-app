@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native';
+import { BackHandler, FlatList, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 import styles from './style';
@@ -15,8 +15,8 @@ import Icons from 'react-native-vector-icons/FontAwesome';
 import { EntriesEntity } from 'src/interfaces/gallery';
 import { Actions } from '@store';
 
-const MiniGallery = () => {
-	
+const MiniGallery = ({ props, route }: any) => {
+
 	const [deleteMode, setDeleteMode] = useState(false);
 
 	const [deletedEntry, setDeletedEntry] = useState<EntriesEntity[]>([]);
@@ -31,7 +31,24 @@ const MiniGallery = () => {
 
 	useEffect(() => {
 		hasStoragePermission();
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
+		return () => {
+			backHandler.remove();
+		};
 	}, []);
+
+	const backAction = () => {
+		if (route.name === 'MiniGallery') {
+
+			NavigationHelper.replace('Home');
+			return true;
+		}
+		return false;
+	};
 
 	const groupedImages = () => {
 		const resultGroupByMonth = _.groupBy(listGallery, ({ date }) => {
