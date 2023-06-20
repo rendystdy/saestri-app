@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		zIndex: 1,
+		height: 560,
 	},
 	footer: {
 		backgroundColor: Colors.gray.light,

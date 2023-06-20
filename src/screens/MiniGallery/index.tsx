@@ -91,7 +91,6 @@ const MiniGallery = ({ props, route }: any) => {
 				onChecked={ deleteCheckboxHandler }
 				isChecked={ isChecked }
 				isDeleteMode={ deleteMode }
-				onPressDetail={ () => NavigationHelper.push('DetailGallery', { ...item }) }
 			/>
 		);
 	};
@@ -136,7 +135,7 @@ const MiniGallery = ({ props, route }: any) => {
 				{ deleteMode && <Button
 					backgroundColor={ Colors.blue.light }
 					text='Hapus'
-					onPress={ () => setVisible(true) }
+					onPress={ () => setDeleteModal(true) }
 					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
 					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
 				/> }
