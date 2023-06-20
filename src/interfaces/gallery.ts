@@ -7,6 +7,10 @@ export interface IItemList {
 export interface IItemGallery {
 	item: EntriesEntity;
 }
+export interface IItemGalleryProps {
+	item: EntriesEntity;
+	index: number
+}
 
 export interface IDataGallery {
 	date?: string;
@@ -17,6 +21,11 @@ export interface EntriesEntity {
 	title: string;
 	image: string;
 	date: Dayjs;
+}
+
+export interface UpdateCaption {
+	uid?: number;
+	title: string;
 }
 
 export interface GalleryState {

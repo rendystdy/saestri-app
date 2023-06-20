@@ -36,6 +36,17 @@ const timerReducers = (
 				listGallery: state.listGallery.filter(item => !ids.includes(item.uid ?? 0)),
 				loading: false,
 			};
+		case Dispatches.EDIT_CAPTION:
+			const findIndex = state.listGallery.findIndex((item => item.uid === payload.uid));
+			const newListGallery = state.listGallery;
+			
+			newListGallery[findIndex].title = payload.title;
+
+			return {
+				...state,
+				listGallery: newListGallery,
+				loading: false,
+			};
 		
 		default:
 			return state;
