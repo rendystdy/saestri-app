@@ -1,8 +1,8 @@
 import {
 	ActivityIndicator,
-	Image, Text, TouchableOpacity, View,
+	Image, Keyboard, Text, TouchableOpacity, View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Container, Header } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 import RNTextArea from '@freakycoder/react-native-text-area';
@@ -18,6 +18,16 @@ const AddPhoto = ({ _, route }: any) => {
 	const galleryActionDispatch = useAppDispatch(Actions.galleryAction.addPhoto);
 	const [value, setValue] = useState<string>('');
 	const { loading } = useAppSelector(state => state.galleryReducers);
+
+	useEffect(() => {
+		const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+			Keyboard.dismiss();
+		});
+
+		return () => {
+			hideSubscription.remove();
+		};
+	}, []);
 
 	const handleSavePhoto = () => {
 		const payload: GalleryInterface.EntriesEntity = {

@@ -10,10 +10,9 @@ type Props = {
 	onChecked: (item: EntriesEntity, isChecked: boolean) => void;
 	isChecked: boolean;
 	isDeleteMode: boolean,
-	onPressDetail: () => void;
 };
 
-const ItemGallery: React.FC<Props> = ({ item, onChecked, isChecked, isDeleteMode, onPressDetail }) => {
+const ItemGallery: React.FC<Props> = ({ item, onChecked, isChecked, isDeleteMode }) => {
 
 	const onPressHandler = () => {
 		NavigationHelper.push('PhotoDetail', { path: item.image, item });
@@ -21,7 +20,7 @@ const ItemGallery: React.FC<Props> = ({ item, onChecked, isChecked, isDeleteMode
 
 	return (
 		<TouchableOpacity
-			onPress={ onPressDetail }
+			onPress={ onPressHandler }
 			style={ styles.wrapperItemGallery }>
 			{
 				isDeleteMode &&

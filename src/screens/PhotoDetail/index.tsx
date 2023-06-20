@@ -1,11 +1,31 @@
-import { Text, Image, StyleSheet } from 'react-native';
-import React, { useRef } from 'react';
+import { Text, Image, StyleSheet, BackHandler } from 'react-native';
+import React, { useEffect } from 'react';
 import { Container, Header } from '@components';
 import { NavigationHelper } from '@helpers';
 import { Colors } from '@constant';
 
 const PhotoDetail = ({ _, route }: any) => {
 	const item = route?.params?.item ?? {};
+
+	useEffect(() => {
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
+		return () => {
+			backHandler.remove();
+		};
+	}, []);
+
+	const backAction = () => {
+		if (route.name === 'PhotoDetail') {
+
+			NavigationHelper.pop(1);
+			return true;
+		}
+		return false;
+	};
 	return (
 		<Container
 			noPadding
@@ -18,7 +38,7 @@ const PhotoDetail = ({ _, route }: any) => {
 				isBack
 				onPressLeft={ () => NavigationHelper.pop(1) }
 			/>
-  
+
 			<Image
 				style={ style.image }
 				resizeMode='cover'

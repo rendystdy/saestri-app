@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 		paddingTop: 75,
 	},
 	image: {
-		height: 440,
+		height: 560,
 		width: '100%',
 	},
 	wrapperRetake: {

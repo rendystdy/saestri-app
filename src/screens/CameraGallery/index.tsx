@@ -1,25 +1,53 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useRef, useState } from 'react';
+import {
+	ActivityIndicator, BackHandler, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { Colors, Images } from '@constant';
 import { Header } from '@components';
 import { NavigationHelper } from '@helpers';
-import {  useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
-const CameraGallery = () => {
-	const [cameraPos, setCameraPos] = useState<'back'|'front'>('back');
+const CameraGallery = ({ props, route }: any) => {
+	const [cameraPos, setCameraPos] = useState<'back' | 'front'>('back');
 
 	const devices = useCameraDevices();
 	const cameraRef = useRef<Camera>(null);
-	const	cameraDevice = devices[cameraPos];
+	const cameraDevice = devices[cameraPos];
 	const focused = useIsFocused();
 
-	const takePhoto = async() => {
+	useEffect(() => {
+		async function getPermission() {
+			const newCameraPermission = await Camera.requestCameraPermission();
+			return newCameraPermission;
+		}
+
+		getPermission();
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
+		return () => {
+			backHandler.remove();
+		};
+	}, []);
+
+	const takePhoto = async () => {
 		if (cameraRef.current) {
 			const result = await cameraRef.current.takePhoto({});
-			
+
 			NavigationHelper.push('AddPhoto', { path: result.path });
 		}
+	};
+
+	const backAction = () => {
+		if (route.name !== 'MiniGallery') {
+
+			NavigationHelper.replace('MiniGallery');
+			return true;
+		}
+		return true;
 	};
 
 	if (cameraDevice == null) {
@@ -46,7 +74,7 @@ const CameraGallery = () => {
 				color={ Colors.white.default }
 				title='Mini Gallery'
 				isBack
-				onPressLeft={ () => NavigationHelper.replace('MiniGallery') }
+				onPressLeft={ () => NavigationHelper.push('MiniGallery') }
 			/>
 			<Camera
 				ref={ cameraRef }
@@ -89,6 +117,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		zIndex: 1,
+		height: 560,
 	},
 	footer: {
 		backgroundColor: Colors.gray.light,
