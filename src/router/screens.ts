@@ -8,6 +8,7 @@ import {
 	AddPhoto,
 	DetailGallery,
 	PhotoDetail,
+	Shop,
 } from '@screens';
 
 export const screens = [
@@ -46,5 +47,9 @@ export const screens = [
 	{
 		name: 'PhotoDetail',
 		component: PhotoDetail,
+	},
+	{
+		name: 'Shop',
+		component: Shop,
 	},
 ] as const;

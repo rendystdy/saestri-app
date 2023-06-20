@@ -27,8 +27,6 @@ const MiniGallery = ({ props, route }: any) => {
 
 	const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
-	const [visible, setVisible] = useState(false);
-
 	useEffect(() => {
 		hasStoragePermission();
 		const backHandler = BackHandler.addEventListener(
@@ -39,6 +37,7 @@ const MiniGallery = ({ props, route }: any) => {
 		return () => {
 			backHandler.remove();
 		};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const backAction = () => {

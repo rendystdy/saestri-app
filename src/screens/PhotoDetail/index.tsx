@@ -16,6 +16,7 @@ const PhotoDetail = ({ _, route }: any) => {
 		return () => {
 			backHandler.remove();
 		};
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const backAction = () => {
@@ -26,6 +27,7 @@ const PhotoDetail = ({ _, route }: any) => {
 		}
 		return false;
 	};
+	
 	return (
 		<Container
 			noPadding
