@@ -24,6 +24,7 @@ import ic_camera from '../assets/images/camera.svg';
 import ic_switch_camera from '../assets/images/ic_switch_camera.svg';
 import ic_capture_btn from '../assets/images/capture_btn.svg';
 import ic_gallery_btn from '../assets/images/ic_gallery_btn.svg';
+import ic_wa from '../assets/images/ic_Wa.png';
 
 export default {
 	Google,
@@ -52,4 +53,5 @@ export default {
 	ic_switch_camera,
 	ic_capture_btn,
 	ic_gallery_btn,
+	ic_wa,
 };
