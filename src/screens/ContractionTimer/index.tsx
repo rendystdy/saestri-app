@@ -175,10 +175,11 @@ const ContractionTimer = ({ props, route }: any) => {
 				</View>
 			</View>
 			<View style={ styles.footer }>
-				<Image
-					source={ Images.img_contractionTimer }
+				{ /* <Image
+					source={ Images.img_pregnant }
 					style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }
-					resizeMode='contain' />
+					resizeMode='contain' /> */ }
+				<Images.img_pregnant style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }/>
 				<TouchableOpacity
 					style={ { alignItems: 'flex-end', width: '70%' } }
 					onPress={ startBtnHandler }>

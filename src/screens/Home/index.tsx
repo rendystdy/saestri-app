@@ -1,5 +1,5 @@
-import { Alert, BackHandler, Image, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { Image, View } from 'react-native';
+import React from 'react';
 import { Images } from '@constant';
 
 import { Container, Text, ButtonLarge } from '@components';
@@ -47,29 +47,6 @@ const dates = [
 	}];
 
 const Home = () => {
-	useEffect(() => {
-		const backHandler = BackHandler.addEventListener(
-			'hardwareBackPress',
-			backAction,
-		);
-
-		return () => {
-			backHandler.remove();
-		};
-	}, []);
-
-	const backAction = () => {
-		Alert.alert('Saestri', 'Apakah anda yakin ingin keluar dari Aplikasi?', [
-			{
-				text: 'Cancel',
-				onPress: () => null,
-				style: 'cancel',
-			},
-			{ text: 'YES', onPress: () => BackHandler.exitApp() },
-		]);
-		return true;
-
-	};
 
 	return (
 		<Container
@@ -112,7 +89,7 @@ const Home = () => {
 							title='Shop'
 							color={ Colors.pink.default }
 							icon='shop'
-							onpress={ () => NavigationHelper.push('Shop') }
+							onpress={ () => console.log() }
 						/>
 						<ButtonLarge
 							title='Baby Journey'
