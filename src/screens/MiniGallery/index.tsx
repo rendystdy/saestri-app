@@ -37,7 +37,7 @@ const MiniGallery = ({ props, route }: any) => {
 		return () => {
 			backHandler.remove();
 		};
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const backAction = () => {
@@ -82,7 +82,7 @@ const MiniGallery = ({ props, route }: any) => {
 		);
 	};
 
-	const rendyItemGallery = ({ item }: GalleryInterface.IItemGallery) => {
+	const rendyItemGallery = ({ item, index }: GalleryInterface.IItemGalleryProps) => {
 		const isChecked = deletedEntry.some(entry => item.uid === entry.uid);
 		return (
 			<ItemGallery
@@ -90,6 +90,7 @@ const MiniGallery = ({ props, route }: any) => {
 				onChecked={ deleteCheckboxHandler }
 				isChecked={ isChecked }
 				isDeleteMode={ deleteMode }
+				index={ index }
 			/>
 		);
 	};

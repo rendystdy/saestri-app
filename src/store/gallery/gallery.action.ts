@@ -30,4 +30,11 @@ export default {
 		}, 2000);
 	},
 
+	updateCaption: (payload: GalleryInterface.UpdateCaption) => (dispatch: Dispatch) => {
+		dispatch({
+			type: Dispatches.EDIT_CAPTION,
+			payload: payload,
+		});
+	},
+
 };

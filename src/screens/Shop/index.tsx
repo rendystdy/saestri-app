@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import { BackHandler, View, TouchableOpacity, Linking } from 'react-native';
+import { BackHandler, TouchableOpacity, Linking, Image } from 'react-native';
 
 import { Container, Header, Text } from '@components';
 import { NavigationHelper } from '@helpers';
 import styles from './style';
+import { Images } from '@constant';
 
 const urls = ['https://wa.me/6282132228078'];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Shop = ({ _, route }:any) => {
-  
+const Shop = ({ _, route }: any) => {
+
 	useEffect(() => {
 		const backHandler = BackHandler.addEventListener(
 			'hardwareBackPress',
@@ -18,9 +19,9 @@ const Shop = ({ _, route }:any) => {
 		return () => {
 			backHandler.remove();
 		};
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-  
+
 	const backAction = () => {
 		if (route.name === 'Shop') {
 
@@ -30,7 +31,7 @@ const Shop = ({ _, route }:any) => {
 		return false;
 	};
 
-	const openWaBtnHandler = async(url: string) => {
+	const openWaBtnHandler = async (url: string) => {
 		await Linking.openURL(url);
 	};
 
@@ -50,15 +51,18 @@ const Shop = ({ _, route }:any) => {
 					return (
 						<TouchableOpacity
 							key={ index }
-							style={ styles.whatsappBtn }
+							style={ styles.wrapper }
 							onPress={ () => openWaBtnHandler(url) }
 						>
-							<Text style={ styles.btnText }>Chat via Whatsapp</Text>
+							<Image
+								source={ Images.ic_wa }
+								style={ styles.whatsappBtn }
+								resizeMode='contain' />
 						</TouchableOpacity>
 					);
 				})
 			}
-		
+
 		</Container>
 	);
 };

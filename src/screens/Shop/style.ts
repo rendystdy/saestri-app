@@ -9,15 +9,23 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	whatsappBtn: {
-		backgroundColor: '#25D366',
-		paddingHorizontal: 48,
-		paddingVertical: 12,
-		borderRadius: 18,
-		elevation: 7,
+		width: '100%',
+		height: '100%',
 	},
 	btnText: {
 		fontSize: 18,
 		color: 'white',
+	},
+	wrapper: {
+		width: '70%',
+		height: 96,
+		shadowColor: Colors.black.default,
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		},
+		shadowOpacity: 1,
+		elevation: 8,
 	},
 });
 

@@ -66,7 +66,8 @@ const AddPhoto = ({ _, route }: any) => {
 						style={ styles.textareaContainer }
 						charCountColor={ Colors.white.default }
 						placeholderTextColor={ Colors.white.default }
-						exceedCharCountColor='#990606'
+						exceedCharCountColor={ Colors.white.default }
+						maxCharLimit={ 500 }
 						textAlignVertical='top'
 						textInputStyle={ { color: Colors.white.default } }
 						placeholder={ 'Write your review...' }

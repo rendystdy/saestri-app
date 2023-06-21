@@ -1,8 +1,9 @@
 import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
-import { Images } from '@constant';
+import { Colors, Images } from '@constant';
 import { Text } from '@components';
 
 interface IHeaders {
@@ -40,6 +41,26 @@ const Headers: React.FC<IHeaders> = ({ onPressLeft, onPressRight, title, isBack,
 					<TouchableOpacity
 						onPress={ onPressRight }>
 						<Images.ic_delete_gallery />
+					</TouchableOpacity>
+				);
+			case 'detail-gallery':
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }>
+						<Icon
+							name='create'
+							size={ 24 }
+							color={ Colors.gray.veryDark } />
+					</TouchableOpacity>
+				);
+			case 'detail-gallery-save':
+				return (
+					<TouchableOpacity
+						onPress={ onPressRight }>
+						<Icon
+							name='save'
+							size={ 24 }
+							color={ Colors.gray.veryDark } />
 					</TouchableOpacity>
 				);
 
