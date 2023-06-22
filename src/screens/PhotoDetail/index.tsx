@@ -7,6 +7,7 @@ import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 import { Colors } from '@constant';
 import RNTextArea from '@freakycoder/react-native-text-area';
 import { Actions } from '@store';
+import dayjs from 'dayjs';
 
 const PhotoDetail = ({ _, route }: any) => {
 	const item = route?.params?.item ?? {};
@@ -73,6 +74,7 @@ const PhotoDetail = ({ _, route }: any) => {
 					style={ style.image }
 					resizeMode='cover'
 					source={ { uri: route?.params?.path ?? '' } } />
+				<Text style={ style.textDate }>{ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</Text>
 				{ edit ? (
 					<View style={ style.wrapperInput }>
 						<RNTextArea
@@ -103,6 +105,7 @@ const style = StyleSheet.create({
 	image: { width: '100%', height: 560 },
 	textCaption: {
 		padding: 18,
+		color: Colors.black.default,
 	},
 	wrapperInput: {
 		padding: 16,
@@ -111,6 +114,15 @@ const style = StyleSheet.create({
 		backgroundColor: Colors.blue.light,
 		height: 167,
 		borderRadius: 12,
+	},
+	textDate: {
+		position: 'absolute',
+		color: Colors.white.default,
+		fontSize: 16,
+		right: 10,
+		top: 600,
+		zIndex: 2,
+		fontWeight: '500',
 	},
 });
 

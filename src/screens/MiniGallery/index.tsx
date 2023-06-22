@@ -51,7 +51,7 @@ const MiniGallery = ({ props, route }: any) => {
 
 	const groupedImages = () => {
 		const resultGroupByMonth = _.groupBy(listGallery, ({ date }) => {
-			const d = dayjs(date).format('MMMM YYYY');
+			const d = dayjs(date).format('DD MMMM YYYY');
 			return d;
 		});
 

@@ -1,5 +1,5 @@
-import { Image, View } from 'react-native';
-import React from 'react';
+import { Alert, BackHandler, Image, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { Images } from '@constant';
 
 import { Container, Text, ButtonLarge } from '@components';
@@ -47,6 +47,30 @@ const dates = [
 	}];
 
 const Home = () => {
+
+	useEffect(() => {
+		const backHandler = BackHandler.addEventListener(
+			'hardwareBackPress',
+			backAction,
+		);
+
+		return () => {
+			backHandler.remove();
+		};
+	}, []);
+
+	const backAction = () => {
+		Alert.alert('Saestri', 'Apakah anda yakin ingin keluar dari Aplikasi?', [
+			{
+				text: 'Cancel',
+				onPress: () => null,
+				style: 'cancel',
+			},
+			{ text: 'YES', onPress: () => BackHandler.exitApp() },
+		]);
+		return true;
+
+	};
 
 	return (
 		<Container

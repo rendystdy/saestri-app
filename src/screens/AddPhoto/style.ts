@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	wrapperRetake: {
-		margin: 16,
+		padding: 16,
 		alignItems: 'flex-end',
 		justifyContent: 'flex-end',
 	},
