@@ -32,7 +32,7 @@ const Shop = ({ _, route }: any) => {
 	};
 
 	const openWaBtnHandler = async(url: string) => {
-		await Linking.openURL(`whatsapp://phone=${url}`);
+		await Linking.openURL(`whatsapp://send?text=&phone=${url}`);
 	};
 
 	return (
