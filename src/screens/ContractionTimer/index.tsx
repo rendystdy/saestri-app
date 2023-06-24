@@ -1,5 +1,5 @@
 import {
-	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter, BackHandler,
+	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter, BackHandler, Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
@@ -11,16 +11,19 @@ import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
 
 import styles from './styles';
 import TimerItem from './components/TimerItem';
+import DashedLine from 'react-native-dashed-line';
 
 export interface IDataContraction {
-	uid?: number,
+	uid: number,
 	contractionTime: {
 		start: null | Dayjs,
 		end: null | Dayjs;
+		duration: number,
 	},
 	intervalTime: {
 		start: null | Dayjs,
 		end: null | Dayjs;
+		duration: number,
 	},
 	startAt: Dayjs,
 	timestamp: number,
@@ -140,7 +143,7 @@ const ContractionTimer = ({ props, route }: any) => {
 		if (counter % 2 !== 0) { return <Images.img_contractionPause />; }
 		return null;
 	};
-
+	
 	return (
 		<Container
 			noPadding
@@ -169,9 +172,15 @@ const ContractionTimer = ({ props, route }: any) => {
 							/>)
 						}
 					</ScrollView>
-					<View style={ styles.dottedLine }>
-						<Images.dotted />
-					</View>
+					<DashedLine
+						dashLength={ 4 }
+						dashThickness={ 3 }
+						dashGap={ 5 }
+						dashColor={ Colors.gray.darkGray }
+						axis='vertical'
+						style={ styles.dottedLine }
+					/>
+					{ /* <View style={ styles.dottedLine } /> */ }
 				</View>
 			</View>
 			<View style={ styles.footer }>
@@ -179,13 +188,14 @@ const ContractionTimer = ({ props, route }: any) => {
 					source={ Images.img_pregnant }
 					style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }
 					resizeMode='contain' /> */ }
-				<Images.img_pregnant style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }/>
+				<Images.img_pregnant style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15, zIndex: -1 } }/>
+				<View style={ { flex: 1 } }/>
 				<TouchableOpacity
-					style={ { alignItems: 'flex-end', width: '70%' } }
+					style={ { alignItems: 'flex-end' } }
 					onPress={ startBtnHandler }>
 					{ renderStartStopBtn() }
 				</TouchableOpacity>
-				<View style={ styles.row }>
+				<View style={ [styles.row, { flex: 1 }] }>
 					<TouchableOpacity
 						style={ [styles.startStopBtn, { marginRight: 19 }] }
 						onPress={ () => setVisibleStop(true) }>
@@ -193,7 +203,7 @@ const ContractionTimer = ({ props, route }: any) => {
 							height={ 22 }
 							width={ 22 } />
 						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
-							stop
+							Stop
 						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -203,7 +213,7 @@ const ContractionTimer = ({ props, route }: any) => {
 							height={ 22 }
 							width={ 22 } />
 						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
-							reset
+							Reset
 						</Text>
 					</TouchableOpacity>
 				</View>

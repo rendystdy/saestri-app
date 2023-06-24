@@ -1,7 +1,6 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import HistoryItem from './HistoryItem';
-import { styles } from './style';
 import { IDataContraction } from 'src/screens/ContractionTimer';
 import { ITimerLog } from 'src/interfaces/timers';
 
@@ -16,6 +15,7 @@ const ContractionHistoryList: React.FC<IContractionHistoryProps> = ({ isDelete, 
 	return (
 		<FlatList
 			data={ data }
+			style={ Styles.listContainer }
 			contentContainerStyle={ { paddingHorizontal: 34 } }
 			nestedScrollEnabled={ true }
 			keyExtractor={ (_, i) => i.toString() }
@@ -36,5 +36,11 @@ const ContractionHistoryList: React.FC<IContractionHistoryProps> = ({ isDelete, 
 		/>
 	);
 };
+
+const Styles = StyleSheet.create({
+	listContainer: {
+		flex: 1,
+	},
+});
 
 export default ContractionHistoryList;

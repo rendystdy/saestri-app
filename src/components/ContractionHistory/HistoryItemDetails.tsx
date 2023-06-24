@@ -6,6 +6,7 @@ import { styles } from './style';
 import { Colors } from '@constant';
 import { parseDuration, parseTime } from '@helpers';
 import { IDataContraction } from 'src/screens/ContractionTimer';
+import dayjs from 'dayjs';
 
 interface IHistoryProps {
 	detail: IDataContraction;
@@ -25,6 +26,13 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 		};
 	};
 
+	const getTimeStamp = () => {
+		return {
+			contraction: dayjs(detail.contractionTime.start).format('HH:mm DD MMM YYYY'),
+			interval: dayjs(detail.intervalTime.start).format('HH:mm DD MMM YYYY'),
+		};
+	};
+
 	return (
 		<View style={ styles.itemDetail }>
 			<DashedLine
@@ -35,24 +43,20 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 				axis='vertical'
 			/>
 			<View>
-				<View>
-					<View style={ styles.wrpperCircleNumber } >
-						<Text style={ styles.texNumber }>{ index + 1 }</Text>
-					</View>
+				<View style={ styles.wrpperCircleNumber } >
+					<Text style={ styles.texNumber }>{ index + 1 }</Text>
 				</View>
-				<View style={ styles.wrapperContent }>
-					<View style={ styles.row }>
-						<Text style={ styles.textTitle }>Kontraksi    :</Text>
-						<Text style={ styles.textTitle }>	{ getDurations().contraction }</Text>
-					</View>
-					<View style={ styles.row }>
-						<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>rest													:</Text>
-						<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>	{ getDurations().interval }</Text>
-					</View>
-					<View style={ styles.row }>
-						<Text style={ [styles.textTitle, { color: Colors.black.default }] }>interval							:</Text>
-						<Text style={ [styles.textTitle, { color: Colors.black.default }] }>	{ totalInterval() }</Text>
-					</View>
+			</View>
+			<View style={ styles.wrapperContent }>
+				<View style={ styles.col }>
+					<Text style={ styles.textTitle }>Contraction</Text>
+					<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>Rest</Text>
+					<Text style={ [styles.textTitle, { color: Colors.black.default }] }>Interval</Text>
+				</View>
+				<View style={ styles.col }>
+					<Text style={ styles.textTitle }>{ getDurations().contraction } | { getTimeStamp().contraction }</Text>
+					<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>{ getDurations().interval } | { getTimeStamp().interval }</Text>
+					<Text style={ [styles.textTitle, { color: Colors.black.default }] }>{ totalInterval() }</Text>
 				</View>
 			</View>
 		</View >

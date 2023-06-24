@@ -8,10 +8,12 @@ const generateInitialData = ():IDataContraction => ({
 	contractionTime: {
 		start: dayjs(),
 		end: null,
+		duration: 0,
 	},
 	intervalTime: {
 		start: null,
 		end: null,
+		duration: 0,
 	},
 	uid: dayjs().unix(),
 	status: 'contraction',
@@ -63,4 +65,7 @@ export default {
 		dispatch({ type: Dispatches.REMOVE_HISTORY_ITEM, payload });
 	},
 
+	incrementDuration: ({ timerId, value, status }:{timerId: string, value:number, status:string}) => (dispatch: Dispatch) => {
+		dispatch({ type: Dispatches.INCREMENT_DURATION, payload: { timerId, value, status } });
+	},
 };

@@ -74,7 +74,7 @@ const ContractionHistoryScreen = ({ props, route }: any) => {
 				isBack
 				color={ Colors.gray.light }
 			/>
-			<View style={ { height: 360, marginTop: 75, marginBottom: 34 } }>
+			<View style={ { marginTop: 75, marginBottom: 34, flex: 1, paddingVertical: 15 } }>
 				<ContractionHistoryList
 					data={ timerHistories }
 					onPressChecked={ onPressChecked }

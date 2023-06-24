@@ -32,8 +32,9 @@ const HistoryItem: React.FC<ItemProps> = ({
 	const [isCollapse, setCollapse] = useState<boolean>(true);
 
 	const getTimeRange = () => {
-		const startDate = details[0].startAt.format('HH:mm:ss');
-		const endDate = details[details.length - 1].startAt.format('HH:mm:ss');
+		if (details.length === 0) { return '-'; }
+		const startDate = dayjs(details[0].startAt).format('HH:mm:ss');
+		const endDate = dayjs(details[details.length - 1].startAt).format('HH:mm:ss');
 		return `${dayjs(date).format('DD MMM YYYY')} ${startDate} - ${endDate}`;
 	};
 

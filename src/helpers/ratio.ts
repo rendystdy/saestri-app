@@ -19,6 +19,20 @@ const isIphoneX = () => {
 	);
 };
 
+const getRatio = () => {
+	const { height, width } = Dimensions.get('window');
+ 
+	let ratio = height / width;
+ 
+	if (width > height) {
+		ratio = width / height;
+	}
+ 
+	return ratio;
+};
+
+const isTablet = (Platform.OS === 'android' || Platform.OS === 'ios')  && getRatio()  <= 1.6;
+
 const normalizePercent = (percent: number) => {
 	const { height, width } = Dimensions.get('window');
 	const standardLength = width > height ? width : height;
@@ -53,4 +67,5 @@ export default {
 	normalizeValue,
 	normalizePercent,
 	getDeviceHeight,
+	isTablet,
 };

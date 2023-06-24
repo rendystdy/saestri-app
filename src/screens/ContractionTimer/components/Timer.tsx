@@ -5,7 +5,9 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Text } from '@components';
 import { Colors } from '@constant';
 import { Actions } from '@store';
-import { parseDuration, useAppDispatch, useAppSelector, useTimer } from '@helpers';
+import {
+	Ratio, parseDuration, parseTime, useAppDispatch, useAppSelector, useTimer,
+} from '@helpers';
 
 import { IDataContraction } from '..';
 
@@ -15,8 +17,9 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item }) => {
 
-	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
+	const { currentTimer, isSuspended, counter  } = useAppSelector(state => state.timerReducers);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
+	const incrementDuration = useAppDispatch(Actions.timerAction.incrementDuration);
 
 	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes, duration: contractionDuration } = useTimer();
 	const { setTimer: setIntervalTime, getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval, duration: intervalDuration } = useTimer();
@@ -26,6 +29,16 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		resumeTimerDispatch();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	useEffect(() => {
+		const timer = getTimer();
+		if (timer && counter % 2 !== 0 && timer.isActive) {
+			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'contraction' });
+		}
+		if (timer && counter % 2 === 0  && timer.isActive) {
+			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'interval' });
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [contractionDuration, incrementDuration, item.uid, intervalDuration, counter]);
 
 	useEffect(() => {
 		const timer = getTimer();
@@ -64,21 +77,37 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		}
 	};
 
+	const getSumDuration = () => {
+		const timer = getTimer();
+		if (timer && timer.contractionTime.end && timer.intervalTime.end) {
+			return parseTime(timer.contractionTime.duration + timer.intervalTime.duration);
+		}
+		return '--:--:--';
+	};
+
 	return (
 		<View style={ styles.container }>
 			<View style={ [styles.contractionRow] }>
-				<View style={ styles.wrapperDate }>
-					<Text style={ styles.textDateAndTime }> { parseTimestamp().date } </Text>
-					<Text style={ styles.textDateAndTime }> { parseTimestamp().time } </Text>
+				<View style={ styles.col }>
+					<View style={ styles.wrapperDate }>
+						<Text style={ styles.textDateAndTime }> { parseTimestamp().date } </Text>
+						<Text style={ styles.textDateAndTime }> { parseTimestamp().time } </Text>
+					</View>
+					<Text style={ styles.textTimer }>{ `${ getHours() }:${ getMinutes() }:${ getSeconds() }` }</Text>
 				</View>
-				<Text style={ styles.textTimer }>{ `${ getHours() }:${ getMinutes() }:${ getSeconds() }` }</Text>
+				<View style={ [styles.col, { justifyContent: 'flex-end' }] }>
+					<View style={ styles.wrapperDate }>
+						<Text style={ styles.textDateAndTime }> Rest </Text>
+					</View>
+					<Text style={ [styles.textTimer, { color: Colors.blue.blueTimer }] }>{ `${ hourInterval() }:${ minuteInterval() }:${ secondInterval() }` }</Text>
+	
+				</View>
 			</View>
 			<View style={ [styles.intervalRow] }>
-				<Text style={ [styles.textTimer, { color: Colors.blue.blueTimer }] }>{ `${ hourInterval() }:${ minuteInterval() }:${ secondInterval() }` }</Text>
-				<View style={ [styles.wrapperDate, { marginLeft: 4, marginRight: 0 }] }>
-					<Text style={ styles.textDateAndTime }> { parseTimestamp().date } </Text>
-					<Text style={ styles.textDateAndTime }> { parseTimestamp().time } </Text>
+				<View style={ styles.wrapperDate }>
+					<Text style={ styles.textDateAndTime }> Interval </Text>
 				</View>
+				<Text style={ [styles.textTimer, { color: Colors.gray.veryDark }] }>{ getSumDuration() }</Text>
 			</View>
 		</View>
 	);
@@ -96,15 +125,21 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
+	col: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+	},
 	intervalRow: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
 	},
-
 	textDateAndTime: {
-		fontSize: 8,
+		fontSize: Ratio.isTablet ? 12 : 8,
 		fontWeight: '500',
 		letterSpacing: 1,
 		color: Colors.gray.darkGray,
@@ -113,7 +148,7 @@ const styles = StyleSheet.create({
 		marginRight: 4,
 	},
 	textTimer: {
-		fontSize: 22,
+		fontSize: Ratio.isTablet ? 34 : 22,
 		letterSpacing: 1,
 		color: Colors.pink.default,
 		fontWeight: '700',

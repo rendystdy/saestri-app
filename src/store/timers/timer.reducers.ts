@@ -23,6 +23,21 @@ const timerReducers = (
 	const lastTimer = shallowTimer[state.currentTimer.length - 1];
 
 	switch (type) {
+		case Dispatches.INCREMENT_DURATION:
+			const timers = shallowTimer.map(timer => {
+				if (timer.uid === payload.timerId) {
+					if (payload.status === 'contraction') {
+						timer.contractionTime.duration = payload.value;
+					} else {
+						timer.intervalTime.duration = payload.value;
+					}
+				}
+				return timer;
+			});
+			return {
+				...state,
+				currentTimer: timers,
+			};
 		case Dispatches.ADD_NEW_TIMER:
 			return {
 				...state,
