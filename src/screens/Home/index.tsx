@@ -113,7 +113,7 @@ const Home = () => {
 							title='Shop'
 							color={ Colors.pink.default }
 							icon='shop'
-							onpress={ () => console.log() }
+							onpress={ () => NavigationHelper.push('Shop') }
 						/>
 						<ButtonLarge
 							title='Baby Journey'
