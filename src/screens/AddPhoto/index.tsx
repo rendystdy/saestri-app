@@ -16,7 +16,9 @@ import { Actions } from '@store';
 const AddPhoto = ({ _, route }: any) => {
 	const pathUrl = `file://${ route?.params?.path }`;
 	const galleryActionDispatch = useAppDispatch(Actions.galleryAction.addPhoto);
-	const [value, setValue] = useState<string>('');
+	const [captionText, setCaptionText] = useState<string>('');
+	const [titleText, setTitleText] = useState<string>('');
+
 	const { loading } = useAppSelector(state => state.galleryReducers);
 
 	useEffect(() => {
@@ -32,7 +34,8 @@ const AddPhoto = ({ _, route }: any) => {
 	const handleSavePhoto = () => {
 		const payload: GalleryInterface.EntriesEntity = {
 			image: pathUrl,
-			title: value,
+			title: titleText,
+			caption: captionText,
 			uid: dayjs().unix(),
 			date: dayjs(),
 		};
@@ -56,12 +59,26 @@ const AddPhoto = ({ _, route }: any) => {
 					style={ styles.image }
 					resizeMode='cover'
 				/>
-				<TouchableOpacity
-					onPress={ () => NavigationHelper.pop(1) }
-					style={ styles.wrapperRetake }>
-					<Text style={ styles.textRetake }>Retake</Text>
-				</TouchableOpacity>
+				<View style={ styles.wrapperRetake }>
+					<TouchableOpacity
+						onPress={ () => NavigationHelper.pop(1) }
+					>
+						<Text style={ styles.textRetake }>Retake</Text>
+					</TouchableOpacity>
+				</View>
 				<View style={ styles.wrapperTextArea }>
+					<RNTextArea
+						style={ styles.titleTextAreaContainer }
+						charCountColor={ Colors.white.default }
+						placeholderTextColor={ Colors.white.default }
+						exceedCharCountColor={ Colors.white.default }
+						maxCharLimit={ 100 }
+						textAlignVertical='top'
+						textInputStyle={ { color: Colors.white.default } }
+						placeholder={ 'Title' }
+						value={ titleText }
+						onChangeText={ (text: string) => setTitleText(text) }
+					/>
 					<RNTextArea
 						style={ styles.textareaContainer }
 						charCountColor={ Colors.white.default }
@@ -70,9 +87,9 @@ const AddPhoto = ({ _, route }: any) => {
 						maxCharLimit={ 500 }
 						textAlignVertical='top'
 						textInputStyle={ { color: Colors.white.default } }
-						placeholder={ 'Write your review...' }
-						value={ value }
-						onChangeText={ (text: string) => setValue(text) }
+						placeholder={ 'Caption' }
+						value={ captionText }
+						onChangeText={ (text: string) => setCaptionText(text) }
 					/>
 				</View>
 				<View style={ { marginBottom: 24 } }>

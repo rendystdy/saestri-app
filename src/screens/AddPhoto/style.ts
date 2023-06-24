@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 	textRetake: {
+		paddingHorizontal: 12,
 		textAlign: 'center',
 		fontSize: 16,
 		fontWeight: '500',
@@ -27,18 +28,22 @@ const styles = StyleSheet.create({
 	wrapperTextArea: {
 		padding: 16,
 	},
+	titleTextAreaContainer: {
+		height: 64,
+		marginBottom: 12,
+		backgroundColor: Colors.blue.light,
+		borderRadius: 16,
+		color: Colors.white.default,
+		shadowColor: Colors.black.default,
+	
+	},
 	textareaContainer: {
 		height: 157,
 		backgroundColor: Colors.blue.light,
 		borderRadius: 16,
 		color: Colors.white.default,
 		shadowColor: Colors.black.default,
-		shadowOffset: {
-			width: 0,
-			height: 1,
-		},
-		shadowOpacity: 1,
-		elevation: 4,
+	
 	},
 	button: {
 		width: 232,

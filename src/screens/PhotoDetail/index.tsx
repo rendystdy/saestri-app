@@ -89,9 +89,14 @@ const PhotoDetail = ({ _, route }: any) => {
 						/>
 					</View>
 				) : (
-					<Text style={ style.textCaption }>
-						{ listGallery[index].title }
-					</Text>
+					<View>
+						<Text style={ style.textCaption }>
+							{ listGallery[index].title }
+						</Text>
+						<Text style={ style.textCaption }>
+							{ listGallery[index].caption }
+						</Text>
+					</View>
 				) }
 			</View>
 		</Container>
