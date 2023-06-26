@@ -13,31 +13,31 @@ interface IButtonLarge {
 }
 
 const ButtonLarge: React.FC<IButtonLarge> = ({
-  title,
-  color,
-  icon,
-  onpress,
+	title,
+	color,
+	icon,
+	onpress,
 }) => {
-  const Icons = () => {
-    switch (icon) {
-      case 'gallery':
-        return <Images.ic_gallery style={ styles.icons } />;
-      case 'shop':
-        return <Images.ic_cart style={ styles.icons } />;
-      case 'history':
-        return <Images.ic_history style={ styles.icons } />;
-      default:
-        return <Images.ic_gallery style={ styles.icons } />;
-    }
-  };
-  return (
-    <TouchableOpacity
-      onPress={ onpress }
-      style={ [styles.container, { backgroundColor: color }] }>
-      <Icons />
-      <Text style={ styles.textTitle }>{ title }</Text>
-    </TouchableOpacity>
-  );
+	const Icons = () => {
+		switch (icon) {
+			case 'gallery':
+				return <Images.ic_gallery style={ styles.icons } />;
+			case 'shop':
+				return <Images.ic_cart style={ styles.icons } />;
+			case 'history':
+				return <Images.ic_history style={ styles.icons } />;
+			default:
+				return <Images.ic_gallery style={ styles.icons } />;
+		}
+	};
+	return (
+		<TouchableOpacity
+			onPress={ onpress }
+			style={ [styles.container, { backgroundColor: color }] }>
+			<Icons />
+			<Text style={ styles.textTitle }>{ title }</Text>
+		</TouchableOpacity>
+	);
 };
 
 export default ButtonLarge;

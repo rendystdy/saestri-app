@@ -1,11 +1,12 @@
 import { Colors } from '@constant';
+import { Ratio } from '@helpers';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: Colors.blue.light,
-		width: 180,
-		height: 105,
+		width: Ratio.isTablet ? 360 : 180,
+		height: Ratio.isTablet ? 210 : 105,
 		borderRadius: 24,
 		padding: 14,
 		shadowColor: Colors.black.default,
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
 		marginBottom: 15,
 	},
 	textTitle: {
-		fontSize: 12,
+		fontSize: Ratio.isTablet ? 24 : 12,
 		color: Colors.white.default,
 		letterSpacing: 1,
 	},
