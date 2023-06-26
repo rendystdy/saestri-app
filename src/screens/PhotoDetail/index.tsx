@@ -14,7 +14,8 @@ const PhotoDetail = ({ _, route }: any) => {
 	const index = route?.params?.index;
 	const [edit, setEdit] = useState<boolean>(false);
 	const listGallery = useAppSelector(state => state.galleryReducers.listGallery);
-	const [value, setValue] = useState(listGallery[index].title);
+	const [value, setValue] = useState(item.title);
+	const [valueCaption, setValueCaption] = useState(item.caption);
 	const [iconName, setIconName] = useState('detail-gallery');
 
 	const updateCaptionDispatch = useAppDispatch(Actions.galleryAction.updateCaption);
@@ -43,6 +44,7 @@ const PhotoDetail = ({ _, route }: any) => {
 	const handleEdit = () => {
 		const payload = {
 			title: value,
+			caption: valueCaption,
 			uid: item.uid,
 		};
 
@@ -74,11 +76,10 @@ const PhotoDetail = ({ _, route }: any) => {
 					style={ style.image }
 					resizeMode='cover'
 					source={ { uri: route?.params?.path ?? '' } } />
-				<Text style={ style.textDate }>{ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</Text>
 				{ edit ? (
 					<View style={ style.wrapperInput }>
 						<RNTextArea
-							style={ style.textareaContainer }
+							style={ [style.textareaContainer, { marginBottom: 12 }] }
 							charCountColor={ Colors.white.default }
 							placeholderTextColor={ Colors.white.default }
 							exceedCharCountColor={ Colors.white.default }
@@ -87,15 +88,26 @@ const PhotoDetail = ({ _, route }: any) => {
 							value={ value }
 							onChangeText={ (text: string) => setValue(text) }
 						/>
+						<RNTextArea
+							style={ style.textareaContainer }
+							charCountColor={ Colors.white.default }
+							placeholderTextColor={ Colors.white.default }
+							exceedCharCountColor={ Colors.white.default }
+							textAlignVertical='top'
+							textInputStyle={ { color: Colors.white.default } }
+							value={ valueCaption }
+							onChangeText={ (text: string) => setValueCaption(text) }
+						/>
 					</View>
 				) : (
 					<View>
 						<Text style={ style.textCaption }>
-							{ listGallery[index].title }
+							{ item.title }
 						</Text>
 						<Text style={ style.textCaption }>
-							{ listGallery[index].caption }
+							{ item.caption }
 						</Text>
+						<Text style={ style.textDate }>{ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</Text>
 					</View>
 				) }
 			</View>
@@ -121,13 +133,10 @@ const style = StyleSheet.create({
 		borderRadius: 12,
 	},
 	textDate: {
-		position: 'absolute',
-		color: Colors.white.default,
-		fontSize: 16,
-		right: 10,
-		top: 600,
-		zIndex: 2,
+		color: Colors.black.default,
+		fontSize: 12,
 		fontWeight: '500',
+		paddingHorizontal: 18,
 	},
 });
 

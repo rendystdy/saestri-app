@@ -1,4 +1,5 @@
 import { Colors } from '@constant';
+import { Ratio } from '@helpers';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -15,9 +16,9 @@ const styles = StyleSheet.create({
 	},
 	itemDay: {
 		backgroundColor: Colors.pink.default,
-		width: 58,
-		height: 58,
-		borderRadius: 58 / 2,
+		width: Ratio.isTablet ? 78 : 58,
+		height: Ratio.isTablet ? 78 : 58,
+		borderRadius: Ratio.isTablet ? 78 : 58 / 2,
 		alignItems: 'center',
 		justifyContent: 'center',
 		marginHorizontal: 8,
@@ -44,6 +45,9 @@ const styles = StyleSheet.create({
 	wrapperMenu: {
 		flexDirection: 'row',
 		marginBottom: 60,
+		paddingRight: Ratio.isTablet ? 42 : 12,
+		alignItems: 'center',
+		justifyContent: Ratio.isTablet ? 'flex-end' : 'flex-end',
 	},
 	textStartCounting: {
 		fontSize: 16,
@@ -60,7 +64,22 @@ const styles = StyleSheet.create({
 		elevation: 6,
 		alignSelf: 'center',
 	},
-	rectangle: { zIndex: -1, position: 'absolute', bottom: 0, right: 0 },
+	rectangle: {
+		zIndex: -1,
+		backgroundColor: Colors.blue.light,
+		position: 'absolute',
+		bottom: 0,
+		right: Ratio.isTablet ? 0 : -10,
+		width: '98%',
+		resizeMode: 'stretch',
+		height: 102,
+		borderTopLeftRadius: 24,
+		borderBottomLeftRadius: 24,
+	},
+	imgHome: {
+		height: 548, width: 221, position: 'absolute', left: Ratio.isTablet ? -20 : -30, bottom: 0,
+		zIndex: 2,
+	},
 });
 
 export default styles;

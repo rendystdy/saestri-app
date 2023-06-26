@@ -6,7 +6,7 @@ import { Container, Text, ButtonLarge } from '@components';
 import { Colors } from '@constant';
 import styles from './style';
 import dayjs from 'dayjs';
-import { NavigationHelper } from '@helpers';
+import { NavigationHelper, Ratio } from '@helpers';
 
 const days = dayjs();
 
@@ -15,34 +15,34 @@ const dates = [
 		date: days.subtract(2, 'day')
 			.date(),
 		color: Colors.blue.light,
-		size: 48,
+		size: Ratio.isTablet ? 68 : 48,
 		opacity: 0.7,
 	},
 	{
 		date: days.subtract(1, 'day')
 			.date(),
 		color: Colors.pink.default,
-		size: 58,
+		size: Ratio.isTablet ? 78 : 58,
 		opacity: 0.9,
 	},
 	{
 		date: days.date(),
 		color: Colors.blue.light,
-		size: 78,
+		size: Ratio.isTablet ? 98 : 78,
 		opacity: 1,
 	},
 	{
 		date: days.add(1, 'day')
 			.date(),
 		color: Colors.pink.default,
-		size: 58,
+		size: Ratio.isTablet ? 78 : 58,
 		opacity: 0.9,
 	},
 	{
 		date: days.add(2, 'day')
 			.date(),
 		color: Colors.blue.light,
-		size: 48,
+		size: Ratio.isTablet ? 68 : 48,
 		opacity: 0.7,
 	}];
 
@@ -97,11 +97,6 @@ const Home = () => {
 					)) }
 				</View>
 				<View style={ styles.wrapperMenu }>
-					<Image
-						source={ Images.image_home }
-						style={ { height: 556, width: '45%', marginRight: 17 } }
-						resizeMethod='scale'
-						resizeMode='cover' />
 					<View>
 						<ButtonLarge
 							title='Contraction Timer'
@@ -123,7 +118,11 @@ const Home = () => {
 						/>
 					</View>
 				</View>
-				<Images.rectangle style={ styles.rectangle } />
+				<Image
+					source={ Images.image_home }
+					style={ styles.imgHome }
+					resizeMode='contain' />
+				<View style={ styles.rectangle } />
 			</View>
 		</Container>
 	);

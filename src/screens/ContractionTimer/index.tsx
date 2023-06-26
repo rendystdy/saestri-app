@@ -143,7 +143,7 @@ const ContractionTimer = ({ props, route }: any) => {
 		if (counter % 2 !== 0) { return <Images.img_contractionPause />; }
 		return null;
 	};
-	
+
 	return (
 		<Container
 			noPadding
@@ -184,12 +184,11 @@ const ContractionTimer = ({ props, route }: any) => {
 				</View>
 			</View>
 			<View style={ styles.footer }>
-				{ /* <Image
+				<Image
 					source={ Images.img_pregnant }
-					style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15 } }
-					resizeMode='contain' /> */ }
-				<Images.img_pregnant style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15, zIndex: -1 } }/>
-				<View style={ { flex: 1 } }/>
+					style={ { width: 176, height: 211, position: 'absolute', bottom: 0, left: -15, zIndex: -1 } }
+					resizeMode='contain' />
+				<View style={ { flex: 1 } } />
 				<TouchableOpacity
 					style={ { alignItems: 'flex-end' } }
 					onPress={ startBtnHandler }>
@@ -224,7 +223,7 @@ const ContractionTimer = ({ props, route }: any) => {
 				onPressClose={ () => setVisible(false) }
 				onPressAgree={ () => setVisible(false) }
 				titleAgree='tutup'
-				textContent='Anda mengalami kontraksi. Segera menuju fasilitas kesehatan!'
+				textContent='Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.'
 			/>
 			<Modal
 				visible={ visibleReset }

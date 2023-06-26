@@ -96,9 +96,9 @@ const ContractionHistoryScreen = ({ props, route }: any) => {
 				onPressAgree={ handleRemoveItem }
 				onPressBack={ handleBack }
 				onPressClose={ handleBack }
-				textContent='Apakah anda yakin untuk menghapus Contraction history?'
-				titleAgree='Yakin'
-				titleBack='Kembali'
+				textContent='Are you sure you want to delete Contraction history?'
+				titleAgree='Ok'
+				titleBack='Cancel'
 			/>
 		</Container>
 	);

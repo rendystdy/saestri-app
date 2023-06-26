@@ -19,14 +19,15 @@ export interface IDataGallery {
 export interface EntriesEntity {
 	uid?: number;
 	title: string;
-	caption:string,
-	image: string;
-	date: Dayjs;
+	caption?:string,
+	image?: string;
+	date: Dayjs | string;
 }
 
 export interface UpdateCaption {
 	uid?: number;
 	title: string;
+	caption: string;
 }
 
 export interface GalleryState {

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatches } from '@constant';
 import { GalleryInterface } from '@interfaces';
-import dayjs from 'dayjs';
+
+// const DUMMY_DATA = [{ date: '2023-06-20T14:29:42.618Z', image: 'file:///data/user/0/com.saestriapp/cache/mrousavy4997210653534093267.jpg', title: 'testiing update lagi ya 11', uid: 1687271382 }, { date: '2023-06-20T17:03:38.709Z', image: 'file:///data/user/0/com.saestriapp/cache/mrousavy5266769746314562303.jpg', title: 'testing malam hari 22', uid: 1687280618 }, { date: '2023-06-22T03:16:36.234Z', image: 'file:///data/user/0/com.saestriapp/cache/mrousavy64341813071561399.jpg', title: 'testing 123', uid: 1687403796 }, { caption: 'test description 1 ya', date: '2023-06-26T03:14:16.396Z', image: 'file:///data/user/0/com.saestriapp/cache/mrousavy8985848159532894205.jpg', title: 'test caption 1 lagi', uid: 1687749256 }];
 
 const initialState: GalleryInterface.GalleryState = {
 	listGallery: [],
@@ -41,6 +42,7 @@ const timerReducers = (
 			const newListGallery = state.listGallery;
 			
 			newListGallery[findIndex].title = payload.title;
+			newListGallery[findIndex].caption = payload.caption;
 
 			return {
 				...state,

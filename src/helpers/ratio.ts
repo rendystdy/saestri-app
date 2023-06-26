@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dimensions, Platform, StatusBar } from 'react-native';
 import { store } from '../config/reduxConfig';
+import DeviceInfo from 'react-native-device-info';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -31,7 +32,7 @@ const getRatio = () => {
 	return ratio;
 };
 
-const isTablet = (Platform.OS === 'android' || Platform.OS === 'ios')  && getRatio()  <= 1.6;
+const isTablet = (Platform.OS === 'android' || Platform.OS === 'ios')  && DeviceInfo.isTablet();
 
 const normalizePercent = (percent: number) => {
 	const { height, width } = Dimensions.get('window');

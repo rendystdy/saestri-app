@@ -63,7 +63,7 @@ const MiniGallery = ({ props, route }: any) => {
 		});
 
 		// return newDataGalle1ry;
-		return newDataGallery;
+		return newDataGallery.reverse();
 	};
 
 	const renderItemByDate = ({ item }: GalleryInterface.IItemList) => {
