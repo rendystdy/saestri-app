@@ -58,7 +58,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	}, [item, counter, currentTimer]);
 
 	const getTimer = () => {
-		return currentTimer.find(search => search.uid === item.uid);
+		return currentTimer.find((search:any) => search.uid === item.uid);
 	};
 
 	const parseTimestamp = () => {
@@ -80,7 +80,9 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	const getSumDuration = () => {
 		const timer = getTimer();
 		if (timer && timer.contractionTime.end && timer.intervalTime.end) {
-			return parseTime(timer.contractionTime.duration + timer.intervalTime.duration);
+			const contractionDur = parseDuration(timer.contractionTime.start, timer.contractionTime.end);
+			const intervalDur = parseDuration(timer.intervalTime.start, timer.intervalTime.end);
+			return parseTime(contractionDur + intervalDur);
 		}
 		return '--:--:--';
 	};
