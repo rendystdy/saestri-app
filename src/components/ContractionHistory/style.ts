@@ -77,6 +77,7 @@ export const styles = StyleSheet.create({
 		fontSize: Ratio.isTablet ? 20 : 12,
 		letterSpacing: 1,
 		fontWeight: '500',
-		color: Colors.blue.light,
+		color: Colors.pink.default,
+		marginBottom: 12,
 	},
 });
