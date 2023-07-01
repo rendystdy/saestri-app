@@ -3,7 +3,7 @@ import { padLeft } from './numbers';
 
 const parseDuration = (startTime?: Dayjs|null, endTime?:Dayjs|null) => {
 	if (!endTime || !startTime) { return 0; }
-	return Math.abs(dayjs(startTime).diff(dayjs(endTime), 's'));
+	return Math.abs(dayjs(startTime).diff(dayjs(endTime), 'seconds'));
 };
 
 const parseTime = (seconds: number) => {

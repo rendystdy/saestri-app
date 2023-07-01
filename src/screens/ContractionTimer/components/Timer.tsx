@@ -80,8 +80,8 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	const getSumDuration = () => {
 		const timer = getTimer();
 		if (timer && timer.contractionTime.end && timer.intervalTime.end) {
-			const contractionDur = parseDuration(timer.contractionTime.start, timer.contractionTime.end);
-			const intervalDur = parseDuration(timer.intervalTime.start, timer.intervalTime.end);
+			const contractionDur = contractionDuration;
+			const intervalDur = intervalDuration;
 			return parseTime(contractionDur + intervalDur);
 		}
 		return '--:--:--';
