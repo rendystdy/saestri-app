@@ -18,7 +18,7 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 	const totalInterval = () => {
 		return parseTime(parseDuration(detail.contractionTime.start, detail.contractionTime.end) + parseDuration(detail.intervalTime.start, detail.intervalTime.end));
 	};
-	
+
 	const getDurations = () => {
 		return {
 			contraction: parseTime(parseDuration(detail.contractionTime.start, detail.contractionTime.end)),
@@ -28,7 +28,7 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 
 	const getTimeStamp = () => {
 		return {
-			contraction: dayjs(detail.contractionTime.start).format('HH:mm DD MMM YYYY'),
+			contraction: dayjs(detail.contractionTime.start).format('HH:mm'),
 			interval: dayjs(detail.intervalTime.start).format('HH:mm DD MMM YYYY'),
 		};
 	};
@@ -48,15 +48,15 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 				</View>
 			</View>
 			<View style={ styles.wrapperContent }>
-				<View style={ styles.col }>
+				<View style={ [styles.col, { width: 100, flex: 0 }] }>
 					<Text style={ styles.textTitle }>Contraction</Text>
-					<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>Rest</Text>
-					<Text style={ [styles.textTitle, { color: Colors.black.default }] }>Interval</Text>
+					<Text style={ [styles.textTitle, { color: Colors.blue.light }] }>Rest</Text>
+					<Text style={ [styles.textTitle, { color: Colors.gray.darkGray }] }>Interval</Text>
 				</View>
 				<View style={ styles.col }>
 					<Text style={ styles.textTitle }>{ getDurations().contraction } | { getTimeStamp().contraction }</Text>
-					<Text style={ [styles.textTitle, { color: Colors.pink.default }] }>{ getDurations().interval } | { getTimeStamp().interval }</Text>
-					<Text style={ [styles.textTitle, { color: Colors.black.default }] }>{ totalInterval() }</Text>
+					<Text style={ [styles.textTitle, { color: Colors.blue.light }] }>{ getDurations().interval }</Text>
+					<Text style={ [styles.textTitle, { color: Colors.gray.darkGray }] }>{ totalInterval() }</Text>
 				</View>
 			</View>
 		</View >

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import Collapsible from 'react-native-collapsible';
+import { TouchableOpacity, View, Animated } from 'react-native';
+// import Collapsible from 'react-native-collapsible';
 
 import CheckBox from '@react-native-community/checkbox';
 import { styles } from './style';
@@ -30,18 +30,40 @@ const HistoryItem: React.FC<ItemProps> = ({
 
 	const [isChecked, setChecked] = useState<boolean>(false);
 	const [isCollapse, setCollapse] = useState<boolean>(true);
+	const [fadeAnim] = useState(new Animated.Value(0));
 
 	const getTimeRange = () => {
 		if (details.length === 0) { return '-'; }
 		const startDate = dayjs(details[0].startAt).format('HH:mm:ss');
 		const endDate = dayjs(details[details.length - 1].startAt).format('HH:mm:ss');
-		return `${dayjs(date).format('DD MMM YYYY')} ${startDate} - ${endDate}`;
+		return `${ dayjs(date).format('DD MMM YYYY') } ${ startDate } - ${ endDate }`;
+	};
+
+	const runAnimation = () => {
+		if (!isCollapse) {
+			Animated.timing(fadeAnim, {
+				toValue: 0,
+				duration: 800,
+				useNativeDriver: true,
+			}).start(() => setCollapse(!isCollapse));
+		}
+		if (isCollapse) {
+			Animated.timing(fadeAnim, {
+				toValue: 1,
+				duration: 500,
+				useNativeDriver: true,
+			}).start(({ finished }) => {
+				if (finished) {
+					setCollapse(!isCollapse);
+				}
+			});
+		}
 	};
 
 	return (
 		<View>
 			<TouchableOpacity
-				onPress={ () => setCollapse(!isCollapse) }
+				onPress={ () => runAnimation() }
 				style={ styles.container }>
 				<View style={ styles.item }>
 					<View style={ [styles.itemCheckbox, { opacity: isDelete ? 1 : 0 }] }>
@@ -60,14 +82,18 @@ const HistoryItem: React.FC<ItemProps> = ({
 				</View>
 
 			</TouchableOpacity>
-			<Collapsible collapsed={ isCollapse }>
-				{ details.map((item, index: number) => (
-					<HistoryItemDetails
-						key={ index }
-						index={ index }
-						detail={ item } />
-				)) }
-			</Collapsible>
+
+			{ !isCollapse && (
+				<Animated.View style={ { opacity: fadeAnim } }>
+					{ details.map((item, index: number) => (
+						<HistoryItemDetails
+							key={ index }
+							index={ index }
+							detail={ item } />
+					)) }
+				</Animated.View>
+			) }
+
 		</View>
 	);
 };
