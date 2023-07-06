@@ -34,9 +34,10 @@ const HistoryItem: React.FC<ItemProps> = ({
 
 	const getTimeRange = () => {
 		if (details.length === 0) { return '-'; }
-		const startDate = dayjs(details[0].startAt).format('HH:mm:ss');
-		const endDate = dayjs(details[details.length - 1].startAt).format('HH:mm:ss');
-		return `${ dayjs(date).format('DD MMM YYYY') } ${ startDate } - ${ endDate }`;
+		const startDate = dayjs(details[0].startAt).format('DD MMM YYYY');
+		const startTime = dayjs(details[0].startAt).format('HH:mm:ss');
+		const endTime = dayjs(details[details.length - 1].startAt).format('HH:mm:ss');
+		return `${ startDate } ${ startTime } - ${ endTime }`;
 	};
 
 	const runAnimation = () => {

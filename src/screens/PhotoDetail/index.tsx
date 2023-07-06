@@ -8,6 +8,7 @@ import { Colors } from '@constant';
 import RNTextArea from '@freakycoder/react-native-text-area';
 import { Actions } from '@store';
 import dayjs from 'dayjs';
+import RNPrint from 'react-native-print';
 
 const PhotoDetail = ({ _, route }: any) => {
 	const item = route?.params?.item ?? {};
@@ -58,6 +59,143 @@ const PhotoDetail = ({ _, route }: any) => {
 		return updateCaptionDispatch(payload);
 	};
 
+	const handlePrint = async () => {
+		const html = `<head>
+		<link rel="stylesheet"
+						href="https://fonts.googleapis.com/css?family=Tangerine">
+		<style>
+			body {
+				font-family: 'Helvetica';
+				font-size: 12px;
+				background-image: url('/${ route?.params.path }');
+				background-repeat: no-repeat;
+				background-size: contain;
+			}
+			@font-face {
+				font-family: Satisfy;
+				src: url(Satisfy-Regular.ttf);
+			}
+			@font-face {
+				font-family: ComicNeue-Regular;
+				src: url(ComicNeue-Regular.ttf);
+			}
+			header{
+				font-family: Satisfy;
+				font-size: 24pt;
+				color: brown;
+				margin-top: 2em;
+				padding-left: 2em;
+			}
+			footer {
+				font-family: 'Tangerine', serif;
+				height: 50px;
+				background-color: #fff;
+				display: flex;
+				justify-content: center;
+				padding: 0 20px;
+			}
+	
+			h1{
+				font-family: 'Satisfy';
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			th, td {
+				border: 1px solid #000;
+				padding: 5px;
+			}
+			@media print {
+				body {
+					font-family: 'Helvetica';
+					font-size: 12px;
+					background-image: url('pregnancy-journal-background.jpg');
+					background-repeat: no-repeat;
+					background-size: contain;
+				}
+				@font-face {
+					font-family: Satisfy;
+					src: url(Satisfy-Regular.ttf);
+				}
+				@font-face {
+					font-family: 'ComicNeue-Regular';
+					src: url(ComicNeue-Regular.ttf);
+				}
+				header{
+					font-family: Satisfy;
+					font-size: 24pt;
+					color: brown;
+					margin-top: 2em;
+					padding-left: 2em;
+				}
+				table {
+					width: 100%;
+					border-collapse: collapse;
+					border: none;
+				}
+				th, td {
+					border: none;
+				}
+				footer {
+				font-family: 'Tangerine', serif;
+				height: 50px;
+				background-color: #fff;
+				display: flex;
+				justify-content: center;
+				padding: 0 20px;
+			}
+	
+			}
+	
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Pregnancy Journal.</h1>
+		</header>
+		<table>
+			<tr>
+				<td width='18%' height='310px'>&nbsp;</td>
+				<td width='64%'><img src='require(${ route?.params?.path })' alt='usg-bung'></td> 
+				<td width='18%'>&nbsp;</td>
+			</tr>
+			
+		</table>
+		<div style='padding-top: 16%;'>&nbsp</div>
+		<div style='padding-top: 20px; width: 100%; text-align: center; padding-bottom: 30px; font-family: Satisfy; font-size: 20pt;'>
+			Thoughts & Feelings
+		</div>
+		<table>
+			<tr>
+				<td width='22%' height='310px'>&nbsp</td>
+				<td width='64%' style='padding-top: 0; font-family: ComicNeue-Regular; font-size: 14pt;vertical-align: top; text-align: justify;'>
+					<div>
+						<b>${ item.title }</b>
+					</div>
+					<div style='font-size: 11pt; color:grey;'>
+						<small>20 jan 2023 19:30:56</small>
+					</div>
+					<div style='margin-top: 5px;'>
+						<p>
+							${ item.caption }
+						</p>
+					</div>
+				</td>
+				<td width='14%'>&nbsp</td>
+			</tr>
+		</table>
+		<footer>
+			<p>documented by SAESTRI-Apps &copy 2023 </p>
+		</footer>
+	</body>
+	</html>`;
+
+		await RNPrint.print({
+			html: html,
+		});
+	};
+
 	return (
 		<Container
 			noPadding
@@ -101,6 +239,7 @@ const PhotoDetail = ({ _, route }: any) => {
 					</View>
 				) : (
 					<View>
+						<Text onPress={ handlePrint }>PRINT HTML</Text>
 						<Text style={ style.textCaption }>
 							{ item.title }
 						</Text>

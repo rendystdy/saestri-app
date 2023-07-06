@@ -85,7 +85,7 @@ const ContractionHistoryScreen = ({ props, route }: any) => {
 			{ isDelete && (
 				<Button
 					backgroundColor={ Colors.blue.light }
-					text='Hapus'
+					text='Delete'
 					onPress={ () => setVisible(true) }
 					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
 					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }

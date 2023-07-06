@@ -48,7 +48,7 @@ const HistoryItemDetails: React.FC<IHistoryProps> = ({ detail, index }) => {
 				</View>
 			</View>
 			<View style={ styles.wrapperContent }>
-				<View style={ [styles.col, { width: 100, flex: 0 }] }>
+				<View style={ [styles.col, { flex: 0.8 }] }>
 					<Text style={ styles.textTitle }>Contraction</Text>
 					<Text style={ [styles.textTitle, { color: Colors.blue.light }] }>Rest</Text>
 					<Text style={ [styles.textTitle, { color: Colors.gray.darkGray }] }>Interval</Text>

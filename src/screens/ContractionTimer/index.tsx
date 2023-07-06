@@ -222,7 +222,7 @@ const ContractionTimer = ({ props, route }: any) => {
 				onPressBack={ () => setVisible(false) }
 				onPressClose={ () => setVisible(false) }
 				onPressAgree={ () => setVisible(false) }
-				titleAgree='tutup'
+				titleAgree='close'
 				textContent='Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.'
 			/>
 			<Modal
@@ -230,19 +230,18 @@ const ContractionTimer = ({ props, route }: any) => {
 				onPressBack={ () => setVisibleReset(!visibleReset) }
 				onPressClose={ () => setVisibleReset(!visibleReset) }
 				onPressAgree={ resetBtnHandler }
-				titleAgree='Yakin'
-				titleBack='Kembali'
-				textContent='Apakah anda yakin untuk melakukan
-				reset counter?'
+				titleAgree='Ok'
+				titleBack='Cancel'
+				textContent='Are you sure you want to reset the counter ?'
 			/>
 			<Modal
 				visible={ visibleStop }
 				onPressBack={ () => setVisibleStop(!visibleStop) }
 				onPressClose={ () => setVisibleStop(!visibleStop) }
 				onPressAgree={ stopBtnHandler }
-				titleAgree='Yakin'
-				titleBack='Kembali'
-				textContent='Apakah anda yakin untuk melakukan stop counter?'
+				titleAgree='Ok'
+				titleBack='Cancel'
+				textContent='Are you sure want to stop counter?'
 			/>
 		</Container>
 	);
