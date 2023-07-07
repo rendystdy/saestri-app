@@ -53,6 +53,7 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 const ContractionTimer = ({ props, route }: any) => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [visible, setVisible] = useState<boolean>(false);
+	const [fakeContractionVisible, setFakeContractionVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
 	const [visibleStop, setVisibleStop] = useState<boolean>(false);
 	const [isStop, setIsStop] = useState(false);
@@ -71,8 +72,12 @@ const ContractionTimer = ({ props, route }: any) => {
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 
 	useEffect(() => {
-		DeviceEventEmitter.addListener('show-warning', () => {
-			setVisible(true);
+		DeviceEventEmitter.addListener('show-warning', isReal => {
+			if (isReal) {
+				setVisible(true);
+			} else {
+				setFakeContractionVisible(true);
+			}
 		});
 
 		const backHandler = BackHandler.addEventListener(
@@ -224,6 +229,14 @@ const ContractionTimer = ({ props, route }: any) => {
 				onPressAgree={ () => setVisible(false) }
 				titleAgree='close'
 				textContent='Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.'
+			/>
+			<Modal
+				visible={ fakeContractionVisible }
+				onPressBack={ () => setFakeContractionVisible(false) }
+				onPressClose={ () => setFakeContractionVisible(false) }
+				onPressAgree={ () => setFakeContractionVisible(false) }
+				titleAgree='close'
+				textContent='False contraction.'
 			/>
 			<Modal
 				visible={ visibleReset }
