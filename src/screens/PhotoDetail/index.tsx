@@ -4,7 +4,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Container, Header } from '@components';
 import { NavigationHelper, useAppDispatch, useAppSelector } from '@helpers';
-import { Colors } from '@constant';
+import { Colors, Images } from '@constant';
 import RNTextArea from '@freakycoder/react-native-text-area';
 import { Actions } from '@store';
 import dayjs from 'dayjs';
@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const PhotoDetail = ({ _, route }: any) => {
 	const item = route?.params?.item ?? {};
-	const index = route?.params?.index;
 	const [edit, setEdit] = useState<boolean>(false);
 	const listGallery = useAppSelector(state => state.galleryReducers.listGallery);
 	const [value, setValue] = useState(item.title);
@@ -37,15 +36,14 @@ const PhotoDetail = ({ _, route }: any) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const createBase64 = async () => {
-		const data = await RNFS.readFile(route?.params.path, 'base64').then(res => { return res; });
+	const createBase64 = async() => {
+		const data = await RNFS.readFile(route?.params.path, 'base64');
 		setImgBas64(data);
 		return;
 	};
 
 	const backAction = () => {
 		if (route.name === 'PhotoDetail') {
-
 			NavigationHelper.pop(1);
 			return true;
 		}
@@ -69,7 +67,7 @@ const PhotoDetail = ({ _, route }: any) => {
 		return updateCaptionDispatch(payload);
 	};
 
-	const handlePrint = async () => {
+	const handlePrint = async() => {
 		const html = `<head>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,7 +78,7 @@ const PhotoDetail = ({ _, route }: any) => {
 			body {
 				font-family: 'Helvetica';
 				font-size: 12px;
-				background-image: url('pregnancy-journal-background.jpg');
+				background-image: url('${Images.image_print_bg}');
 				background-repeat: no-repeat;
 				background-size: contain;
 			}
@@ -122,11 +120,11 @@ const PhotoDetail = ({ _, route }: any) => {
 				body {
 					font-family: 'Helvetica';
 					font-size: 12px;
-					background-image: url('pregnancy-journal-background.jpg');
+					background-image: url('${Images.image_print_bg}');
 					background-repeat: no-repeat;
-					background-attachment: fixed;
 					background-size: 100% 100%;
 					background-size: contain;
+					margin-top: -20px;
 				}
 				@font-face {
 					font-family: Satisfy;

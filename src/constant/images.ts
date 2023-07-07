@@ -26,6 +26,9 @@ import ic_capture_btn from '../assets/images/capture_btn.svg';
 import ic_gallery_btn from '../assets/images/ic_gallery_btn.svg';
 import img_pregnant from '../assets/images/img_pregnant.png';
 import ic_wa from '../assets/images/ic_Wa.png';
+import base64Json from './bgbase64.json';
+
+const image_print_bg = base64Json.base64;
 
 export default {
 	Google,
@@ -56,4 +59,5 @@ export default {
 	ic_gallery_btn,
 	img_pregnant,
 	ic_wa,
+	image_print_bg,
 };
