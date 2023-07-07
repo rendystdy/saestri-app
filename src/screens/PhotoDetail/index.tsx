@@ -1,5 +1,5 @@
 import {
-	Text, Image, StyleSheet, BackHandler, View,
+	Text, Image, StyleSheet, BackHandler, View, TouchableOpacity,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Container, Header } from '@components';
@@ -9,6 +9,8 @@ import RNTextArea from '@freakycoder/react-native-text-area';
 import { Actions } from '@store';
 import dayjs from 'dayjs';
 import RNPrint from 'react-native-print';
+import RNFS from 'react-native-fs';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const PhotoDetail = ({ _, route }: any) => {
 	const item = route?.params?.item ?? {};
@@ -18,6 +20,7 @@ const PhotoDetail = ({ _, route }: any) => {
 	const [value, setValue] = useState(item.title);
 	const [valueCaption, setValueCaption] = useState(item.caption);
 	const [iconName, setIconName] = useState('detail-gallery');
+	const [imgBas64, setImgBas64] = useState('');
 
 	const updateCaptionDispatch = useAppDispatch(Actions.galleryAction.updateCaption);
 
@@ -27,11 +30,18 @@ const PhotoDetail = ({ _, route }: any) => {
 			backAction,
 		);
 
+		createBase64();
 		return () => {
 			backHandler.remove();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const createBase64 = async () => {
+		const data = await RNFS.readFile(route?.params.path, 'base64').then(res => { return res; });
+		setImgBas64(data);
+		return;
+	};
 
 	const backAction = () => {
 		if (route.name === 'PhotoDetail') {
@@ -61,23 +71,25 @@ const PhotoDetail = ({ _, route }: any) => {
 
 	const handlePrint = async () => {
 		const html = `<head>
-		<link rel="stylesheet"
-						href="https://fonts.googleapis.com/css?family=Tangerine">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Satisfy&family=Tangerine&display=swap" rel="stylesheet">
 		<style>
+		@import url('https://fonts.googleapis.com/css2?family=Tangerine&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
 			body {
 				font-family: 'Helvetica';
 				font-size: 12px;
-				background-image: url('/${ route?.params.path }');
+				background-image: url('pregnancy-journal-background.jpg');
 				background-repeat: no-repeat;
 				background-size: contain;
 			}
 			@font-face {
 				font-family: Satisfy;
-				src: url(Satisfy-Regular.ttf);
+				// src: url(Satisfy-Regular.ttf);
 			}
 			@font-face {
-				font-family: ComicNeue-Regular;
-				src: url(ComicNeue-Regular.ttf);
+				font-family: 'Comic Neue', cursive;
 			}
 			header{
 				font-family: Satisfy;
@@ -112,6 +124,8 @@ const PhotoDetail = ({ _, route }: any) => {
 					font-size: 12px;
 					background-image: url('pregnancy-journal-background.jpg');
 					background-repeat: no-repeat;
+					background-attachment: fixed;
+					background-size: 100% 100%;
 					background-size: contain;
 				}
 				@font-face {
@@ -119,8 +133,7 @@ const PhotoDetail = ({ _, route }: any) => {
 					src: url(Satisfy-Regular.ttf);
 				}
 				@font-face {
-					font-family: 'ComicNeue-Regular';
-					src: url(ComicNeue-Regular.ttf);
+					font-family: 'Comic Neue', cursive;
 				}
 				header{
 					font-family: Satisfy;
@@ -137,6 +150,9 @@ const PhotoDetail = ({ _, route }: any) => {
 				th, td {
 					border: none;
 				}
+				p, b {
+					font-family: 'Comic Neue', cursive;
+				}
 				footer {
 				font-family: 'Tangerine', serif;
 				height: 50px;
@@ -152,32 +168,32 @@ const PhotoDetail = ({ _, route }: any) => {
 	</head>
 	<body>
 		<header>
-			<h1>Pregnancy Journal.</h1>
+			<h1 style='text-align: center;' >Pregnancy Journal.</h1>
 		</header>
 		<table>
 			<tr>
-				<td width='18%' height='310px'>&nbsp;</td>
-				<td width='64%'><img src='require(${ route?.params?.path })' alt='usg-bung'></td> 
+				<td width='18%' height='210px'>&nbsp;</td>
+				<td width='64%'><img width='100%' height='300px' src='data:image/png;base64, ${ imgBas64 }' alt='usg-bung'></td> 
 				<td width='18%'>&nbsp;</td>
 			</tr>
 			
 		</table>
-		<div style='padding-top: 16%;'>&nbsp</div>
+		<div style='padding-top: 10%;'>&nbsp</div>
 		<div style='padding-top: 20px; width: 100%; text-align: center; padding-bottom: 30px; font-family: Satisfy; font-size: 20pt;'>
 			Thoughts & Feelings
 		</div>
 		<table>
 			<tr>
-				<td width='22%' height='310px'>&nbsp</td>
+				<td width='22%' height='210px'>&nbsp</td>
 				<td width='64%' style='padding-top: 0; font-family: ComicNeue-Regular; font-size: 14pt;vertical-align: top; text-align: justify;'>
 					<div>
-						<b>${ item.title }</b>
+						<b style='font-family: 'Comic Neue', cursive;'>${ item.title }</b>
 					</div>
 					<div style='font-size: 11pt; color:grey;'>
-						<small>20 jan 2023 19:30:56</small>
+						<small>${ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</small>
 					</div>
 					<div style='margin-top: 5px;'>
-						<p>
+						<p style='font-family: 'Comic Neue', cursive;'>
 							${ item.caption }
 						</p>
 					</div>
@@ -213,7 +229,7 @@ const PhotoDetail = ({ _, route }: any) => {
 				<Image
 					style={ style.image }
 					resizeMode='cover'
-					source={ { uri: route?.params?.path ?? '' } } />
+					source={ { uri: `data:image/png;base64, ${ imgBas64 }` } } />
 				{ edit ? (
 					<View style={ style.wrapperInput }>
 						<RNTextArea
@@ -239,7 +255,6 @@ const PhotoDetail = ({ _, route }: any) => {
 					</View>
 				) : (
 					<View>
-						<Text onPress={ handlePrint }>PRINT HTML</Text>
 						<Text style={ style.textCaption }>
 							{ item.title }
 						</Text>
@@ -247,6 +262,14 @@ const PhotoDetail = ({ _, route }: any) => {
 							{ item.caption }
 						</Text>
 						<Text style={ style.textDate }>{ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</Text>
+						<TouchableOpacity
+							onPress={ handlePrint }
+							style={ { padding: 18 } }>
+							<Icon
+								name='print'
+								color={ Colors.black.default }
+								size={ 24 } />
+						</TouchableOpacity>
 					</View>
 				) }
 			</View>

@@ -256,6 +256,7 @@ dependencies {
 
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-print')
+    implementation project(':react-native-fs')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
