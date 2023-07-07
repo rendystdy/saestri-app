@@ -134,7 +134,7 @@ const MiniGallery = ({ props, route }: any) => {
 			<View style={ styles.footer }>
 				{ deleteMode && <Button
 					backgroundColor={ Colors.blue.light }
-					text='Hapus'
+					text='Delete'
 					onPress={ () => setDeleteModal(true) }
 					buttonStyle={ { width: 232, alignSelf: 'center', borderRadius: 16, height: 44, padding: 12, position: 'absolute', bottom: 24 } }
 					textStyle={ { fontSize: 24, color: Colors.white.default, fontWeight: '700', letterSpacing: 1 } }
@@ -157,9 +157,9 @@ const MiniGallery = ({ props, route }: any) => {
 				onPressBack={ () => setDeleteModal(false) }
 				onPressClose={ () => setDeleteModal(false) }
 				onPressAgree={ () => deleteModalHandler() }
-				titleAgree='Yakin'
-				titleBack='Kembali'
-				textContent='Apakah anda yakin untuk menghapus gambar?'
+				titleAgree='Ok'
+				titleBack='Cancel'
+				textContent='Are you sure to delete the image?'
 			/>
 		</Container>
 	);

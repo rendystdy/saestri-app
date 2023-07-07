@@ -36,7 +36,7 @@ const PhotoDetail = ({ _, route }: any) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const createBase64 = async() => {
+	const createBase64 = async () => {
 		const data = await RNFS.readFile(route?.params.path, 'base64');
 		setImgBas64(data);
 		return;
@@ -67,7 +67,7 @@ const PhotoDetail = ({ _, route }: any) => {
 		return updateCaptionDispatch(payload);
 	};
 
-	const handlePrint = async() => {
+	const handlePrint = async () => {
 		const html = `<head>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,7 +78,7 @@ const PhotoDetail = ({ _, route }: any) => {
 			body {
 				font-family: 'Helvetica';
 				font-size: 12px;
-				background-image: url('${Images.image_print_bg}');
+				background-image: url('${ Images.image_print_bg }');
 				background-repeat: no-repeat;
 				background-size: contain;
 			}
@@ -120,7 +120,7 @@ const PhotoDetail = ({ _, route }: any) => {
 				body {
 					font-family: 'Helvetica';
 					font-size: 12px;
-					background-image: url('${Images.image_print_bg}');
+					background-image: url('${ Images.image_print_bg }');
 					background-repeat: no-repeat;
 					background-size: 100% 100%;
 					background-size: contain;
@@ -166,7 +166,7 @@ const PhotoDetail = ({ _, route }: any) => {
 	</head>
 	<body>
 		<header>
-			<h1 style='text-align: center;' >Pregnancy Journal.</h1>
+			<h1>Pregnancy Journal.</h1>
 		</header>
 		<table>
 			<tr>
