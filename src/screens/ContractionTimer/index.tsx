@@ -36,27 +36,21 @@ export type ITimerStatus = 'contraction' | 'interval' | 'finished';
 
 const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 
-// ANOTHER APPROACH
-/*
-	we log each event into individual data then we can restructure in ui this is
-	should be easier since we avoid using unneccesary flag or statuses i guess ?
-	contractions [
-		{type: contraction, timestamp: 10231, duration: 2031024},
-		{type: interval, timestamp: 10231, duration: 2031024},
-		{type: contraction, timestamp: 10231, duration: 2031024},
-		{type: interval, timestamp: 10231, duration: 2031024},
-		{type: contraction, timestamp: 10231, duration: 2031024},
-		{type: interval, timestamp: 10231, duration: 2031024},
-	]
-*/
+export type ModalType = 'actual_contraction' | 'prepare_hospitalization' | 'false_contraction'
+
+const modalContent = {
+	actual_contraction: 'Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.',
+	prepare_hospitalization: 'Prepare for hospitalization.',
+	false_contraction: 'False Contraction',
+};
 
 const ContractionTimer = ({ props, route }: any) => {
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [visible, setVisible] = useState<boolean>(false);
-	const [fakeContractionVisible, setFakeContractionVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
 	const [visibleStop, setVisibleStop] = useState<boolean>(false);
 	const [isStop, setIsStop] = useState(false);
+	const [modalType, setModalType] = useState<ModalType>();
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
@@ -72,12 +66,9 @@ const ContractionTimer = ({ props, route }: any) => {
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 
 	useEffect(() => {
-		DeviceEventEmitter.addListener('show-warning', isReal => {
-			if (isReal) {
-				setVisible(true);
-			} else {
-				setFakeContractionVisible(true);
-			}
+		DeviceEventEmitter.addListener('show-warning', (type:ModalType) => {
+			setVisible(true);
+			setModalType(type);
 		});
 
 		const backHandler = BackHandler.addEventListener(
@@ -147,6 +138,11 @@ const ContractionTimer = ({ props, route }: any) => {
 		if (counter % 2 === 0) { return <Images.img_contractionStart />; }
 		if (counter % 2 !== 0) { return <Images.img_contractionPause />; }
 		return null;
+	};
+
+	const renderModalContent = () => {
+		if (modalType)	{ return modalContent[modalType]; }
+		return '';
 	};
 
 	return (
@@ -228,15 +224,7 @@ const ContractionTimer = ({ props, route }: any) => {
 				onPressClose={ () => setVisible(false) }
 				onPressAgree={ () => setVisible(false) }
 				titleAgree='close'
-				textContent='Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.'
-			/>
-			<Modal
-				visible={ fakeContractionVisible }
-				onPressBack={ () => setFakeContractionVisible(false) }
-				onPressClose={ () => setFakeContractionVisible(false) }
-				onPressAgree={ () => setFakeContractionVisible(false) }
-				titleAgree='close'
-				textContent='False contraction.'
+				textContent={ renderModalContent() }
 			/>
 			<Modal
 				visible={ visibleReset }
