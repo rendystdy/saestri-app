@@ -12,7 +12,7 @@ const useTimer = () => {
 		if (isRunning) {
 			intervalId = BackgroundTimer.setInterval(() => {
 				setTime(time + 1);
-			}, 10);
+			}, 1000);
 		} else {
 			BackgroundTimer.clearInterval(intervalId);
 		}
