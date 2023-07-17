@@ -20,8 +20,23 @@ const PhotoDetail = ({ _, route }: any) => {
 	const [valueCaption, setValueCaption] = useState(item.caption);
 	const [iconName, setIconName] = useState('detail-gallery');
 	const [imgBas64, setImgBas64] = useState('');
+	const [isValueError, setIsValueError] = useState(false);
+	const [isValueCaptionError, setIsValueCaptionError] = useState(false);
 
 	const updateCaptionDispatch = useAppDispatch(Actions.galleryAction.updateCaption);
+	useEffect(() => {
+		if (value.length > 100) {
+			setIsValueError(true);
+		} else {
+			setIsValueError(false);
+		}
+
+		if (valueCaption.length > 500) {
+			setIsValueCaptionError(true);
+		} else {
+			setIsValueCaptionError(false);
+		}
+	}, [value, valueCaption]);
 
 	useEffect(() => {
 		const backHandler = BackHandler.addEventListener(
@@ -62,39 +77,45 @@ const PhotoDetail = ({ _, route }: any) => {
 			return setIconName('detail-gallery-save');
 		}
 
-		setEdit(false);
-		setIconName('detail-gallery');
-		return updateCaptionDispatch(payload);
+		if (value.length <= 100 && valueCaption.length <= 500) {
+			setEdit(false);
+			setIconName('detail-gallery');
+			return updateCaptionDispatch(payload);
+		}
 	};
 
 	const handlePrint = async () => {
 		const html = `<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Comic+Neue&family=Satisfy&family=Tangerine&display=swap" rel="stylesheet">
 		<style>
-		@import url('https://fonts.googleapis.com/css2?family=Tangerine&display=swap');
-		@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Tangerine&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
 			body {
 				font-family: 'Helvetica';
 				font-size: 12px;
 				background-image: url('${ Images.image_print_bg }');
 				background-repeat: no-repeat;
 				background-size: contain;
+				width: '100%';
+				height: '100%';
 			}
 			@font-face {
 				font-family: Satisfy;
-				// src: url(Satisfy-Regular.ttf);
+				/* src: url(./Satisfy-Regular.ttf); */
 			}
 			@font-face {
 				font-family: 'Comic Neue', cursive;
+				/* src: url(./ComicNeue-Regular.ttf); */
 			}
 			header{
 				font-family: Satisfy;
 				font-size: 24pt;
-				color: brown;
-				margin-top: 2em;
-				padding-left: 2em;
+				color: #03989E;
+				margin-top: 3em;
+				padding-left: 3em;
 			}
 			footer {
 				font-family: 'Tangerine', serif;
@@ -122,43 +143,32 @@ const PhotoDetail = ({ _, route }: any) => {
 					font-size: 12px;
 					background-image: url('${ Images.image_print_bg }');
 					background-repeat: no-repeat;
-					background-size: 100% 100%;
-					background-size: contain;
-					margin-top: -20px;
+					background-size: cover;
 				}
 				@font-face {
 					font-family: Satisfy;
-					src: url(Satisfy-Regular.ttf);
+					src: url(./Satisfy-Regular.ttf);
 				}
 				@font-face {
 					font-family: 'Comic Neue', cursive;
+					/* src: url(./ComicNeue-Regular.ttf); */
 				}
 				header{
 					font-family: Satisfy;
 					font-size: 24pt;
-					color: brown;
-					margin-top: 2em;
-					padding-left: 2em;
+					color: #03989E;
+					margin-top: 3em;
+					padding-left: 3em;
 				}
 				table {
 					width: 100%;
 					border-collapse: collapse;
 					border: none;
+					margin-top: 0;
 				}
 				th, td {
 					border: none;
 				}
-				p, b {
-					font-family: 'Comic Neue', cursive;
-				}
-				footer {
-				font-family: 'Tangerine', serif;
-				height: 50px;
-				background-color: #fff;
-				display: flex;
-				justify-content: center;
-				padding: 0 20px;
-			}
 	
 			}
 	
@@ -170,24 +180,24 @@ const PhotoDetail = ({ _, route }: any) => {
 		</header>
 		<table>
 			<tr>
-				<td width='18%' height='210px'>&nbsp;</td>
-				<td width='64%'><img width='100%' height='300px' src='data:image/png;base64, ${ imgBas64 }' alt='usg-bung'></td> 
+				<td width='18%' height='250px'>&nbsp;</td>
+				<td width='64%'><img src='data:image/png;base64, ${ imgBas64 }' height='297px' width='448px' alt='usg-bung'></td> 
 				<td width='18%'>&nbsp;</td>
 			</tr>
 			
 		</table>
-		<div style='padding-top: 10%;'>&nbsp</div>
-		<div style='padding-top: 20px; width: 100%; text-align: center; padding-bottom: 30px; font-family: Satisfy; font-size: 20pt;'>
+		<div style='padding-top: 4%;'>&nbsp</div>
+		<div style='padding-top: 7px; width: 100%; text-align: center; padding-bottom: 30px; font-family: Satisfy; font-size: 25pt;color: #03989E;'>
 			Thoughts & Feelings
 		</div>
 		<table>
 			<tr>
-				<td width='22%' height='210px'>&nbsp</td>
+				<td width='22%' height='310px'>&nbsp</td>
 				<td width='64%' style='padding-top: 0; font-family: ComicNeue-Regular; font-size: 14pt;vertical-align: top; text-align: justify;'>
-					<div>
-						<b style='font-family: 'Comic Neue', cursive;'>${ item.title }</b>
+					<div style="font-weight: bolder;font-size: 18pt;">
+						<p style='font-family: 'Comic Neue', cursive;'>${ item.title }</p>
 					</div>
-					<div style='font-size: 11pt; color:grey;'>
+					<div style='font-size: 11pt; color:grey;text-align: center;'>
 						<small>${ dayjs(item.date).format('DD MMM YYYY HH:mm:ss') }</small>
 					</div>
 					<div style='margin-top: 5px;'>
@@ -199,9 +209,6 @@ const PhotoDetail = ({ _, route }: any) => {
 				<td width='14%'>&nbsp</td>
 			</tr>
 		</table>
-		<footer>
-			<p>documented by SAESTRI-Apps &copy 2023 </p>
-		</footer>
 	</body>
 	</html>`;
 
@@ -231,21 +238,23 @@ const PhotoDetail = ({ _, route }: any) => {
 				{ edit ? (
 					<View style={ style.wrapperInput }>
 						<RNTextArea
-							style={ [style.textareaContainer, { marginBottom: 12 }] }
+							style={ [style.textareaContainer, { height: 127, marginBottom: 12, borderColor: isValueError ? '#990606' : Colors.blue.light, borderWidth: 1 }] }
 							charCountColor={ Colors.white.default }
 							placeholderTextColor={ Colors.white.default }
-							exceedCharCountColor={ Colors.white.default }
+							exceedCharCountColor='#990606'
 							textAlignVertical='top'
+							maxCharLimit={ 100 }
 							textInputStyle={ { color: Colors.white.default } }
 							value={ value }
 							onChangeText={ (text: string) => setValue(text) }
 						/>
 						<RNTextArea
-							style={ style.textareaContainer }
+							style={ [style.textareaContainer, { borderColor: isValueCaptionError ? '#990606' : Colors.blue.light, borderWidth: 1 }] }
 							charCountColor={ Colors.white.default }
 							placeholderTextColor={ Colors.white.default }
-							exceedCharCountColor={ Colors.white.default }
+							exceedCharCountColor='#990606'
 							textAlignVertical='top'
+							maxCharLimit={ 500 }
 							textInputStyle={ { color: Colors.white.default } }
 							value={ valueCaption }
 							onChangeText={ (text: string) => setValueCaption(text) }

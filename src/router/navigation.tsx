@@ -20,6 +20,7 @@ const AppRouter = () => {
 								key={ index }
 								name={ screen.name }
 								component={ screen.component }
+								options={ { orientation: 'portrait' } }
 							/>
 						);
 					})

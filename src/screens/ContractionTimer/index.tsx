@@ -36,7 +36,7 @@ export type ITimerStatus = 'contraction' | 'interval' | 'finished';
 
 const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 
-export type ModalType = 'actual_contraction' | 'prepare_hospitalization' | 'false_contraction'
+export type ModalType = 'actual_contraction' | 'prepare_hospitalization' | 'false_contraction';
 
 const modalContent = {
 	actual_contraction: 'Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.',
@@ -66,7 +66,7 @@ const ContractionTimer = ({ props, route }: any) => {
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 
 	useEffect(() => {
-		DeviceEventEmitter.addListener('show-warning', (type:ModalType) => {
+		DeviceEventEmitter.addListener('show-warning', (type: ModalType) => {
 			setVisible(true);
 			setModalType(type);
 		});
@@ -141,7 +141,7 @@ const ContractionTimer = ({ props, route }: any) => {
 	};
 
 	const renderModalContent = () => {
-		if (modalType)	{ return modalContent[modalType]; }
+		if (modalType) { return modalContent[modalType]; }
 		return '';
 	};
 
@@ -200,21 +200,15 @@ const ContractionTimer = ({ props, route }: any) => {
 						style={ [styles.startStopBtn, { marginRight: 19 }] }
 						onPress={ () => setVisibleStop(true) }>
 						<Images.ic_stop
-							height={ 22 }
-							width={ 22 } />
-						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
-							Stop
-						</Text>
+							height={ 32 }
+							width={ 32 } />
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={ [styles.startStopBtn, { marginRight: 16 }] }
 						onPress={ () => setVisibleReset(true) }>
 						<Images.ic_reset
-							height={ 22 }
-							width={ 22 } />
-						<Text style={ { fontSize: 11, color: Colors.white.default, letterSpacing: 1 } }>
-							Reset
-						</Text>
+							height={ 32 }
+							width={ 32 } />
 					</TouchableOpacity>
 				</View>
 			</View>

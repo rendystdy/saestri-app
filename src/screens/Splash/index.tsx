@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { NavigationHelper, Ratio, useAppDispatch } from '@helpers';
 import { Images } from '@constant';
@@ -27,9 +27,10 @@ function Splash() {
 
 	return (
 		<View style={ styles.container }>
-			<Images.LogoSaestri
-				width={ 95 }
-				height={ 106 } />
+			<Image
+				source={ Images.new_logo }
+				style={ { width: 95, height: 106 } }
+				resizeMode='contain' />
 		</View>
 	);
 }

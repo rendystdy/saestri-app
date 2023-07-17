@@ -10,7 +10,7 @@ export const detectContractionWarning = (entries: IDataContraction[]) => {
 		return contractionDuration + intervalDuration;
 	});
 	const average = getAverage(durations);
-  
+
 	// check apakah rata rata durasi dari ketiga cycle kurang dari sama dengan 5 menit
 	if (average <= 300) {
 		DeviceEventEmitter.emit('show-warning', 'actual_contraction');

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		padding: 16,
 	},
 	titleTextAreaContainer: {
-		height: 64,
+		height: 97,
 		marginBottom: 12,
 		backgroundColor: Colors.blue.light,
 		borderRadius: 16,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	
 	},
 	textareaContainer: {
-		height: 157,
+		height: 167,
 		backgroundColor: Colors.blue.light,
 		borderRadius: 16,
 		color: Colors.white.default,

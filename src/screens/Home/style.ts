@@ -69,12 +69,13 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.blue.light,
 		position: 'absolute',
 		bottom: 0,
-		right: Ratio.isTablet ? 0 : -10,
-		width: '98%',
+		// right: Ratio.isTablet ? 0 : -10,
+		right: 0,
+		left: 0,
+		width: '100%',
 		resizeMode: 'stretch',
 		height: 102,
-		borderTopLeftRadius: 24,
-		borderBottomLeftRadius: 24,
+		// borderTopLeftRadius: 24,.
 	},
 	imgHome: {
 		height: '70%', width: 221, position: 'absolute', left: Ratio.isTablet ? -20 : -35, bottom: 0,
