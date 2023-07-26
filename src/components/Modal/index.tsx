@@ -5,13 +5,13 @@ import React from 'react';
 import { Colors, Images } from '@constant';
 
 interface IModalProps {
-  visible: boolean,
-  onPressBack: () => void,
-  textContent: string,
-  onPressClose: () => void,
-  onPressAgree: () => void,
-  titleBack?: string,
-  titleAgree: string;
+	visible: boolean,
+	onPressBack: () => void,
+	textContent: string,
+	onPressClose: () => void,
+	onPressAgree: () => void,
+	titleBack?: string,
+	titleAgree: string;
 }
 
 const ModalInformation: React.FC<IModalProps> = ({ visible, onPressBack, textContent, onPressAgree, onPressClose, titleAgree, titleBack }) => {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 	},
 	modalView: {
 		backgroundColor: Colors.white.default,
-		width: 364,
+		width: '90%',
 		borderRadius: 24,
 		alignItems: 'center',
 		justifyContent: 'center',

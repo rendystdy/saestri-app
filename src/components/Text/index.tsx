@@ -58,6 +58,7 @@ const Text: React.FC<ComponentInterface.IText> = props => {
 				style,
 			]) }
 			adjustsFontSizeToFit
+			allowFontScaling={ false }
 			{ ...restOfProps }
 		>{ props.children }
 		</TextNative>

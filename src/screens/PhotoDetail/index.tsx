@@ -171,6 +171,33 @@ const PhotoDetail = ({ _, route }: any) => {
 				}
 	
 			}
+
+			.center-cropped {
+				width: 400px;
+				height: 400px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				overflow: hidden;
+			}
+	
+		/* Set the image to fill its parent and make transparent */
+		.center-cropped img {
+			min-height: 100%;
+			min-width: 100%;
+			/* IE 8 */
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+			/* IE 5-7 */
+			filter: alpha(opacity=0);
+			/* modern browsers */
+			opacity: 0;
+		}
+		.center-resize-cropped{
+      width: 400px;
+      height: 300px;
+      background-image: url('data:image/png;base64, ${ imgBas64 }');
+      background-size: cover;
+      background-position: center;
+    }
 	
 		</style>
 	</head>
@@ -180,11 +207,15 @@ const PhotoDetail = ({ _, route }: any) => {
 		</header>
 		<table>
 			<tr>
-				<td width='18%' height='250px'>&nbsp;</td>
-				<td width='64%'><img src='data:image/png;base64, ${ imgBas64 }' height='297px' width='448px' alt='usg-bung'></td> 
+				<td width='18%' height='310px'>&nbsp;</td>
+				<td width='64%' align="center">
+					<!-- foto hasil cropped -->
+					<div class="center-resize-cropped" style="vertical-align: middle;">
+						<!--  <div class="center-cropped" style="background-image: url('IMG_20230628_105036.jpg'); vertical-align: middle;"> -->
+					</div>
+				</td> 
 				<td width='18%'>&nbsp;</td>
 			</tr>
-			
 		</table>
 		<div style='padding-top: 4%;'>&nbsp</div>
 		<div style='padding-top: 7px; width: 100%; text-align: center; padding-bottom: 30px; font-family: Satisfy; font-size: 25pt;color: #03989E;'>

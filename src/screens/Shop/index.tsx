@@ -6,7 +6,7 @@ import { NavigationHelper } from '@helpers';
 import styles from './style';
 import { Images } from '@constant';
 
-const urls = ['6282132228078'];
+const urls = ['6282132228078', '6282228808979'];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Shop = ({ _, route }: any) => {
 
@@ -31,8 +31,8 @@ const Shop = ({ _, route }: any) => {
 		return false;
 	};
 
-	const openWaBtnHandler = async(url: string) => {
-		await Linking.openURL(`whatsapp://send?text=&phone=${url}`);
+	const openWaBtnHandler = async (url: string) => {
+		await Linking.openURL(`whatsapp://send?text=&phone=${ url }`);
 	};
 
 	return (

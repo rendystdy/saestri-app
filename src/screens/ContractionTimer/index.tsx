@@ -3,6 +3,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Dayjs } from 'dayjs';
+import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 
 import { Colors, Images } from '@constant';
 import { Actions } from '@store';
@@ -39,12 +40,13 @@ const availableTimerStatus: ITimerStatus[] = ['contraction', 'interval'];
 export type ModalType = 'actual_contraction' | 'prepare_hospitalization' | 'false_contraction';
 
 const modalContent = {
-	actual_contraction: 'Actual Contraction Labor is imminent !!.  Call your provider/clinic/hospital and get ready to leave.',
+	actual_contraction: 'Actual Contraction !.\n\n Labor is imminent. Call your  provider/clinic/hospital and get ready to leave.',
 	prepare_hospitalization: 'Prepare for hospitalization.',
-	false_contraction: 'False Contraction',
+	false_contraction: 'False Contraction !.\n\n Try to take a short break or change your position.',
 };
 
 const ContractionTimer = ({ props, route }: any) => {
+	useKeepAwake();
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
@@ -88,7 +90,7 @@ const ContractionTimer = ({ props, route }: any) => {
 			addTimerDispatch();
 		}
 
-		if (counter % 2 === 0 && counter > 1) {
+		if (counter % 2 === 0 && counter > 1 && hasStarted) {
 			updateTimerDispatch();
 		}
 

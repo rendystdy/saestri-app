@@ -80,7 +80,8 @@ const Home = () => {
 	};
 
 	const openWaBtnHandler = async () => {
-		const url = '6282132228078';
+		// const url = '6282132228078';
+		const url = '6282228808979';
 		await Linking.openURL(`whatsapp://send?text=&phone=${ url }`);
 	};
 

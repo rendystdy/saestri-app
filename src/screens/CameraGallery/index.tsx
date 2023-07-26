@@ -4,7 +4,7 @@ import {
 import React, { useRef, useState, useEffect } from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import { Colors, Images } from '@constant';
-import { Header } from '@components';
+import { Header, Text } from '@components';
 import { NavigationHelper } from '@helpers';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -83,6 +83,11 @@ const CameraGallery = ({ props, route }: any) => {
 				isActive={ focused }
 				photo
 			/>
+			<View style={ { position: 'absolute', zIndex: 2, top: 0, right: 0, left: 0, bottom: 0, height: 560, justifyContent: 'center', alignItems: 'center', paddingTop: 80 } }>
+				<View style={ { width: '100%', height: 300, borderWidth: 2, borderColor: '#5cff2d', justifyContent: 'flex-end' } } >
+					<Text style={ { color: 'white', textAlign: 'center', fontSize: 10 } }>Print Area</Text>
+				</View>
+			</View>
 			<View style={ styles.footer } >
 				<TouchableOpacity
 					onPress={ () => NavigationHelper.pop(1) }
@@ -109,15 +114,17 @@ export default CameraGallery;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: Colors.gray.light,
 	},
 	camera: {
+		marginTop: 75,
 		position: 'absolute',
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
 		zIndex: 1,
-		height: 560,
+		height: 485,
 	},
 	footer: {
 		backgroundColor: Colors.gray.light,

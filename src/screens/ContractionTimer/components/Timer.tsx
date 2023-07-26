@@ -17,7 +17,7 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item }) => {
 
-	const { currentTimer, isSuspended, counter  } = useAppSelector(state => state.timerReducers);
+	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
 	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
 	const incrementDuration = useAppDispatch(Actions.timerAction.incrementDuration);
 
@@ -26,7 +26,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 
 	useEffect(() => {
 		restoreSavedTimer();
-		resumeTimerDispatch();
+		// resumeTimerDispatch();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	useEffect(() => {
@@ -34,10 +34,10 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		if (timer && counter % 2 !== 0 && timer.isActive) {
 			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'contraction' });
 		}
-		if (timer && counter % 2 === 0  && timer.isActive) {
+		if (timer && counter % 2 === 0 && timer.isActive) {
 			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'interval' });
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [contractionDuration, incrementDuration, item.uid, intervalDuration, counter]);
 
 	useEffect(() => {
@@ -58,7 +58,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	}, [item, counter, currentTimer]);
 
 	const getTimer = () => {
-		return currentTimer.find((search:any) => search.uid === item.uid);
+		return currentTimer.find((search: any) => search.uid === item.uid);
 	};
 
 	const parseTimestamp = () => {
@@ -73,7 +73,7 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		const timer = getTimer();
 		if (timer) {
 			setContractionTime(parseDuration(timer.contractionTime.start, !timer.contractionTime.end && timer.status === 'contraction' ? dayjs() : timer.contractionTime.end));
-			setIntervalTime(parseDuration(timer.intervalTime.start,  !timer.intervalTime.end && timer.status === 'interval' ? dayjs() : timer.intervalTime.end));
+			setIntervalTime(parseDuration(timer.intervalTime.start, !timer.intervalTime.end && timer.status === 'interval' ? dayjs() : timer.intervalTime.end));
 		}
 	};
 
@@ -91,18 +91,24 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 		<View style={ styles.container }>
 			<View style={ [styles.contractionRow] }>
 				<View style={ styles.col }>
-					<View style={ styles.wrapperDate }>
-						<Text style={ styles.textDateAndTime }> { parseTimestamp().date } </Text>
-						<Text style={ styles.textDateAndTime }> { parseTimestamp().time } </Text>
+					<View style={ [styles.wrapperDate, { width: 60 }] }>
+						<Text
+							style={ styles.textDateAndTime }
+							numberOfLines={ 1 }> { parseTimestamp().date } </Text>
+						<Text
+							style={ styles.textDateAndTime }
+							numberOfLines={ 1 }> { parseTimestamp().time } </Text>
 					</View>
-					<Text style={ styles.textTimer }>{ `${ getHours() }:${ getMinutes() }:${ getSeconds() }` }</Text>
+					<Text
+						style={ [styles.textTimer, { width: 120, textAlign: 'left' }] }
+						numberOfLines={ 1 }>{ `${ getHours() }:${ getMinutes() }:${ getSeconds() }` }</Text>
 				</View>
 				<View style={ [styles.col, { justifyContent: 'flex-end' }] }>
 					<View style={ styles.wrapperDate }>
 						<Text style={ styles.textDateAndTime }> Rest </Text>
 					</View>
 					<Text style={ [styles.textTimer, { color: Colors.blue.blueTimer }] }>{ `${ hourInterval() }:${ minuteInterval() }:${ secondInterval() }` }</Text>
-	
+
 				</View>
 			</View>
 			<View style={ [styles.intervalRow] }>
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
 		color: Colors.gray.darkGray,
 	},
 	wrapperDate: {
-		marginRight: 4,
+		// marginRight: 4,
 	},
 	textTimer: {
 		fontSize: Ratio.isTablet ? 34 : 22,
