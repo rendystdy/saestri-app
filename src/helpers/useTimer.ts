@@ -10,15 +10,15 @@ const useTimer = () => {
 		let intervalId: any;
 
 		if (isRunning) {
-			intervalId = BackgroundTimer.setInterval(() => {
+			intervalId = BackgroundTimer.setTimeout(() => {
 				setTime(time + 1);
 			}, 1000);
 		} else {
-			BackgroundTimer.clearInterval(intervalId);
+			BackgroundTimer.clearTimeout(intervalId);
 		}
   
 		return () => {
-			BackgroundTimer.clearInterval(intervalId);
+			BackgroundTimer.clearTimeout(intervalId);
 		};
 
 	}, [time, isRunning]);
