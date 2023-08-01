@@ -2,26 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { padLeft } from './numbers';
 import BackgroundTimer from 'react-native-background-timer';
 
+import { useTimer as usePrecisionTimer } from 'react-use-precision-timer';
+
 const useTimer = () => {
 	const [time, setTime] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
+	const timer = usePrecisionTimer({ delay: 1000 }, cb => {
+		tickTime();
+	});
+	
 	useEffect(() => {
-		let intervalId: any;
-
 		if (isRunning) {
-			intervalId = BackgroundTimer.setTimeout(() => {
-				setTime(time + 1);
-			}, 1000);
+			timer.start();
 		} else {
-			BackgroundTimer.clearTimeout(intervalId);
+			timer.stop();
 		}
-  
-		return () => {
-			BackgroundTimer.clearTimeout(intervalId);
-		};
+	}, [time, isRunning, timer]);
 
-	}, [time, isRunning]);
+	const tickTime = () => {
+		const elapsed = timer.getElapsedRunningTime();
+		const second = Math.floor((elapsed / 1000) % 60);
+		setTime(time + second);
+	};
 
 	const getHours = () => {
 		return padLeft(Math.floor(time / 3600), 2);
