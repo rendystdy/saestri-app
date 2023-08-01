@@ -45,6 +45,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-vision-camera": "2.14.1",
     "react-redux": "^8.0.2",
+    "react-use-precision-timer": "^3.3.1",
     "reactotron-core-client": "^2.8.10",
     "reactotron-react-native": "^5.0.2",
     "reactotron-redux": "^3.1.3",
