@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { padLeft } from './numbers';
 import BackgroundTimer from 'react-native-background-timer';
-
-import { useTimer as usePrecisionTimer } from 'react-use-precision-timer';
+import dayjs, { Dayjs } from 'dayjs';
 
 const useTimer = () => {
 	const [time, setTime] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
-	const timer = usePrecisionTimer({ delay: 1000 }, cb => {
-		tickTime();
-	});
-	
 	useEffect(() => {
-		if (isRunning) {
-			timer.start();
-		} else {
-			timer.stop();
-		}
-	}, [time, isRunning, timer]);
+		let intervalId: any;
 
-	const tickTime = () => {
-		const elapsed = timer.getElapsedRunningTime();
-		const second = Math.floor((elapsed / 1000) % 60);
-		setTime(time + second);
-	};
+		if (isRunning) {
+			intervalId = BackgroundTimer.setTimeout(() => {
+				setTime(time + 1);
+			}, 970);
+		} else {
+			BackgroundTimer.clearTimeout(intervalId);
+		}
+  
+		return () => {
+			BackgroundTimer.clearTimeout(intervalId);
+		};
+
+	}, [time, isRunning]);
 
 	const getHours = () => {
 		return padLeft(Math.floor(time / 3600), 2);
