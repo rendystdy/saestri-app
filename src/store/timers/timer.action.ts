@@ -6,11 +6,15 @@ import dayjs from 'dayjs';
 
 const generateInitialData = ():IDataContraction => ({
 	contractionTime: {
+		startDate: new Date(),
+		currentDate: null,
 		start: dayjs(),
 		end: null,
 		duration: 0,
 	},
 	intervalTime: {
+		startDate: new Date(),
+		currentDate: null,
 		start: null,
 		end: null,
 		duration: 0,
@@ -64,8 +68,10 @@ export default {
 	removeHistoryItem: (payload: any) => (dispatch:Dispatch) => {
 		dispatch({ type: Dispatches.REMOVE_HISTORY_ITEM, payload });
 	},
-
 	incrementDuration: ({ timerId, value, status }:{timerId: string, value:number, status:string}) => (dispatch: Dispatch) => {
 		dispatch({ type: Dispatches.INCREMENT_DURATION, payload: { timerId, value, status } });
+	},
+	tickTimer: ({ timerId, value, status }:{timerId: string, value:number, status:string}) => (dispatch: Dispatch) => {
+		dispatch({ type: Dispatches.TICK_TIMER, payload: { timerId, value, status } });
 	},
 };

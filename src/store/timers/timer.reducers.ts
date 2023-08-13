@@ -38,6 +38,21 @@ const timerReducers = (
 				...state,
 				currentTimer: timers,
 			};
+		case Dispatches.TICK_TIMER:
+			const updated_timer = shallowTimer.map(timer => {
+				if (timer.uid === payload.timerId) {
+					if (payload.status === 'contraction') {
+						timer.contractionTime.currentDate = new Date();
+					} else {
+						timer.intervalTime.currentDate = new Date();
+					}
+				}
+				return timer;
+			});
+			return {
+				...state,
+				currentTimer: updated_timer,
+			};
 		case Dispatches.ADD_NEW_TIMER:
 			return {
 				...state,

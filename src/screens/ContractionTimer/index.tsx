@@ -17,11 +17,15 @@ import DashedLine from 'react-native-dashed-line';
 export interface IDataContraction {
 	uid: number,
 	contractionTime: {
+		startDate: null | Date,
+		currentDate: null| Date
 		start: null | Dayjs,
 		end: null | Dayjs;
 		duration: number,
 	},
 	intervalTime: {
+		startDate: null | Date,
+		currentDate: null| Date
 		start: null | Dayjs,
 		end: null | Dayjs;
 		duration: number,

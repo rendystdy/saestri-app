@@ -2,7 +2,6 @@ import Ratio from './ratio';
 import API from './api';
 import * as NavigationHelper from './navigationHelper';
 import { useAppDispatch, useAppSelector, useIsForeground } from './hooks';
-import { useTimer } from './useTimer';
 import { padLeft } from './numbers';
 import { parseDuration, parseTime } from './parseDuration';
 import { detectContractionWarning } from './modalHelper';
@@ -16,7 +15,6 @@ export {
 	API,
 	useAppDispatch,
 	useAppSelector,
-	useTimer,
 	padLeft,
 	parseDuration,
 	parseTime,
