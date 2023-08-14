@@ -4,7 +4,7 @@ import { Dispatches } from '@constant';
 import { IDataContraction } from 'src/screens/ContractionTimer';
 import dayjs from 'dayjs';
 
-const generateInitialData = ():IDataContraction => ({
+export const generateInitialData = ():IDataContraction => ({
 	contractionTime: {
 		startDate: new Date(),
 		currentDate: null,

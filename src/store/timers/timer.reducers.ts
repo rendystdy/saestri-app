@@ -3,6 +3,7 @@ import { Dispatches } from '@constant';
 import { detectContractionWarning } from '@helpers';
 import dayjs from 'dayjs';
 import { TimerState } from 'src/interfaces/timers';
+import { IDataContraction } from 'src/screens/ContractionTimer';
 
 const initialState: TimerState = {
 	timerHistories: [],
@@ -84,14 +85,13 @@ const timerReducers = (
 					payload,
 				],
 			};
-		
 		case Dispatches.STOP_TIMER:
-			if (lastTimer && lastTimer.status === 'contraction') {
+			if (lastTimer && lastTimer.status === 'contraction' && lastTimer.isActive) {
 				lastTimer.contractionTime.end = dayjs();
 				lastTimer.intervalTime.start = dayjs();
 				lastTimer.intervalTime.end = dayjs();
 			}
-			if (lastTimer && lastTimer.status === 'interval') {
+			if (lastTimer && lastTimer.status === 'interval' && lastTimer.isActive) {
 				lastTimer.intervalTime.end = dayjs();
 			}
 			if (lastTimer) { lastTimer.isActive = false; }
@@ -110,12 +110,11 @@ const timerReducers = (
 					...shallowTimer,
 				],
 			};
-
 		case Dispatches.RESET_TIMER:
-			if (lastTimer && lastTimer.status === 'contraction') {
+			if (lastTimer && lastTimer.status === 'contraction' && lastTimer.isActive) {
 				lastTimer.contractionTime.end = dayjs();
 			}
-			if (lastTimer && lastTimer.status === 'interval') {
+			if (lastTimer && lastTimer.status === 'interval' && lastTimer.isActive) {
 				lastTimer.intervalTime.end = dayjs();
 			}
 			if (lastTimer) { lastTimer.isActive = false; }
@@ -130,7 +129,6 @@ const timerReducers = (
 				],
 				currentTimer: [],
 			};
-		
 		case Dispatches.RESUME_TIMER:
 			if (!lastTimer) {
 				return {
@@ -143,28 +141,78 @@ const timerReducers = (
 				isSuspended: false,
 				currentTimer: [...shallowTimer],
 			};
-
 		case Dispatches.INCREASE_COUNTER:
+			if (state.counter === 0) {
+				return {
+					...state,
+					currentTimer: [...state.currentTimer, generateInitialData()],
+					counter: state.counter + 1,
+				};
+			}
+			if (state.counter % 2 !== 0 && state.counter > 0) {
+
+				lastTimer.contractionTime.end = dayjs();
+				lastTimer.intervalTime.start = dayjs();
+				lastTimer.status = 'interval';
+				return {
+					...state,
+					currentTimer: [...shallowTimer],
+					counter: state.counter + 1,
+				};
+			}
+		
+			if (state.counter % 2 === 0 && state.counter > 0) {
+				lastTimer.isActive = false;
+				lastTimer.intervalTime.end = dayjs();
+				if (shallowTimer.length % 3 === 0) { // Entry adalah kelipatan ke 3
+					detectContractionWarning(shallowTimer);
+				}
+				return {
+					...state,
+					currentTimer: [...shallowTimer, generateInitialData()],
+					counter: state.counter + 1,
+				};
+			}
+
 			return {
 				...state,
-				counter: state.counter + 1,
 			};
-
 		case Dispatches.RESET_COUNTER:
 			return {
 				...state,
 				counter: 0,
 			};
-		
 		case Dispatches.REMOVE_HISTORY_ITEM:
 			return {
 				...state,
 				timerHistories: payload,
 			};
-		
 		default:
 			return state;
 	}
 };
+
+const generateInitialData = ():IDataContraction => ({
+	contractionTime: {
+		startDate: new Date(),
+		currentDate: null,
+		start: dayjs(),
+		end: null,
+		duration: 0,
+	},
+	intervalTime: {
+		startDate: new Date(),
+		currentDate: null,
+		start: null,
+		end: null,
+		duration: 0,
+	},
+	uid: dayjs().unix(),
+	status: 'contraction',
+	timestamp: 0,
+	startAt: dayjs(),
+	isActive: true,
+	isSuspended: false,
+});
 
 export default timerReducers;

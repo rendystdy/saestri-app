@@ -42,7 +42,6 @@ export function step() {
 	if (dt > interval) {
 		// jika terjadi ini gaswat banget nih
 	}
-	console.log('ticked', { expected, dt, calcInterval: interval - dt, elapsed: elapsed - Date.now(), timerId });
 	DeviceEventEmitter.emit('tick', { timerId, isContraction });
        
 	// don't update the history for exceptionally large values

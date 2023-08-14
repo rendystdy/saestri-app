@@ -1,7 +1,7 @@
 import {
-	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter, BackHandler, Platform,
+	ScrollView, View, TouchableOpacity, Image, EventEmitter, DeviceEventEmitter, BackHandler, Platform, AppStateStatus, AppState,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Dayjs } from 'dayjs';
 import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 
@@ -51,12 +51,15 @@ const modalContent = {
 
 const ContractionTimer = ({ props, route }: any) => {
 	useKeepAwake();
+	const appState = useRef(AppState.currentState);
 	const [hasStarted, setStarted] = useState<boolean>(false);
 	const [visible, setVisible] = useState<boolean>(false);
 	const [visibleReset, setVisibleReset] = useState<boolean>(false);
 	const [visibleStop, setVisibleStop] = useState<boolean>(false);
 	const [isStop, setIsStop] = useState(false);
 	const [modalType, setModalType] = useState<ModalType>();
+
+	const [appStateNow, setAppState] = useState<AppStateStatus>(appState.current);
 
 	const addTimerDispatch = useAppDispatch(Actions.timerAction.addTimer);
 	const addTimerRowDispatch = useAppDispatch(Actions.timerAction.addNewTimeRow);
@@ -70,6 +73,29 @@ const ContractionTimer = ({ props, route }: any) => {
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
 
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
+	
+	const _handleAppStateChange = useCallback((nextAppState:AppStateStatus) => {
+		setAppState(nextAppState);
+	}, []);
+	
+	useEffect(() => {
+		const subscription = AppState.addEventListener('change', _handleAppStateChange);
+
+		return () => {
+			subscription.remove();
+		};
+	}, [_handleAppStateChange]);
+
+	useEffect(() => {
+		if (appStateNow === 'background' || appStateNow === 'inactive') {
+			suspendTimerDispatch();
+		}
+		if (appStateNow === 'active') {
+			resumeTimerDispatch();
+		}
+		
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [appStateNow]);
 
 	useEffect(() => {
 		DeviceEventEmitter.addListener('show-warning', (type: ModalType) => {
@@ -89,20 +115,20 @@ const ContractionTimer = ({ props, route }: any) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(() => {
-		if (hasStarted && counter === 1) {
-			addTimerDispatch();
-		}
+	// useEffect(() => {
+	// 	if (hasStarted && counter === 1) {
+	// 		addTimerDispatch();
+	// 	}
 
-		if (counter % 2 === 0 && counter > 1 && hasStarted) {
-			updateTimerDispatch();
-		}
+	// 	if (counter % 2 === 0 && counter > 1 && hasStarted) {
+	// 		updateTimerDispatch();
+	// 	}
 
-		if (counter % 2 !== 0 && counter > 1 && !isSuspended) {
-			addTimerRowDispatch();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [hasStarted, counter]);
+	// 	if (counter % 2 !== 0 && counter > 1) {
+	// 		addTimerRowDispatch();
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [hasStarted, counter]);
 
 	const backAction = () => {
 		if (route.name === 'ContractionTimer') {
