@@ -115,21 +115,6 @@ const ContractionTimer = ({ props, route }: any) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	// useEffect(() => {
-	// 	if (hasStarted && counter === 1) {
-	// 		addTimerDispatch();
-	// 	}
-
-	// 	if (counter % 2 === 0 && counter > 1 && hasStarted) {
-	// 		updateTimerDispatch();
-	// 	}
-
-	// 	if (counter % 2 !== 0 && counter > 1) {
-	// 		addTimerRowDispatch();
-	// 	}
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [hasStarted, counter]);
-
 	const backAction = () => {
 		if (route.name === 'ContractionTimer') {
 
