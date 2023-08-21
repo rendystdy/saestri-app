@@ -18,14 +18,14 @@ export interface IDataContraction {
 	uid: number,
 	contractionTime: {
 		startDate: null | Date,
-		currentDate: null| Date
+		currentDate: null | Date;
 		start: null | Dayjs,
 		end: null | Dayjs;
 		duration: number,
 	},
 	intervalTime: {
 		startDate: null | Date,
-		currentDate: null| Date
+		currentDate: null | Date;
 		start: null | Dayjs,
 		end: null | Dayjs;
 		duration: number,
@@ -73,11 +73,11 @@ const ContractionTimer = ({ props, route }: any) => {
 	const updateTimerDispatch = useAppDispatch(Actions.timerAction.updateTimer);
 
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
-	
-	const _handleAppStateChange = useCallback((nextAppState:AppStateStatus) => {
+
+	const _handleAppStateChange = useCallback((nextAppState: AppStateStatus) => {
 		setAppState(nextAppState);
 	}, []);
-	
+
 	useEffect(() => {
 		const subscription = AppState.addEventListener('change', _handleAppStateChange);
 
@@ -93,8 +93,8 @@ const ContractionTimer = ({ props, route }: any) => {
 		if (appStateNow === 'active') {
 			resumeTimerDispatch();
 		}
-		
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [appStateNow]);
 
 	useEffect(() => {
