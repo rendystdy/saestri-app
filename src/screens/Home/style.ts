@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 		// borderTopLeftRadius: 24,.
 	},
 	imgHome: {
-		height: '70%', width: 221, position: 'absolute', left: Ratio.isTablet ? -20 : -35, bottom: 0,
+		height: '75%', width: 221, position: 'absolute', left: Ratio.isTablet ? -5 : -15, bottom: 0,
 		zIndex: 2,
 	},
 });

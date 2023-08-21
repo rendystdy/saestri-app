@@ -1,15 +1,19 @@
-import { AppState, DeviceEventEmitter, StyleSheet, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {
+	AppState, AppStateStatus, DeviceEventEmitter, StyleSheet, View,
+} from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
 import { Text } from '@components';
 import { Colors } from '@constant';
 import { Actions } from '@store';
 import {
-	Ratio, parseDuration, parseTime, useAppDispatch, useAppSelector, useTimer,
+	Ratio, padLeft, parseDuration, parseTime, useAppDispatch, useAppSelector,
 } from '@helpers';
 
 import { IDataContraction } from '..';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NativeModules } from 'react-native';
 
 interface ITimer {
 	item: IDataContraction,
@@ -17,46 +21,58 @@ interface ITimer {
 
 const Timer: React.FC<ITimer> = ({ item }) => {
 
+	const appState = useRef(AppState.currentState);
+	const [appStateNow, setAppState] = useState<AppStateStatus>(appState.current);
 	const { currentTimer, isSuspended, counter } = useAppSelector(state => state.timerReducers);
-	const resumeTimerDispatch = useAppDispatch(Actions.timerAction.resumeTimer);
-	const incrementDuration = useAppDispatch(Actions.timerAction.incrementDuration);
+	const tickRedux = useAppDispatch(Actions.timerAction.tickTimer);
 
-	const { setTimer: setContractionTime, getSeconds, stopTimer: stopContractionTimer, startTimer: startContractionTimer, getHours, getMinutes, duration: contractionDuration } = useTimer();
-	const { setTimer: setIntervalTime, getSeconds: secondInterval, stopTimer: stopIntervalTimer, startTimer: startIntervalTimer, getHours: hourInterval, getMinutes: minuteInterval, duration: intervalDuration } = useTimer();
+	const _handleAppStateChange = useCallback((nextAppState:AppStateStatus) => {
+		setAppState(nextAppState);
+	}, []);
 
 	useEffect(() => {
 		restoreSavedTimer();
-		// resumeTimerDispatch();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		AsyncStorage.setItem('last-timer', '');
+
 	}, []);
+	
+	useEffect(() => {
+		const subscription = AppState.addEventListener('change', _handleAppStateChange);
+
+		return () => {
+			subscription.remove();
+		};
+	}, [_handleAppStateChange]);
+
+	useEffect(() => {
+		if (appStateNow === 'background') {
+			AsyncStorage.setItem('last-timer', `${Date.now()}`);
+		} else {
+		
+		}
+		
+	}, [appStateNow]);
+
+	useEffect(() => {
+		DeviceEventEmitter.addListener('tick', ({ timerId, isContraction }) => {
+			if (isContraction) {
+				tickRedux({ timerId: timerId, value: 0, status: 'contraction' });
+			} else {
+				tickRedux({ timerId: timerId, value: 0, status: 'interval' });
+			}
+		});
+	}, []);
+
 	useEffect(() => {
 		const timer = getTimer();
 		if (timer && counter % 2 !== 0 && timer.isActive) {
-			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'contraction' });
+			DeviceEventEmitter.emit('set_timer_id', { id: timer.uid, isContraction: true });
 		}
 		if (timer && counter % 2 === 0 && timer.isActive) {
-			incrementDuration({ timerId: item.uid, value: contractionDuration, status: 'interval' });
+			DeviceEventEmitter.emit('set_timer_id', { id: timer.uid, isContraction: false });
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [contractionDuration, incrementDuration, item.uid, intervalDuration, counter]);
-
-	useEffect(() => {
-		const timer = getTimer();
-		if (timer && counter % 2 !== 0) {
-			stopIntervalTimer();
-			startContractionTimer();
-		}
-		if (timer && counter % 2 === 0) {
-			stopContractionTimer();
-			startIntervalTimer();
-		}
-		if (timer && !timer.isActive) {
-			stopContractionTimer();
-			stopIntervalTimer();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [item, counter, currentTimer]);
-
+	}, [counter]);
+	
 	const getTimer = () => {
 		return currentTimer.find((search: any) => search.uid === item.uid);
 	};
@@ -72,19 +88,39 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 	const restoreSavedTimer = () => {
 		const timer = getTimer();
 		if (timer) {
-			setContractionTime(parseDuration(timer.contractionTime.start, !timer.contractionTime.end && timer.status === 'contraction' ? dayjs() : timer.contractionTime.end));
-			setIntervalTime(parseDuration(timer.intervalTime.start, !timer.intervalTime.end && timer.status === 'interval' ? dayjs() : timer.intervalTime.end));
+			// setContractionTime(parseDuration(timer.contractionTime.start, !timer.contractionTime.end && timer.status === 'contraction' ? dayjs() : timer.contractionTime.end));
+			// setIntervalTime(parseDuration(timer.intervalTime.start, !timer.intervalTime.end && timer.status === 'interval' ? dayjs() : timer.intervalTime.end));
 		}
 	};
 
 	const getSumDuration = () => {
 		const timer = getTimer();
 		if (timer && timer.contractionTime.end && timer.intervalTime.end) {
-			const contractionDur = contractionDuration;
-			const intervalDur = intervalDuration;
+			const contractionDur = dayjs(timer.contractionTime.end).diff(timer.contractionTime.start, 's');
+			const intervalDur = dayjs(timer.intervalTime.end).diff(timer.intervalTime.start, 's');
 			return parseTime(contractionDur + intervalDur);
 		}
 		return '--:--:--';
+	};
+
+	const formatDate = (date: Dayjs| Date | null, endDate:Dayjs|null) => {
+		
+		if (date && !endDate) {
+			const elapsed = dayjs().diff(date, 's');
+			return formatSeconds(elapsed);
+		}
+		if (date && endDate) {
+			const elapsed = dayjs(endDate).diff(date, 's');
+			return formatSeconds(elapsed);
+		}
+		return '00:00:00';
+	};
+
+	const formatSeconds = (elapsedSeconds: number) => {
+		const hours = padLeft(Math.floor(elapsedSeconds / 3600), 2);
+		const minutes = padLeft(Math.floor((elapsedSeconds % 3600) / 60), 2);
+		const seconds = padLeft(Math.floor(elapsedSeconds % 60), 2);
+		return `${hours}:${minutes}:${seconds}`;
 	};
 
 	return (
@@ -101,13 +137,13 @@ const Timer: React.FC<ITimer> = ({ item }) => {
 					</View>
 					<Text
 						style={ [styles.textTimer, { width: 120, textAlign: 'left' }] }
-						numberOfLines={ 1 }>{ `${ getHours() }:${ getMinutes() }:${ getSeconds() }` }</Text>
+						numberOfLines={ 1 }>{ formatDate(item.contractionTime.start, item.contractionTime.end) }</Text>
 				</View>
 				<View style={ [styles.col, { justifyContent: 'flex-end' }] }>
 					<View style={ styles.wrapperDate }>
 						<Text style={ styles.textDateAndTime }> Rest </Text>
 					</View>
-					<Text style={ [styles.textTimer, { color: Colors.blue.blueTimer }] }>{ `${ hourInterval() }:${ minuteInterval() }:${ secondInterval() }` }</Text>
+					<Text style={ [styles.textTimer, { color: Colors.blue.blueTimer }] }>{  formatDate(item.intervalTime.start, item.intervalTime.end) }</Text>
 
 				</View>
 			</View>
